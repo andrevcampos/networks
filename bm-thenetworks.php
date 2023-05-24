@@ -10,14 +10,14 @@ Author: Andre Campos
 Text Domain: bm_networks
 */ 
 
-include ABSPATH . '/wp-content/plugins/thenetworks/members/new.php';
-include ABSPATH . '/wp-content/plugins/thenetworks/members/dashboard.php';
+//include ABSPATH . '/wp-content/plugins/thenetworks/members/new.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/members.php';
 
 // Add button to wordpress admin menu.
 add_action('admin_menu', 'my_menu_networkers');
 function my_menu_networkers(){
-     add_menu_page('Members', 'Members', 'manage_options', 'my_menu_networkers_members', 'my_menu_networkers_members', null, 7 );
-     add_submenu_page( 'my_menu_networkers_members',  'New Members', 'New Members', 'manage_options', 'members', 'my_menu_networkers_members_new' );
+      add_menu_page('Members', 'Members', 'manage_options', 'my_menu_networkers_members', 'my_menu_networkers_members', null, 7 );
+      add_submenu_page( 'my_menu_networkers_members',  'New Members', 'New Members', 'manage_options', 'members', 'networkers_members_new' );
 }
 
 ?>
