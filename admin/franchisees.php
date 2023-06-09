@@ -68,11 +68,33 @@ function networkers_franchisees_new() {
 
 function networkers_franchisees_update() {
 
-    $userid = $_GET['id'];
-    $user = get_user_by('id', $userid);
+    include '../../../../wp-load.php';
+    global $wpdb;
 
+    $userid = $_GET['id'];
+    $message = $_GET['message'];
+
+    if($message){
+        echo "<div class='wrap'>";
+            echo "<h2>Update Franchise</h2>";
+        echo "</div>";
+        echo "<div class='wrap'>";
+            echo "<h3>$message</h3>";
+        echo "</div><br>";
+        exit();
+    }
+
+    if(!$userid){
+        echo "<div class='wrap'>";
+            echo "<h2>You must select the franchise from the franchise table.</h2>";
+        echo "</div><br>";
+        exit();
+    }
+
+    $user = get_user_by('id', $userid);
     $first_name = get_user_meta( $user->ID, 'first_name', true );
     $last_name = get_user_meta( $user->ID, 'last_name', true );
+    $region = get_user_meta( $user->ID, 'region', true );
     $phone = get_user_meta( $user->ID, 'phone', true );
     $login = $user->user_login;
     $email = $user->user_email;
@@ -84,37 +106,43 @@ function networkers_franchisees_update() {
     
 
     echo "<form id='myForm' action='$url' method='post'>";
+    echo "<input id='userid' type='text' name='userid' value='$userid' style='display:none'>";
 
     echo "<div class='memberbox'>";
         echo "<div class='wrap'>";
-            echo "<h2>Edit Franchise</h2>";
+            echo "<h2>Update Franchise</h2>";
         echo "</div><br>";
 
-        echo "<label>login:</label><br>";
-        echo "<input id='login' type='text' name='login' value'$login'><br><br>";
+        
 
-        echo "<label>Password:</label><br>";
-        echo "<input id='password' type='text' name='password'><br><br>";
-        echo "<div style='margin-top:-10px;background-color:#b5c5e4;color:black' class='memberbuttom' onclick='generatepassword()' >Generate Password</div>";
+        echo "<label>LOGIN:</label><br>";
+        echo "<input id='login' type='text' name='login' value='$login' style='background-color:#b5c5e4;font-size:18px' readonly><br><br>";
+
+        echo "<label>PASSWORD:</label><br>";
+        echo "<div id='setnewpasswordbutton' style='margin-top:10px;background-color:#b5c5e4;color:black' class='memberbuttom' onclick='setnewpassword()' >Set New Password</div>";
+        echo "<input id='password' type='text' name='password' style='display:none'>";
+        echo "<div id='generatepasswordbutton' style='background-color:#b5c5e4;color:black;display:none' class='memberbuttom' onclick='generatepassword()' >Generate Password</div>";
+        echo "<p id='ppassword' style='display:none;margin-top:-20px;margin-bottom:20px'>If the password field is left empty, the old password will be retained.</p>" ;
 
         echo "<label>First Name:</label><br>";
-        echo "<input id='firstName' type='text' name='firstName' value'$first_name'><br><br>";
+        echo "<input id='firstName' type='text' name='firstName' value='$first_name'><br><br>";
 
         echo "<label>Last Name:</label><br>";
-        echo "<input id='lastName' type='text' name='lastName' value'$last_name'><br><br>";
+        echo "<input id='lastName' type='text' name='lastName' value='$last_name'><br><br>";
 
         echo "<label>Email:</label><br>";
-        echo "<input id='email' type='text' name='email' value'$email'><br><br>";
+        echo "<input id='oldemail' type='text' name='oldemail' value='$email' style='display:none'>";
+        echo "<input id='email' type='text' name='email' value='$email'><br><br>";
 
         echo "<label>Phone:</label><br>";
-        echo "<input id='phone' type='text' name='phone' value'$phone'><br><br>";
+        echo "<input id='phone' type='text' name='phone' value='$phone'><br><br>";
 
         echo "<label>Regions:</label><br>";
-        echo "<input id='region' type='text' name='region'>";
+        echo "<input id='region' type='text' name='region' value='$region'>";
         echo "<p>Please select the region(s) this franchise have permition</p><br><br>";
     
 
-    echo "<div style='margin-top:-10px' class='memberbuttom' onclick='newfranchise(\"$url\")' >Register</div>";
+    echo "<div style='margin-top:-10px' class='memberbuttom' onclick='updatefranchise(\"$url\")' >Update</div>";
     echo "
         </div>
         </form>
@@ -196,6 +224,7 @@ class Example_List_Table extends WP_List_Table
             'login' => 'Login',
             'first_name' => 'First Name',
             'last_name' => 'Last Name',
+            'email' => 'Email',
             'phone' => 'Phone',
         );
 
@@ -209,8 +238,8 @@ class Example_List_Table extends WP_List_Table
         // also notice how we use $this->_args['singular'] so in this example it will
         // be something like &dathangnhanh=2
         $actions = array(
-            'edit' => sprintf('<a href="?page=my_menu_networkers_franchisees_update&id=%s">%s</a>', $item['id'], __('Edit', 'cltd_example')),
-            'delete' => sprintf('<a href="?page=my_menu_networkers_franchisees_delete&id=%s">%s</a>',  $item['id'], __('Delete', 'cltd_example')),
+            'edit' => sprintf('<a href="?page=networkers-franchisees-update&id=%s">%s</a>', $item['id'], __('Edit', 'cltd_example')),
+            'delete' => sprintf('<a href="?page=networkers-franchisees-delete&id=%s">%s</a>',  $item['id'], __('Delete', 'cltd_example')),
         );
 
         return sprintf('%s %s',
@@ -262,6 +291,7 @@ class Example_List_Table extends WP_List_Table
                     'first_name' => $first_name,
                     'last_name' => $last_name,
                     'login' => $post->user_login,
+                    'email' => $post->user_email,
                     'phone' => $phone,
                     );
                 array_push($data, $data2);
@@ -287,6 +317,7 @@ class Example_List_Table extends WP_List_Table
             case 'login':
             case 'first_name':
             case 'last_name':
+            case 'email':
             case 'phone':
                 return $item[ $column_name ];
 

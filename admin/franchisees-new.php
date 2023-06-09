@@ -18,7 +18,7 @@ $user->set_role( 'franchise' );
 
 $nickname = $first_name . " " . $last_name;
 
-$user_id = wp_update_user( array( 'ID' => $user_id, 'role' => 'franchise', 'display_name' => $nickname, 'nickname' => $nickname, 'first_name' => $first_name, 'last_name' => $last_name ) );
+$user_id = wp_update_user( array( 'ID' => $user_id, 'role' => 'franchise', 'display_name' => $nickname, 'first_name' => $first_name, 'last_name' => $last_name ) );
 
 add_user_meta( $user_id, 'phone', $phone);
 add_user_meta( $user_id, 'region', $region);

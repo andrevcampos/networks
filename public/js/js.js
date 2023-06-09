@@ -20,6 +20,13 @@ function generatepassword() {
     var randomstring = Math.random().toString(36).slice(-11);
     document.getElementById('password').value = randomstring;
 }
+function setnewpassword() {
+    document.getElementById('password').style = "display:block";
+    document.getElementById('generatepasswordbutton').style = "background-color:#b5c5e4;color:black;display:block";
+    document.getElementById('setnewpasswordbutton').style = "margin-top:10px;background-color:#b5c5e4;color:black;display:none";
+    document.getElementById('ppassword').style = "display:block;margin-top:-20px;margin-bottom:20px";
+    
+}
 
 function newfranchise(url) {
 
@@ -32,29 +39,22 @@ function newfranchise(url) {
     var region = document.getElementById('region').value;
 
     document.getElementById("myForm").submit();
-return;
-    console.log(url);
+    return;
 
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", url);
-    xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
-    const body = JSON.stringify({
-    "login": login,
-    "password": password,
-    "firstName": firstName,
-    "lastName": lastName,
-    "email": email,
-    "phone": phone,
-    "region": region,
-    });
-    console.log(body);
-    xhr.onload = () => {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-        console.log(JSON.parse(xhr.responseText));
-    } else {
-        console.log(`Error: ${xhr.status}`);
-    }
-    };
-    xhr.send(body);
+}
+
+function updatefranchise(url) {
+
+    var login = document.getElementById('login').value;
+    var password = document.getElementById('password').value;
+    var firstName = document.getElementById('firstName').value;
+    var lastName = document.getElementById('lastName').value;
+    var email = document.getElementById('email').value;
+    var phone = document.getElementById('phone').value;
+    var region = document.getElementById('region').value;
+
+    document.getElementById("myForm").submit();
+    return;
+
 
 }
