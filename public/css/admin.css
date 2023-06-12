@@ -51,3 +51,37 @@
     margin-top:10px;
     margin-bottom:10px;
 }
+
+.hideinput{
+    position:absolute;
+    height: auto;
+    overflow-y: auto;
+    left:0;
+    top:35px;
+    max-height:125px;
+    width:397px;
+    margin-left:3px;
+    background-color: pink;
+}
+.hideinputinside{
+    display:none;
+    height: 25px;
+    width: calc(100% - 10px);
+    padding-left:10px;
+    padding-top:5px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color:rgb(219, 219, 219);
+    background-color: white;
+}
+
+.franchiseregionremove{
+    display: inline-block;
+    height: 20px;
+    border-radius: 10px;
+    color:white;
+    background-color:brown;
+    width:30px;
+    text-align: center;
+    cursor: pointer;
+}

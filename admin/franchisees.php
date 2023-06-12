@@ -26,43 +26,70 @@ function networkers_franchisees_new() {
     wp_enqueue_style( 'membercss', plugins_url() . '/thenetworks/public/css/admin.css');
 	wp_enqueue_script( 'js', plugins_url() . '/thenetworks/public/js/js.js' );
     
+    $message = $_GET["message"];
+    $messagetitle = $_GET["messagetitle"];
+    
+        if(!$message){
+            echo '<div id="memberbox" class="memberbox">';
+        }else{
+            echo '<div id="memberbox" style="display:none" class="memberbox">';
+        }
+            echo '<div class="wrap">';
+                echo '<h2>New Franchise</h2>';
+            echo '</div><br>';
+            echo "<form id='myForm' action='$url' method='post' autocomplete='off'>";
+            echo '
+            <label>login:</label><br>
+            <input id="login" type="text" name="login"><br><br>
 
-    echo "<form id='myForm' action='$url' method='post'>";
-    echo '
-    <div class="memberbox">
-        <div class="wrap">
-            <h2>New Franchise</h2>
-        </div><br>
+            <label>Password:</label><br>
+            <input id="password" type="text" name="password"><br><br>
+            <div style="margin-top:-10px;background-color:#b5c5e4;color:black" class="memberbuttom" onclick="generatepassword()" >Generate Password</div>
 
-        <label>login:</label><br>
-        <input id="login" type="text" name="login"><br><br>
+            <label>First Name:</label><br>
+            <input id="firstName" type="text" name="firstName"><br><br>
 
-        <label>Password:</label><br>
-        <input id="password" type="text" name="password"><br><br>
-        <div style="margin-top:-10px;background-color:#b5c5e4;color:black" class="memberbuttom" onclick="generatepassword()" >Generate Password</div>
+            <label>Last Name:</label><br>
+            <input id="lastName" type="text" name="lastName"><br><br>
 
-        <label>First Name:</label><br>
-        <input id="firstName" type="text" name="firstName"><br><br>
+            <label>Email:</label><br>
+            <input id="email" type="text" name="email"><br><br>
 
-        <label>Last Name:</label><br>
-        <input id="lastName" type="text" name="lastName"><br><br>
+            <label>Phone:</label><br>
+            <input id="phone" type="text" name="phone"><br><br>
+            ';
 
-        <label>Email:</label><br>
-        <input id="email" type="text" name="email"><br><br>
-
-        <label>Phone:</label><br>
-        <input id="phone" type="text" name="phone"><br><br>
-
-        <label>Regions:</label><br>
-        <input id="region" type="text" name="region">
-        <p>Please select the region(s) this franchise have permition</p><br><br>
-    ';
-
-    echo "<div style='margin-top:-10px' class='memberbuttom' onclick='newfranchise(\"$url\")' >Register</div>";
-    echo "
+            echo '<label>Regions:</label><br>';
+            echo '<div style="position:relative">';
+                echo '<input id="region" type="text" name="region" onKeyUp="franchisesearchregion()">';
+                echo '<div class="hideinput">';
+                    $args = array('post_type' => 'network-region','posts_per_page' => -1);
+                    $posts = get_posts($args);
+                    foreach($posts as $post) {
+                        echo "<div onclick='franchiseaddregion(\"$post->ID\",\"$post->post_title\")' class='hideinputinside'>$post->post_title</div>";
+                    }
+                echo '</div>';
+            echo '</div>';
+            echo '<div id="regions"></div>';
+            echo '<p>Please select the region(s) this franchise have permition</p>';
+            echo '<p>Start typing to view regions. Type "all" to view all.</p><br><br>';
+            
+            
+        echo "<div style='margin-top:-10px' class='memberbuttom' onclick='newfranchise(\"$url\")' >Register</div>";
+        echo "
         </div>
         </form>
-    ";
+        ";
+
+    if(!$message){
+        echo '<div id="regionmessage" style="display:none" >';
+    }else{
+        echo '<div id="regionmessage" style="display:block" >';
+    }
+            echo "<h2 id='messagetitle'>$messagetitle</h2>";
+            echo "<h4 id='message'>$message</h4>";
+            echo "<div id='buttongoback' onclick='franchisegoback()' style='display:block;cursor: pointer;padding:10px;background-color:#6495ed;color:white;width:100px;height:20px;text-align:center;margin-top:20px'>Go Back</div>";
+        echo '</div>';
     
 }
 
