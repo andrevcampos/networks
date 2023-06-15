@@ -11,6 +11,8 @@ Text Domain: bm_networks
 */ 
 
 //include ABSPATH . '/wp-content/plugins/thenetworks/members/new.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/group.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/industry.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/profile.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/region.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/members.php';
@@ -27,6 +29,18 @@ function my_menu_networkers(){
       // Profile 
       if ($user_role == 'franchise' || $user_role == 'administrator'){
             add_menu_page('My Profile', 'My Profile', 'network_profile', 'networkers-profile', 'my_menu_networkers_profile', null, 7 );
+      }
+      // Group 
+      if ($user_role == 'administrator'){
+            add_menu_page('Groups', 'Groups', 'the_networkers', 'networkers-group', 'networkers_group', null, 7 );
+            add_submenu_page( 'networkers-group',  'New Group', 'New Group', 'the_networkers', 'networkers-group-new', 'networkers_group_new' );
+            add_submenu_page( null,  'Update Group', 'Update Group', 'the_networkers', 'networkers-group-update', 'networkers_group_update' );
+      }
+      // Industry 
+      if ($user_role == 'administrator'){
+            add_menu_page('Industries', 'Industries', 'the_networkers', 'networkers-industry', 'networkers_industry', null, 7 );
+            add_submenu_page( 'networkers-industry',  'New Industry', 'New Industry', 'the_networkers', 'networkers-industry-new', 'networkers_industry_new' );
+            add_submenu_page( null,  'Update Industry', 'Update Industry', 'the_networkers', 'networkers-industry-update', 'networkers_industry_update' );
       }
       // Region 
       if ($user_role == 'franchise' || $user_role == 'administrator'){

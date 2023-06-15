@@ -23,9 +23,13 @@ if($password){
 }
 $user_id = wp_update_user( array( 'ID' => $userid, 'user_pass' => $password, 'user_email' => $email, 'display_name' => $nickname, 'first_name' => $first_name, 'last_name' => $last_name ) );
 update_user_meta( $userid, 'phone', $phone);
-update_user_meta( $userid, 'region', $region);
 
-$url = admin_url('admin.php?page=networkers-franchisees-update&message=User update successful');
+delete_user_meta( $userid, 'region' );
+foreach($_POST['region'] as $region) {
+    add_user_meta( $user_id, 'region', $region);
+}
+
+$url = admin_url('admin.php?page=networkers-franchisees&message=User update successful');
 
 header("Location: $url"); 
 exit();

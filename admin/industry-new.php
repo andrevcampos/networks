@@ -14,7 +14,7 @@
     $wpdb->query( $query );
 
     if ( $wpdb->num_rows ) {
-        $url = admin_url('admin.php?page=network-region-new&messagetitle=Duplicate Registration&message=The region title has already been taken.');
+        $url = admin_url('admin.php?page=networkers-industry-new&messagetitle=Duplicate Registration&message=The Industry title has already been taken.');
         header("Location: $url"); 
         exit();
     }
@@ -26,19 +26,19 @@
     //replace space with -
     $slug = str_replace(' ', '-', $post_name2);
     //add region to slug
-    $regionslug = "region-".$slug;
+    $regionslug = "industry-".$slug;
 
     $my_post = array(
     'post_title'    => $name,
     'post_status'   => 'publish',
     'post_author'   => 1,
-    'post_type'   => 'network-region',
+    'post_type'   => 'network-industry',
     'post_name'   => $regionslug,
     );
 
     wp_insert_post( $my_post );
 
-    $url = admin_url('admin.php?page=networkers-region');
+    $url = admin_url('admin.php?page=networkers-industry');
     header("Location: $url"); 
     exit();
     

@@ -1,21 +1,40 @@
 <?php
 function networkers_franchisees() {
 
-// $plugin_url = plugin_dir_url( __FILE__ );
-// wp_enqueue_style( 'css', $plugin_url . '/css/admin.css' );
-// wp_enqueue_script( 'js', $plugin_url . '/js/js.js' );
+$plugin_url = plugin_dir_url( __FILE__ );
+wp_enqueue_style( 'membercss', plugins_url() . '/thenetworks/public/css/admin.css');
+wp_enqueue_script( 'js', plugins_url() . '/thenetworks/public/js/js.js' );
 
-echo '<div class="wrap">';
-    echo '<h2>Franchise</h2>';
-echo '</div><br>';
+$message = $_GET["message"];
+$messagetitle = $_GET["messagetitle"];
 
-$exampleListTable = new Example_List_Table();
-$exampleListTable->prepare_items();
-echo '<div class="wrap">';
-    echo '<div id="icon-users" class="icon32"></div>';
-    echo '<h2>Journal List</h2>';
-    $exampleListTable->display();
+if(!$message){
+    echo '<div id="memberbox">';
+}else{
+    echo '<div id="memberbox" style="display:none">';
+}
+    echo '<div class="wrap">';
+        echo '<h2>The Networkers</h2>';
+    echo '</div><br>';
+
+    $exampleListTable = new Example_List_Table();
+    $exampleListTable->prepare_items();
+    echo '<div class="wrap">';
+        echo '<div id="icon-users" class="icon32"></div>';
+        echo '<h2>Franchisees List</h2>';
+        $exampleListTable->display();
+    echo '</div>';
 echo '</div>';
+
+if(!$message){
+    echo '<div id="regionmessage" style="display:none" >';
+}else{
+    echo '<div id="regionmessage" style="display:block" >';
+}
+        echo "<h2 id='messagetitle'>$messagetitle</h2>";
+        echo "<h4 id='message'>$message</h4>";
+        echo "<div id='buttongoback' onclick='franchisegoback()' style='display:block;cursor: pointer;padding:10px;background-color:#6495ed;color:white;width:100px;height:20px;text-align:center;margin-top:20px'>Go Back</div>";
+    echo '</div>';
 
 }
 
@@ -99,19 +118,10 @@ function networkers_franchisees_update() {
     global $wpdb;
 
     $userid = $_GET['id'];
-    $message = $_GET['message'];
+    $message = $_GET["message"];
+    $messagetitle = $_GET["messagetitle"];
 
-    if($message){
-        echo "<div class='wrap'>";
-            echo "<h2>Update Franchise</h2>";
-        echo "</div>";
-        echo "<div class='wrap'>";
-            echo "<h3>$message</h3>";
-        echo "</div><br>";
-        exit();
-    }
-
-    if(!$userid){
+    if(!$userid && !$message){
         echo "<div class='wrap'>";
             echo "<h2>You must select the franchise from the franchise table.</h2>";
         echo "</div><br>";
@@ -123,6 +133,7 @@ function networkers_franchisees_update() {
     $last_name = get_user_meta( $user->ID, 'last_name', true );
     $region = get_user_meta( $user->ID, 'region', true );
     $phone = get_user_meta( $user->ID, 'phone', true );
+    $regions = get_user_meta( $user->ID, 'region', false );
     $login = $user->user_login;
     $email = $user->user_email;
 
@@ -135,12 +146,14 @@ function networkers_franchisees_update() {
     echo "<form id='myForm' action='$url' method='post'>";
     echo "<input id='userid' type='text' name='userid' value='$userid' style='display:none'>";
 
-    echo "<div class='memberbox'>";
+        if(!$message){
+            echo '<div id="memberbox" class="memberbox">';
+        }else{
+            echo '<div id="memberbox" style="display:none" class="memberbox">';
+        }
         echo "<div class='wrap'>";
             echo "<h2>Update Franchise</h2>";
         echo "</div><br>";
-
-        
 
         echo "<label>LOGIN:</label><br>";
         echo "<input id='login' type='text' name='login' value='$login' style='background-color:#b5c5e4;font-size:18px' readonly><br><br>";
@@ -164,9 +177,28 @@ function networkers_franchisees_update() {
         echo "<label>Phone:</label><br>";
         echo "<input id='phone' type='text' name='phone' value='$phone'><br><br>";
 
-        echo "<label>Regions:</label><br>";
-        echo "<input id='region' type='text' name='region' value='$region'>";
-        echo "<p>Please select the region(s) this franchise have permition</p><br><br>";
+        echo '<label>Regions:</label><br>';
+        echo '<div style="position:relative">';
+            echo '<input id="region" type="text" name="region" onKeyUp="franchisesearchregion()">';
+            echo '<div class="hideinput">';
+                $args = array('post_type' => 'network-region','posts_per_page' => -1);
+                $posts = get_posts($args);
+                foreach($posts as $post) {
+                    echo "<div onclick='franchiseaddregion(\"$post->ID\",\"$post->post_title\")' class='hideinputinside'>$post->post_title</div>";
+                }
+            echo '</div>';
+        echo '</div>';
+        echo '<div id="regions">';
+        
+        foreach($regions as $region) {
+            echo '<div class="regiondiv">';
+                echo "<input class='inputregion' type='text' value='$region' name='region[]' style='width:calc(100% - 250px);' readonly>";
+                echo "<div class='franchiseregionremove' onclick='removeregion(this)'>X</div>";
+            echo '</div>';
+        }
+        echo '</div>';
+        echo '<p>Please select the region(s) this franchise have permition</p>';
+        echo '<p>Start typing to view regions. Type "all" to view all.</p><br><br>';
     
 
     echo "<div style='margin-top:-10px' class='memberbuttom' onclick='updatefranchise(\"$url\")' >Update</div>";
@@ -174,7 +206,17 @@ function networkers_franchisees_update() {
         </div>
         </form>
     ";
-    
+
+    if(!$message){
+        echo '<div id="regionmessage" style="display:none" >';
+    }else{
+        echo '<div id="regionmessage" style="display:block" >';
+    }
+            echo "<h2 id='messagetitle'>$messagetitle</h2>";
+            echo "<h4 id='message'>$message</h4>";
+            echo "<div id='buttongoback' onclick='franchisegoback()' style='display:block;cursor: pointer;padding:10px;background-color:#6495ed;color:white;width:100px;height:20px;text-align:center;margin-top:20px'>Go Back</div>";
+        echo '</div>';
+
 }
 
 function networkers_franchisees_add() {

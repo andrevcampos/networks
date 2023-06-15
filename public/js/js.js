@@ -1,10 +1,36 @@
 // JavaScript Document
 
+// NETWORKERS -------------------------------------------------------------
+function networkersgoback() {
+    document.getElementById('networkersmessage').style = "display:none"
+    document.getElementById('networkersbox').style = "display:block"
+}
+
+function networkersremovebox(id, name) {
+    document.getElementById('textremove').innerHTML = name;
+    document.getElementById('removeid').value = id;
+    document.getElementById('inputremove').value = "";
+    document.getElementById('networkersmessage').style = "display:block";
+    document.getElementById('networkersbox').style = "display:none";
+}
+
+function removecheck() {
+    let deletebutton = document.getElementById('inputremove').value.toLowerCase();
+    if(deletebutton == "delete"){
+        document.getElementById('buttongoback').style="display:none;cursor: pointer;padding:10px;background-color:#6495ed;color:white;width:100px;height:20px;text-align:center;margin-top:20px"
+        document.getElementById('buttonremove').style="display:block;cursor: pointer;padding:10px;background-color:#d63638;color:white;width:100px;height:40px;text-align:center;margin-top:20px"
+    }else{
+        document.getElementById('buttongoback').style="display:block;cursor: pointer;padding:10px;background-color:#6495ed;color:white;width:100px;height:20px;text-align:center;margin-top:20px"
+        document.getElementById('buttonremove').style="display:none;cursor: pointer;padding:10px;background-color:#d63638;color:white;width:100px;height:40px;text-align:center;margin-top:20px"
+    }
+}
+
 function checkemail(email) {
     const regexExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
     return regexExp.test(email);
 }
 
+// FRANCHISE ---------------------------------------------------------------
 function addnewphone() {
     var addList = document.getElementById('memberphone');
     var text = document.createElement('div');
@@ -104,14 +130,13 @@ function newfranchise(url) {
 
 function updatefranchise(url) {
 
-    var login = document.getElementById('login').value;
     var password = document.getElementById('password').value;
     var firstName = document.getElementById('firstName').value;
     var lastName = document.getElementById('lastName').value;
     var email = document.getElementById('email').value;
     var phone = document.getElementById('phone').value;
 
-    if(!login || !password || !firstName || !lastName || !email || !phone){
+    if(!firstName || !lastName || !email || !phone){
         document.getElementById('messagetitle').innerHTML = "Error";
         document.getElementById('message').innerHTML = "All Field are required.";
         document.getElementById('regionmessage').style = "display:block"
@@ -119,14 +144,7 @@ function updatefranchise(url) {
         return;
     }
     
-    if(login.length < 8){
-        document.getElementById('messagetitle').innerHTML = "Error"
-        document.getElementById('message').innerHTML = "Username must have 8 characters long"
-        document.getElementById('regionmessage').style = "display:block"
-        document.getElementById('memberbox').style = "display:none"
-        return;
-    }
-    if(password.length < 8){
+    if(password.length > 1 && password.length < 8){
         document.getElementById('messagetitle').innerHTML = "Error"
         document.getElementById('message').innerHTML = "password must have 8 characters long"
         document.getElementById('regionmessage').style = "display:block"
@@ -276,4 +294,37 @@ function regioneditbox(id, name) {
     document.getElementById('regionedit').style = "display:block";
     document.getElementById('regionremove').style = "display:none";
     document.getElementById('regiontable').style = "display:none";
+}
+
+//INDUSTRY --------------------------------------------------------------
+
+function newindustry() {
+
+    var name = document.getElementById('name').value;
+
+    if(name.length < 3){
+        document.getElementById('messagetitle').innerHTML = "Error"
+        document.getElementById('message').innerHTML = "Name must have 3 characters long."
+        document.getElementById('networkersmessage').style = "display:block"
+        document.getElementById('networkersbox').style = "display:none"
+        return;
+    }
+
+    document.getElementById("myForm").submit();
+    return;
+}
+function updateindustry() {
+
+    var name = document.getElementById('name').value;
+
+    if(name.length < 3){
+        document.getElementById('messagetitle').innerHTML = "Error"
+        document.getElementById('message').innerHTML = "Name must have 3 characters long."
+        document.getElementById('networkersmessage').style = "display:block"
+        document.getElementById('networkersbox').style = "display:none"
+        return;
+    }
+
+    document.getElementById("myForm").submit();
+    return;
 }
