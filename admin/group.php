@@ -1,6 +1,8 @@
 <?php
 function networkers_group() {
 
+    
+
     $plugin_url = plugin_dir_url( __FILE__ );
     $removeurl = $plugin_url . 'group-remove.php';
     wp_enqueue_style( 'membercss', plugins_url() . '/thenetworks/public/css/admin.css');
@@ -44,11 +46,17 @@ function networkers_group() {
 
 function networkers_group_new() {
 
+    wp_enqueue_media();
+    include '../../../../wp-load.php';
+    include ABSPATH . '/wp-content/plugins/thenetworks/admin/function/region.php';
+
     $plugin_url = plugin_dir_url( __FILE__ );
-    $url = $plugin_url . 'industry-new.php';
+    $url = $plugin_url . 'group-new.php';
     wp_enqueue_style( 'membercss', plugins_url() . '/thenetworks/public/css/admin.css');
 	wp_enqueue_script( 'js', plugins_url() . '/thenetworks/public/js/js.js' );
     
+    $imagesearch = plugins_url() . '/thenetworks/public/img/searchbutton.png';
+
     $message = $_GET["message"];
     $messagetitle = $_GET["messagetitle"];
     
@@ -60,12 +68,12 @@ function networkers_group_new() {
         echo '<div style="display:none" id="networkersbox" class="networkersbox">';
     }
     
-        echo "<form id='myForm' action='$url' method='post'>";
+        echo "<form id='myForm' action='$url' method='post' enctype='multipart/form-data'>";
             echo '<div class="wrap">';
                 echo '<h2>New Group</h2>';
             echo '</div><br>';
 
-            echo '<label>Name:</label><br>';
+            echo '<label>Group Name:</label><br>';
             echo '<input id="name" type="text" name="name"><br><br>';
 
             echo '<label>Week Day:</label><br>';
@@ -97,13 +105,13 @@ function networkers_group_new() {
             echo '</select></div>';
             echo '<div style="float:left"><select name="startmin" id="startmin">';
                 echo '<option value="00" selected>00</option>';
-                echo '<option value="01">15</option>';
-                echo '<option value="02">30</option>';
-                echo '<option value="03">45</option>';
+                echo '<option value="15">15</option>';
+                echo '<option value="30">30</option>';
+                echo '<option value="45">45</option>';
             echo '</select></div>';
             echo '<div style="float:left"><select style="float:left" name="starttime" id="starttime">';
-                echo '<option value="00" selected>am</option>';
-                echo '<option value="01">pm</option>';
+                echo '<option value="am" selected>am</option>';
+                echo '<option value="pm">pm</option>';
             echo '</select></div></div><br><br>';
 
             echo '<label>Finish at:</label><br>';
@@ -124,17 +132,23 @@ function networkers_group_new() {
             echo '</select></div>';
             echo '<div style="float:left"><select name="finishmin" id="finishmin">';
                 echo '<option value="00">00</option>';
-                echo '<option value="01">15</option>';
-                echo '<option value="02" selected>30</option>';
-                echo '<option value="03">45</option>';
+                echo '<option value="15">15</option>';
+                echo '<option value="30" selected>30</option>';
+                echo '<option value="45">45</option>';
             echo '</select></div>';
             echo '<div style="float:left"><select style="float:left" name="finishtime" id="finishtime">';
-                echo '<option value="00" selected>am</option>';
-                echo '<option value="01">pm</option>';
+                echo '<option value="am" selected>am</option>';
+                echo '<option value="pm">pm</option>';
             echo '</select></div></div><br><br>';
 
             echo '<label>Description:</label><br>';
-            echo '<textarea id="description" name="description" rows="4" cols="57"></textarea><br>';
+            wp_editor( $my_option , 'my_option', array(
+                'wpautop'       => true,
+                'media_buttons' => false,
+                'textarea_name' => 'my_option',
+                'editor_class'  => 'my_custom_class',
+                'textarea_rows' => 10
+            ) );
 
             echo '<h3>Location:</h3>';
             echo '<label>Company:</label><br>';
@@ -148,14 +162,37 @@ function networkers_group_new() {
             echo '<label>Postcode:</label><br>';
             echo '<input id="lpostcode" type="text" name="lpostcode"><br>';
 
-            echo '<input type="text" name="image_url" id="image_url" class="regular-text">';
+            echo '<h3>Group Image:</h3>';
+            echo '<input type="file" onchange="checkimage(this)" name="image_url" id="image_url" accept="image/png, image/gif, image/jpeg">';
+            echo '<div id="imagecomment" style="font-size:16px;display:none;color:red;">Success</div>';
+            echo "<div id='imagebox' style='width:100%;display:none;margin-top:20px'><img id='groupimg' src='' height='150'></div>";
 
-            echo '<input type="button" style="width:150px;" name="upload-btn" id="upload-btn" class="button-secondary" value="Upload PDF"><br><br>';
 
+            echo '<h3>Facilitator</h3>';
+            echo '<div id="facilitatorbox" style="position:relative">';
+                echo '<input id="facilitator" type="text" name="facilitator" onKeyUp="franchiseinputsearch()">';
+                echo '<div class="hideinput">';
+                    $args = array('post_type' => 'network-member','posts_per_page' => -1);
+                    $posts = get_posts($args);
+                    foreach($posts as $post) {
+                        $facilitator = get_post_meta( $post->ID, 'facilitator', true );
+                        if($facilitator == "yes"){
+                            $firstName = get_post_meta( $post->ID, 'firstName', true );
+                            $lastName = get_post_meta( $post->ID, 'lastName', true );
+                            $fullName = $firstName . " " . $lastName; 
+                            echo "<div onclick='franchiseaddsearch(\"$post->ID\",\"$fullName\")' class='hideinputinside'>$post->post_title</div>";
+                        }
+                    }
+                echo '</div>';
+            echo '</div>';
+            echo '<div id="facilitators">';
+            echo '</div>';
+            echo '<p id="pfacilitator01">Please select the facilitator</p>';
+            echo '<p id="pfacilitator02">Start typing to view facilitator names. Type "all" to view all.</p>';
 
-            
+            regioninput("false", $regions);
 
-            echo "<br><div style='margin-top:-10px' class='networkersbuttom' onclick='newindustry()' >Create</div>";
+            echo "<br><br><br><div style='margin-top:-10px' class='networkersbuttom' onclick='newgroup()' >Create</div>";
         echo "</form>";
     echo "</div>";
 
@@ -168,73 +205,6 @@ function networkers_group_new() {
         echo "<h4 id='message'>$message</h4>";
         echo "<div id='buttongoback' onclick='networkersgoback()' style='display:block;cursor: pointer;padding:10px;background-color:#6495ed;color:white;width:100px;height:20px;text-align:center;margin-top:20px'>Go Back</div>";
     echo '</div>';
-
-
-    echo '
-    <script type="text/javascript">
-
-    jQuery(document).ready(function($){
-
-        $("#upload-btn").click(function(e) {
-
-            e.preventDefault();
-
-            var image = wp.media({ 
-
-                title: "Upload PDF",
-
-                multiple: false
-
-            }).open()
-
-            .on("select", function(e){
-
-                var uploaded_image = image.state().get("selection").first();
-
-                console.log(uploaded_image);
-
-                var image_url = uploaded_image.toJSON().url;
-
-                $("#image_url").val(image_url);
-
-            });
-
-        });
-
-    });
-
-    jQuery(document).ready(function($){
-
-        $("#uploadd-btn").click(function(e) {
-
-            e.preventDefault();
-
-            var image = wp.media({ 
-
-                title: "Upload Image",
-
-                multiple: false
-
-            }).open()
-
-            .on("select", function(e){
-
-                var uploaded_image = image.state().get("selection").first();
-
-                console.log(uploaded_image);
-
-                var image_urll2 = uploaded_image.toJSON().url;
-
-                $("#image_urll2").val(image_urll2);
-
-            });
-
-        });
-
-    });
-
-    </script>
-    ';
    
 }
 
@@ -323,9 +293,10 @@ class Group_List_Table extends WP_List_Table
         $columns = array(
             'id' => 'ID',
             'name' => 'Name',
-            'facilitator' => 'Facilitator',
-            'weekday' => 'Week Day',
+            'region' => 'Region',
+            'time' => 'Time',
             'city' => 'City',
+            'facilitator' => 'Facilitator',
         );
         return $columns;
     }
@@ -365,15 +336,21 @@ class Group_List_Table extends WP_List_Table
         $data = array();
         if(count($latest_posts) > 0 ){
             foreach($latest_posts as $post) {
-                $facilitator = get_user_meta( $post->ID, 'facilitator', true );
-                $weekday = get_user_meta( $post->ID, 'weekday', true );
-                $city = get_user_meta( $post->ID, 'city', true );
+                
+                $weekday = get_post_meta( $post->ID, 'weekday', true );
+                $start = get_post_meta( $post->ID, 'start', true );
+                $finsh = get_post_meta( $post->ID, 'finsh', true );
+                $time = $weekday . " " . $start . " - " . $finsh;
+                $city = get_post_meta( $post->ID, 'lcity', true );
+                $region = get_post_meta( $post->ID, 'region', true );
+                $facilitator = get_post_meta( $post->ID, 'facilitator', true );
                 $data2 = array(
                     'id' => $post->ID,
                     'name' => $post->post_title,
-                    'facilitator' => $facilitator,
-                    'weekday' => $city,
+                    'region' => $region,
+                    'time' => $time,
                     'city' => $city,
+                    'facilitator' => $facilitator,
                     );
                 array_push($data, $data2);
             }
@@ -386,9 +363,10 @@ class Group_List_Table extends WP_List_Table
         switch( $column_name ) {
             case 'id':
             case 'name':
-            case 'facilitator':
-            case 'weekday':
+            case 'region':
+            case 'time':
             case 'city':
+            case 'facilitator':
                 return $item[ $column_name ];
 
             default:

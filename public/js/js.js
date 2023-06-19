@@ -30,6 +30,43 @@ function checkemail(email) {
     return regexExp.test(email);
 }
 
+function checkimage(input) {
+
+    var imagedisplay = document.getElementById('groupimg');
+    var imagebox = document.getElementById('imagebox');
+    var imagecomment = document.getElementById('imagecomment');
+    imagedisplay.src = "";
+    imagebox.style = "width:100%;display:none;margin-top:20px";
+    imagecomment.style = "font-size:16px;display:none;color:red;";
+    imagecomment.innerHTML = "";
+
+    var file = input.files[0];
+    var filename = file.name.toLowerCase();
+    if (!filename.match(/\.(jpg|jpeg|png|gif)$/i)){
+        imagebox.style = "width:100%;display:none;margin-top:20px";
+        imagedisplay.src = "";
+        imagecomment.innerHTML = "Please choose an image in the following formats: JPG, JPEG, PNG, or GIF.";
+        imagecomment.style = "font-size:16px;display:block;color:red;";
+        document.getElementById('image_url').value='';
+        return;
+    }
+
+
+    console.log(Math.ceil(file.size / 1000) + "kbs")
+
+    if (file) {
+        var image = new Image();
+
+        image.onload = function() {
+            console.log("image Dimention: " + this.width + "x" +this.height)
+        };
+        image.src = URL.createObjectURL(file);
+        imagedisplay.src = URL.createObjectURL(file);
+        imagebox.style = "width:100%;display:block;margin-top:20px";
+    }
+
+}
+
 // FRANCHISE ---------------------------------------------------------------
 function addnewphone() {
     var addList = document.getElementById('memberphone');
@@ -327,4 +364,205 @@ function updateindustry() {
 
     document.getElementById("myForm").submit();
     return;
+}
+
+
+// GROUPS -------------------------------------------------------------------------
+
+function franchiseinputsearch() {
+    
+    var region = document.getElementById('facilitator').value;
+    const collection = document.getElementsByClassName("hideinputinside");
+    for (let i = 0; i < collection.length; i++) {
+        collection[i].style = "display:none"
+    }
+    console.log(region)
+    if (region.length > 2){
+        if(region == "all"){
+            for (let i = 0; i < collection.length; i++) {
+                collection[i].style = "display:block"
+            }
+        }else{
+            for (let i = 0; i < collection.length; i++) {
+                if (collection[i].innerHTML.toLowerCase().includes(region.toLowerCase())){
+                    collection[i].style = "display:block"
+                }
+            }
+        }
+        
+    }
+
+}
+
+function franchiseaddsearch(id, name) {
+
+    // remove all options from main intup
+    document.getElementById('facilitator').value = "";
+    const collection = document.getElementsByClassName("hideinputinside");
+    for (let i = 0; i < collection.length; i++) {
+        collection[i].style = "display:none"
+    }
+    
+    // Check if already have this region selected
+    const inputfacilitator = document.getElementsByClassName("inputfacilitator");
+    for (let i = 0; i < inputfacilitator.length; i++) {
+        if(inputfacilitator[i].value == name){
+            return;
+        }
+    }
+
+    document.getElementById('facilitatorbox').style = "position:relative;display:none;"
+    document.getElementById('pfacilitator01').style = "display:none;"
+    document.getElementById('pfacilitator02').style = "display:none;"
+
+    //add new input to the regions
+    var addList = document.getElementById('facilitators');
+    var text = document.createElement('div');
+    text.className = "facilitatordiv";
+    text.innerHTML = '<input class="inputfacilitator" type="text" value="'+name+'" name="facilitatorselected" style="width:calc(100% - 250px);" readonly><div class="inputfacilitatorremove" onclick="removefacilitator(this)">X</div>';
+    addList.appendChild(text);
+
+}
+
+function removefacilitator(index) {
+    const allregionremovebuttom = document.getElementsByClassName("inputfacilitatorremove");
+    const allregionclass = document.getElementsByClassName("facilitatordiv");
+    for (let i = 0; i < allregionremovebuttom.length; i++) {
+        if(allregionremovebuttom[i] == index){
+            allregionclass[i].remove();
+        }
+    }
+    document.getElementById('facilitatorbox').style = "position:relative;display:block;"
+    document.getElementById('pfacilitator01').style = "display:block;"
+    document.getElementById('pfacilitator02').style = "display:block;"
+}
+
+function newgroup() {
+
+    var name = document.getElementById('name').value;
+    var weekday = document.getElementById('weekday').value;
+    var laddress = document.getElementById('laddress').value;
+    var lsuburb = document.getElementById('lsuburb').value;
+    var lcity = document.getElementById('lcity').value;
+    var lpostcode = document.getElementById('lpostcode').value;
+  
+    if(!name || name.length < 3){
+        document.getElementById('messagetitle').innerHTML = "Error"
+        document.getElementById('message').innerHTML = "Name must have 3 characters long."
+        document.getElementById('networkersmessage').style = "display:block"
+        document.getElementById('networkersbox').style = "display:none"
+        return;
+    }
+    if(weekday == ""){
+        document.getElementById('messagetitle').innerHTML = "Error"
+        document.getElementById('message').innerHTML = "Group must have a week day."
+        document.getElementById('networkersmessage').style = "display:block"
+        document.getElementById('networkersbox').style = "display:none"
+        return;
+    }
+    if(!laddress || !lsuburb || !lcity || !lpostcode){
+        document.getElementById('messagetitle').innerHTML = "Error"
+        document.getElementById('message').innerHTML = "Group required addrress (street, suburb, city and postcode)."
+        document.getElementById('networkersmessage').style = "display:block"
+        document.getElementById('networkersbox').style = "display:none"
+        return;
+    }
+
+    document.getElementById("myForm").submit();
+    return;
+}
+
+// FUNCTIONS ------------------------------------------
+
+// REGION ----------
+
+function searchregion() {
+    
+    var region = document.getElementById('region').value;
+    const collection = document.getElementsByClassName("hideinputinside");
+    for (let i = 0; i < collection.length; i++) {
+        collection[i].style = "display:none"
+    }
+
+    if (region.length > 2){
+        for (let i = 0; i < collection.length; i++) {
+            if (collection[i].innerHTML.toLowerCase().includes(region.toLowerCase())){
+                collection[i].style = "display:block"
+            }
+        }
+    }else{
+        for (let i = 0; i < collection.length; i++) {
+            collection[i].style = "display:block"
+        }
+    }
+}
+
+function cleansearch(){
+    const collection = document.getElementsByClassName("hideinputinside");
+
+    var a = document.querySelector('.hideinputinside:hover');
+    if (a) {
+        console.log("over")
+    }
+    else {
+        for (let i = 0; i < collection.length; i++) {
+            collection[i].style = "display:none"
+        }
+    }
+}
+
+function addregion(id, name, multiple) {
+
+    console.log(multiple);
+
+    // remove all options from main intup
+    document.getElementById('region').value = "";
+    const collection = document.getElementsByClassName("hideinputinside");
+    for (let i = 0; i < collection.length; i++) {
+        collection[i].style = "display:none"
+    }
+    
+    // Check if already have this region selected
+    const inputregion = document.getElementsByClassName("inputregion");
+    for (let i = 0; i < inputregion.length; i++) {
+        if(inputregion[i].value == name){
+            return;
+        }
+    }
+
+    const regions = document.getElementsByClassName("inputregion");
+    console.log(regions.length)
+    if(regions.length > 0 && multiple == "false"){
+        console.log("Can only add one")
+    }else{
+        //add new input to the regions
+        var addList = document.getElementById('regions');
+        var text = document.createElement('div');
+        text.className = "regiondiv";
+        text.innerHTML = '<input class="inputregion" type="text" value="'+id+'" name="regionid[]" style="width:50px;display:none" readonly><input class="inputregion" type="text" value="'+name+'" name="region[]" style="width:calc(100% - 300px);" readonly><div class="franchiseregionremove" onclick="removeregion2(this,\''+multiple+'\')">X</div>';
+        addList.appendChild(text);
+
+        if(multiple == "false"){
+            document.getElementById('region').style="display:none";
+            document.getElementById('regiontext01').style="display:none";
+            document.getElementById('regiontext02').style="display:none";
+        }
+
+    }
+
+}
+
+function removeregion2(index, multiple) {
+    const allregionremovebuttom = document.getElementsByClassName("franchiseregionremove");
+    const allregionclass = document.getElementsByClassName("regiondiv");
+    for (let i = 0; i < allregionremovebuttom.length; i++) {
+        if(allregionremovebuttom[i] == index){
+            allregionclass[i].remove();
+        }
+    }
+    if(multiple == "false"){
+        document.getElementById('region').style="display:block";
+        document.getElementById('regiontext01').style="display:block";
+        document.getElementById('regiontext02').style="display:block";
+    }
 }

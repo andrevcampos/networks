@@ -25,13 +25,13 @@ function my_menu_networkers(){
       $user = wp_get_current_user();
       $roles = ( array ) $user->roles;
       $user_role = $roles[0];
-      
+
       // Profile 
       if ($user_role == 'franchise' || $user_role == 'administrator'){
             add_menu_page('My Profile', 'My Profile', 'network_profile', 'networkers-profile', 'my_menu_networkers_profile', null, 7 );
       }
       // Group 
-      if ($user_role == 'administrator'){
+      if ($user_role == 'franchise' || $user_role == 'administrator'){
             add_menu_page('Groups', 'Groups', 'the_networkers', 'networkers-group', 'networkers_group', null, 7 );
             add_submenu_page( 'networkers-group',  'New Group', 'New Group', 'the_networkers', 'networkers-group-new', 'networkers_group_new' );
             add_submenu_page( null,  'Update Group', 'Update Group', 'the_networkers', 'networkers-group-update', 'networkers_group_update' );
@@ -43,7 +43,7 @@ function my_menu_networkers(){
             add_submenu_page( null,  'Update Industry', 'Update Industry', 'the_networkers', 'networkers-industry-update', 'networkers_industry_update' );
       }
       // Region 
-      if ($user_role == 'franchise' || $user_role == 'administrator'){
+      if ($user_role == 'administrator'){
             add_menu_page('Region', 'Region', 'network_region', 'networkers-region', 'networkers_region', null, 7 );
             add_submenu_page( 'networkers-region',  'New Region', 'New Region', 'network_region', 'network-region-new', 'network_region_new' );
       }

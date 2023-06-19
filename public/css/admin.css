@@ -111,3 +111,17 @@
     text-align: center;
     cursor: pointer;
 }
+
+/* FACILITATOR ---------------------- */
+
+.inputfacilitatorremove{
+    display: inline-block;
+    height: 20px;
+    border-radius: 10px;
+    color:white;
+    background-color:brown;
+    width:30px;
+    text-align: center;
+    cursor: pointer;
+    margin-left:5px;
+}
