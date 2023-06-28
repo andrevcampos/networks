@@ -125,3 +125,29 @@
     cursor: pointer;
     margin-left:5px;
 }
+
+
+/* POPUP ---------------------- */
+
+#popupbox{
+    display: inline-block;
+    position: absolute;
+    left:0;
+    top:0;
+    height: 100%;
+    width:100%;
+    background-color:#f0f0f1;
+    text-align: left;
+    z-index: 100;
+}
+.messagealert{
+    display: inline-block;
+    padding: 20px;
+    font-size: 16px;
+    width:auto;
+    width:400px;
+    background-color:#ffffff;
+    border-left-width: 5px;
+    border-left-style: solid;
+    border-left-color: coral;
+}

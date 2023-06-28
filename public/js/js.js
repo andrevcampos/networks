@@ -447,24 +447,24 @@ function newgroup() {
     var lpostcode = document.getElementById('lpostcode').value;
   
     if(!name || name.length < 3){
-        document.getElementById('messagetitle').innerHTML = "Error"
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration"
         document.getElementById('message').innerHTML = "Name must have 3 characters long."
-        document.getElementById('networkersmessage').style = "display:block"
-        document.getElementById('networkersbox').style = "display:none"
+        document.getElementById('popupbox').style = "display:block"
+        window.scrollTo(0, 0);
         return;
     }
     if(weekday == ""){
-        document.getElementById('messagetitle').innerHTML = "Error"
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration"
         document.getElementById('message').innerHTML = "Group must have a week day."
-        document.getElementById('networkersmessage').style = "display:block"
-        document.getElementById('networkersbox').style = "display:none"
+        document.getElementById('popupbox').style = "display:block"
+        window.scrollTo(0, 0);
         return;
     }
     if(!laddress || !lsuburb || !lcity || !lpostcode){
-        document.getElementById('messagetitle').innerHTML = "Error"
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration"
         document.getElementById('message').innerHTML = "Group required addrress (street, suburb, city and postcode)."
-        document.getElementById('networkersmessage').style = "display:block"
-        document.getElementById('networkersbox').style = "display:none"
+        document.getElementById('popupbox').style = "display:block"
+        window.scrollTo(0, 0);
         return;
     }
 
@@ -565,4 +565,10 @@ function removeregion2(index, multiple) {
         document.getElementById('regiontext01').style="display:block";
         document.getElementById('regiontext02').style="display:block";
     }
+}
+
+// POPUP ----------
+
+function popupbutton() {
+    document.getElementById('popupbox').style="display:none";
 }
