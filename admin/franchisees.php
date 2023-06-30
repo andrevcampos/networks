@@ -44,6 +44,8 @@ function networkers_franchisees_new() {
     $url = $plugin_url . 'franchisees-new.php';
     wp_enqueue_style( 'membercss', plugins_url() . '/thenetworks/public/css/admin.css');
 	wp_enqueue_script( 'js', plugins_url() . '/thenetworks/public/js/js.js' );
+
+    include ABSPATH . '/wp-content/plugins/thenetworks/admin/function/region.php';
     
     $message = $_GET["message"];
     $messagetitle = $_GET["messagetitle"];
@@ -78,20 +80,8 @@ function networkers_franchisees_new() {
             <input id="phone" type="text" name="phone"><br><br>
             ';
 
-            echo '<label>Regions:</label><br>';
-            echo '<div style="position:relative">';
-                echo '<input id="region" type="text" name="region" onKeyUp="franchisesearchregion()">';
-                echo '<div class="hideinput">';
-                    $args = array('post_type' => 'network-region','posts_per_page' => -1);
-                    $posts = get_posts($args);
-                    foreach($posts as $post) {
-                        echo "<div onclick='franchiseaddregion(\"$post->ID\",\"$post->post_title\")' class='hideinputinside'>$post->post_title</div>";
-                    }
-                echo '</div>';
-            echo '</div>';
-            echo '<div id="regions"></div>';
-            echo '<p>Please select the region(s) this franchise have permition</p>';
-            echo '<p>Start typing to view regions. Type "all" to view all.</p><br><br>';
+            // Multiple selection and nothing selected.
+            regioninput("true", "");
             
             
         echo "<div style='margin-top:-10px' class='memberbuttom' onclick='newfranchise(\"$url\")' >Register</div>";
@@ -114,6 +104,7 @@ function networkers_franchisees_new() {
 
 function networkers_franchisees_update() {
 
+    include ABSPATH . '/wp-content/plugins/thenetworks/admin/function/region.php';
     include '../../../../wp-load.php';
     global $wpdb;
 
@@ -177,28 +168,8 @@ function networkers_franchisees_update() {
         echo "<label>Phone:</label><br>";
         echo "<input id='phone' type='text' name='phone' value='$phone'><br><br>";
 
-        echo '<label>Regions:</label><br>';
-        echo '<div style="position:relative">';
-            echo '<input id="region" type="text" name="region" onKeyUp="franchisesearchregion()">';
-            echo '<div class="hideinput">';
-                $args = array('post_type' => 'network-region','posts_per_page' => -1);
-                $posts = get_posts($args);
-                foreach($posts as $post) {
-                    echo "<div onclick='franchiseaddregion(\"$post->ID\",\"$post->post_title\")' class='hideinputinside'>$post->post_title</div>";
-                }
-            echo '</div>';
-        echo '</div>';
-        echo '<div id="regions">';
-        
-        foreach($regions as $region) {
-            echo '<div class="regiondiv">';
-                echo "<input class='inputregion' type='text' value='$region' name='region[]' style='width:calc(100% - 250px);' readonly>";
-                echo "<div class='franchiseregionremove' onclick='removeregion(this)'>X</div>";
-            echo '</div>';
-        }
-        echo '</div>';
-        echo '<p>Please select the region(s) this franchise have permition</p>';
-        echo '<p>Start typing to view regions. Type "all" to view all.</p><br><br>';
+        // Multiple selection and array with regions.
+        regioninput("true", $regions);
     
 
     echo "<div style='margin-top:-10px' class='memberbuttom' onclick='updatefranchise(\"$url\")' >Update</div>";

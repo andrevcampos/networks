@@ -24,6 +24,16 @@
     width:140px;
     cursor: pointer;
 }
+.smallbuttom {
+    margin-top:20px;
+    padding:5px;
+    background-color:red;
+    color:white;
+    width:100px;
+    border-radius:10px;
+    text-align: center;
+    cursor: pointer;
+}
 
 
 .memberbox {
@@ -151,3 +161,10 @@
     border-left-style: solid;
     border-left-color: coral;
 }
+
+/* IMAGE ---------------------- */
+
+#imagediv{
+    margin-top:40px;
+}
+

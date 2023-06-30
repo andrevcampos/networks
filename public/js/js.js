@@ -30,43 +30,6 @@ function checkemail(email) {
     return regexExp.test(email);
 }
 
-function checkimage(input) {
-
-    var imagedisplay = document.getElementById('groupimg');
-    var imagebox = document.getElementById('imagebox');
-    var imagecomment = document.getElementById('imagecomment');
-    imagedisplay.src = "";
-    imagebox.style = "width:100%;display:none;margin-top:20px";
-    imagecomment.style = "font-size:16px;display:none;color:red;";
-    imagecomment.innerHTML = "";
-
-    var file = input.files[0];
-    var filename = file.name.toLowerCase();
-    if (!filename.match(/\.(jpg|jpeg|png|gif)$/i)){
-        imagebox.style = "width:100%;display:none;margin-top:20px";
-        imagedisplay.src = "";
-        imagecomment.innerHTML = "Please choose an image in the following formats: JPG, JPEG, PNG, or GIF.";
-        imagecomment.style = "font-size:16px;display:block;color:red;";
-        document.getElementById('image_url').value='';
-        return;
-    }
-
-
-    console.log(Math.ceil(file.size / 1000) + "kbs")
-
-    if (file) {
-        var image = new Image();
-
-        image.onload = function() {
-            console.log("image Dimention: " + this.width + "x" +this.height)
-        };
-        image.src = URL.createObjectURL(file);
-        imagedisplay.src = URL.createObjectURL(file);
-        imagebox.style = "width:100%;display:block;margin-top:20px";
-    }
-
-}
-
 // FRANCHISE ---------------------------------------------------------------
 function addnewphone() {
     var addList = document.getElementById('memberphone');
@@ -571,4 +534,50 @@ function removeregion2(index, multiple) {
 
 function popupbutton() {
     document.getElementById('popupbox').style="display:none";
+}
+
+// IMAGE ----------
+function checkimage(input) {
+
+    var imagedisplay = document.getElementById('groupimg');
+    var imagebox = document.getElementById('imagebox');
+    var imageremovebutton = document.getElementById('imageremovebutton');
+    var imagecomment = document.getElementById('imagecomment');
+    imagedisplay.src = "";
+    imagebox.style = "width:100%;display:none;margin-top:20px";
+    imagecomment.style = "font-size:16px;display:none;color:red;";
+    imagecomment.innerHTML = "";
+
+    var file = input.files[0];
+    var filename = file.name.toLowerCase();
+    if (!filename.match(/\.(jpg|jpeg|png|gif)$/i)){
+        imagebox.style = "width:100%;display:none;margin-top:20px";
+        imagedisplay.src = "";
+        imagecomment.innerHTML = "Please choose an image in the following formats: JPG, JPEG, PNG, or GIF.";
+        imagecomment.style = "font-size:16px;display:block;color:red;";
+        document.getElementById('image_url').value='';
+        return;
+    }
+
+    console.log(Math.ceil(file.size / 1000) + "kbs")
+
+    if (file) {
+        var image = new Image();
+
+        image.onload = function() {
+            console.log("image Dimention: " + this.width + "x" +this.height)
+        };
+        image.src = URL.createObjectURL(file);
+        imagedisplay.src = URL.createObjectURL(file);
+        imagebox.style = "width:100%;display:block;margin-top:20px";
+        imageremovebutton.style = "display:block";
+    }
+
+}
+function removeimage() {
+    document.getElementById('imagebox').style = "display:none";
+    document.getElementById('groupimg').src = "";
+    document.getElementById('image_url').value="";
+    document.getElementById('imageremovebutton').style = "display:none";
+
 }

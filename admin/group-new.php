@@ -16,16 +16,17 @@
     $lsuburb = $_POST["lsuburb"];
     $lcity = $_POST["lcity"];
     $lpostcode = $_POST["lpostcode"];
-    $my_option = $_POST["my_option"];
+    $regions = $_POST["regionid"];
 
+    //Get Decription and encode
+    $my_option = $_POST["my_option"];
     $encodedContent = base64_encode($my_option);
 
-    //$image_url = $_POST["image_url"];
-
+    //Change Time Formation
     $start = $starthour . ":" . $startmin . ":" . $starttime;
     $finsh = $finishhour . ":" . $finishmin . ":" . $finishtime;
     
-
+    //Check if already have Group Name
     global $user_ID, $wpdb;
     $query = $wpdb->prepare(
         'SELECT ID FROM ' . $wpdb->posts . '
@@ -34,7 +35,6 @@
         $name
     );
     $wpdb->query( $query );
-
     if ( $wpdb->num_rows ) {
         $url = admin_url('admin.php?page=networkers-group-new&messagetitle=Duplicate Registration&message=The Group title has already been taken.');
         header("Location: $url"); 
@@ -50,6 +50,7 @@
     //add region to slug
     $regionslug = "group-".$slug;
 
+    //Create Post
     $my_post = array(
     'post_title'    => $name,
     'post_status'   => 'publish',
@@ -60,6 +61,7 @@
 
     $post_id = wp_insert_post( $my_post );
 
+    //Create Post Meta
     add_post_meta( $post_id, 'weekday', $weekday, true );
     add_post_meta( $post_id, 'start', $start, true );
     add_post_meta( $post_id, 'finsh', $finsh, true );
@@ -69,54 +71,48 @@
     add_post_meta( $post_id, 'lsuburb', $lsuburb, true );
     add_post_meta( $post_id, 'lcity', $lcity, true );
     add_post_meta( $post_id, 'lpostcode', $lpostcode, true );
-
-    // if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //     $targetDirectory = "uploads/";  // Directory where you want to store the uploaded image
-    //     $targetFile = $targetDirectory . basename($_FILES["image_url"]["name"]);
-    //     $uploadSuccess = move_uploaded_file($_FILES["image_url"]["tmp_name"], $targetFile);
-      
-    //     if ($uploadSuccess) {
-    //       echo "Image uploaded successfully!";
-    //     } else {
-    //       echo "Error uploading image.";
-    //     }
-    //   }
-
-    $upload_dir = wp_upload_dir();
-
-    $image_data = file_get_contents( $_FILES["image_url"]['tmp_name'] );
-
-    $filename = basename( $_FILES["image_url"]["name"] );
-
-    if ( wp_mkdir_p( $upload_dir['path'] ) ) {
-    $file = $upload_dir['path'] . '/' . $filename;
+    if($regions[0]){
+        add_post_meta( $post_id, 'regions', $regions[0], true );
     }
-    else {
-    $file = $upload_dir['basedir'] . '/' . $filename;
-    }
-
-    file_put_contents( $file, $image_data );
-
-    $wp_filetype = wp_check_filetype( $filename, null );
-
-    $attachment = array(
-    'post_mime_type' => $wp_filetype['type'],
-    'post_title' => sanitize_file_name( $filename ),
-    'post_content' => '',
-    'post_status' => 'inherit'
-    );
-
-    $attach_id = wp_insert_attachment( $attachment, $file );
-
-    //Add image ulr to postmeta
-    add_post_meta( $post_id, 'imageid', $attach_id, true );
-
-    require_once( ABSPATH . 'wp-admin/includes/image.php' );
-    $attach_data = wp_generate_attachment_metadata( $attach_id, $file );
-    wp_update_attachment_metadata( $attach_id, $attach_data );
-
-    $url = admin_url('admin.php?page=networkers-group');
-    header("Location: $url"); 
-    exit();
     
+    //Check if have Image
+    if(file_exists($_FILES['image_url']['tmp_name'][0])) {
+
+        $upload_dir = wp_upload_dir();
+
+        $image_data = file_get_contents( $_FILES["image_url"]['tmp_name'] );
+
+        $filename = basename( $_FILES["image_url"]["name"] );
+
+        if ( wp_mkdir_p( $upload_dir['path'] ) ) {
+        $file = $upload_dir['path'] . '/' . $filename;
+        }
+        else {
+        $file = $upload_dir['basedir'] . '/' . $filename;
+        }
+
+        file_put_contents( $file, $image_data );
+
+        $wp_filetype = wp_check_filetype( $filename, null );
+
+        $attachment = array(
+        'post_mime_type' => $wp_filetype['type'],
+        'post_title' => sanitize_file_name( $filename ),
+        'post_content' => '',
+        'post_status' => 'inherit'
+        );
+
+        $attach_id = wp_insert_attachment( $attachment, $file );
+
+        //Add image ulr to postmeta
+        add_post_meta( $post_id, 'imageid', $attach_id, true );
+
+        require_once( ABSPATH . 'wp-admin/includes/image.php' );
+        $attach_data = wp_generate_attachment_metadata( $attach_id, $file );
+        wp_update_attachment_metadata( $attach_id, $attach_data );
+
+        $url = admin_url('admin.php?page=networkers-group');
+        header("Location: $url"); 
+        exit();
+    }
 ?>
