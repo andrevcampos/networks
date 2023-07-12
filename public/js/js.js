@@ -1,29 +1,11 @@
 // JavaScript Document
 
 // NETWORKERS -------------------------------------------------------------
-function networkersgoback() {
-    document.getElementById('networkersmessage').style = "display:none"
-    document.getElementById('networkersbox').style = "display:block"
-}
 
-function networkersremovebox(id, name) {
-    document.getElementById('textremove').innerHTML = name;
-    document.getElementById('removeid').value = id;
-    document.getElementById('inputremove').value = "";
-    document.getElementById('networkersmessage').style = "display:block";
-    document.getElementById('networkersbox').style = "display:none";
-}
 
-function removecheck() {
-    let deletebutton = document.getElementById('inputremove').value.toLowerCase();
-    if(deletebutton == "delete"){
-        document.getElementById('buttongoback').style="display:none;cursor: pointer;padding:10px;background-color:#6495ed;color:white;width:100px;height:20px;text-align:center;margin-top:20px"
-        document.getElementById('buttonremove').style="display:block;cursor: pointer;padding:10px;background-color:#d63638;color:white;width:100px;height:40px;text-align:center;margin-top:20px"
-    }else{
-        document.getElementById('buttongoback').style="display:block;cursor: pointer;padding:10px;background-color:#6495ed;color:white;width:100px;height:20px;text-align:center;margin-top:20px"
-        document.getElementById('buttonremove').style="display:none;cursor: pointer;padding:10px;background-color:#d63638;color:white;width:100px;height:40px;text-align:center;margin-top:20px"
-    }
-}
+
+
+
 
 function checkemail(email) {
     const regexExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
@@ -408,7 +390,9 @@ function newgroup() {
     var lsuburb = document.getElementById('lsuburb').value;
     var lcity = document.getElementById('lcity').value;
     var lpostcode = document.getElementById('lpostcode').value;
-  
+    const allregion = document.getElementsByClassName("regionid");
+
+    
     if(!name || name.length < 3){
         document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration"
         document.getElementById('message').innerHTML = "Name must have 3 characters long."
@@ -430,10 +414,19 @@ function newgroup() {
         window.scrollTo(0, 0);
         return;
     }
+    if(allregion.length == 0){
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration"
+        document.getElementById('message').innerHTML = "You must add a region to this group"
+        document.getElementById('popupbox').style = "display:block"
+        window.scrollTo(0, 0);
+        return;
+    }
 
     document.getElementById("myForm").submit();
     return;
 }
+
+
 
 // FUNCTIONS ------------------------------------------
 
@@ -495,17 +488,17 @@ function addregion(id, name, multiple) {
 
     const regions = document.getElementsByClassName("inputregion");
     console.log(regions.length)
-    if(regions.length > 0 && multiple == "false"){
+    if(regions.length > 0 && multiple == false){
         console.log("Can only add one")
     }else{
         //add new input to the regions
         var addList = document.getElementById('regions');
         var text = document.createElement('div');
         text.className = "regiondiv";
-        text.innerHTML = '<input class="inputregion" type="text" value="'+id+'" name="regionid[]" style="width:50px;display:none" readonly><input class="inputregion" type="text" value="'+name+'" name="region[]" style="width:calc(100% - 300px);" readonly><div class="franchiseregionremove" onclick="removeregion2(this,\''+multiple+'\')">X</div>';
+        text.innerHTML = '<input class="inputregion regionid" type="text" value="'+id+'" name="regionid[]" style="width:50px;display:none" readonly><input class="inputregion" type="text" value="'+name+'" name="region[]" style="width:calc(100% - 300px);" readonly><div class="franchiseregionremove" onclick="removeregion2(this,'+multiple+')">X</div>';
         addList.appendChild(text);
 
-        if(multiple == "false"){
+        if(multiple == false){
             document.getElementById('region').style="display:none";
             document.getElementById('regiontext01').style="display:none";
             document.getElementById('regiontext02').style="display:none";
@@ -523,7 +516,7 @@ function removeregion2(index, multiple) {
             allregionclass[i].remove();
         }
     }
-    if(multiple == "false"){
+    if(multiple == false){
         document.getElementById('region').style="display:block";
         document.getElementById('regiontext01').style="display:block";
         document.getElementById('regiontext02').style="display:block";
@@ -532,8 +525,35 @@ function removeregion2(index, multiple) {
 
 // POPUP ----------
 
+// message box
 function popupbutton() {
     document.getElementById('popupbox').style="display:none";
+}
+
+// Remove box
+function PopupRemoveBox(title, id, name, url) {
+    document.getElementById('popupRemoveTitle').innerHTML = title;
+    document.getElementById('popupRemoveName').innerHTML = name;
+    document.getElementById('popupRemoveForm').action = url;
+    document.getElementById('popupRemoveID').innerHTML = id;
+    document.getElementById('popupRemoveBox').style = "display:block"
+    document.getElementById('networkersbox').style = "display:none"
+}
+
+function PopupRemoveGoback() {
+    document.getElementById('popupRemoveBox').style = "display:none"
+    document.getElementById('networkersbox').style = "display:block"
+}
+
+function PopupRemoveCheck() {
+    let deletebutton = document.getElementById('popupRemoveImput').value.toLowerCase();
+    if(deletebutton == "delete"){
+        document.getElementById('popupRemoveGoback').style="display:none;cursor: pointer;padding:10px;background-color:#6495ed;color:white;width:100px;height:20px;text-align:center;margin-top:20px"
+        document.getElementById('popupRemoveButton').style="display:block;cursor: pointer;padding:10px;background-color:#d63638;color:white;width:100px;height:40px;text-align:center;margin-top:20px"
+    }else{
+        document.getElementById('popupRemoveGoback').style="display:block;cursor: pointer;padding:10px;background-color:#6495ed;color:white;width:100px;height:20px;text-align:center;margin-top:20px"
+        document.getElementById('popupRemoveButton').style="display:none;cursor: pointer;padding:10px;background-color:#d63638;color:white;width:100px;height:40px;text-align:center;margin-top:20px"
+    }
 }
 
 // IMAGE ----------

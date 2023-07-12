@@ -1,6 +1,6 @@
 <?php
 
-    include '../../../../wp-load.php';
+    include '../../../../../wp-load.php';
 
     $name = $_POST["name"];
     $weekday = $_POST["weekday"];
@@ -111,8 +111,9 @@
         $attach_data = wp_generate_attachment_metadata( $attach_id, $file );
         wp_update_attachment_metadata( $attach_id, $attach_data );
 
-        $url = admin_url('admin.php?page=networkers-group');
-        header("Location: $url"); 
-        exit();
+        
     }
+    $url = admin_url('admin.php?page=networkers-group');
+    header("Location: $url"); 
+    exit();
 ?>

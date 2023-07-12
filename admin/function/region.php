@@ -6,23 +6,12 @@
         public $post_title;
     }
 
-    function regioninput($multiple, $regionsselected) {
-
-        if(!$multiple){
-            $multiple = "true";
-        }
-
-        if(!$regionsselected){
-            $regionsselected = "";
-        }
+    function regioninput($regionsselected = [], $multiple = true) {
 
         //Get Role
         $user = wp_get_current_user();
         $roles = ( array ) $user->roles;
         $user_role = $roles[0];
-        if ($user_role == "franchise"){
-            $regions = get_user_meta( $user->ID, 'region', false );
-        } 
 
         //Region Availables
         if($user_role == "administrator" || $user_role == "networkadmin"){
@@ -31,7 +20,6 @@
         }else{
             $regions = [];
             $regionss = get_user_meta( $user->ID, 'region', false );
-            
             foreach($regionss as $regionid) {
                 $region = get_post( $regionid );
                 $obj = new region();
@@ -57,14 +45,14 @@
         if(count($regions) > 1){
 
             //check if needs to display in case of single region and alread selected.
-            $regiondisplay = "display:block";
-            if($multiple == "false" && count($regionselected) > 0){$regiondisplay = "display:none";
-            }
+            $regiondisplay = ($multiple == false && count($regionselected) > 0) ? "display:none" : "display:block";
+
             echo '<div style="position:relative">';
                 echo '<input id="region" style="'.$regiondisplay.'" type="text" name="region" onfocusout="cleansearch()" onfocus="searchregion()" onKeyUp="searchregion()">';
                 echo '<div class="hideinput" style="display:block">';
                     foreach($regions as $post) {
-                        echo "<div onclick='addregion(\"$post->ID\",\"$post->post_title\", \"$multiple\" )' class='hideinputinside'>$post->post_title</div>";
+                        $onclick = "addregion(\"$post->ID\",\"$post->post_title\", " . ($multiple ? 'true' : 'false') . ")";
+                        echo "<div onclick='$onclick' class='hideinputinside'>$post->post_title</div>";
                     }
                 echo '</div>';
             echo '</div>';
@@ -75,21 +63,19 @@
                 echo '<div class="regiondiv">';
                     echo "<input class='inputregion' type='text' value='$region->ID' name='regionid[]' style='width:50px;display:none' readonly>";
                     echo "<input class='inputregion' type='text' value='$region->post_title' name='region[]' style='width:calc(100% - 250px);' readonly>";
-                    echo "<div class='franchiseregionremove' onclick='removeregion2(this,\"$multiple\")'>X</div>";
+                    $onclick = "removeregion2(this, " . ($multiple ? 'true' : 'false') . ")";
+                    echo "<div class='franchiseregionremove' onclick='$onclick'>X</div>";
                 echo '</div>';
             }
             echo '</div>';
 
             //Messagem at the bottom of the Region Box
-            if($multiple == "false"){
-
-                //Single selection will check if needs to display or not.
-                $regiondisplay = "display:block";
-                if(count($regionselected) == 0){$regiondisplay = "display:none";}
-                echo '<p id="regiontext01" style="'.$regiondisplay.'">Please Search the Region</p>';
-                echo '<p id="regiontext02" style="'.$regiondisplay.'"></p><br><br>';
-                
-            }else{
+            if ($multiple == false) {
+                // Single selection will check if it needs to be displayed or not.
+                $regiondisplay = (count($regionselected) == 0) ? "display:block" : "display:none";
+                echo '<p id="regiontext01" style="' . $regiondisplay . '">Please Search the Region</p>';
+                echo '<p id="regiontext02" style="' . $regiondisplay . '"></p><br><br>';
+            } else {
                 echo '<p id="regiontext01">Please Search the Region(s)</p>';
                 echo '<p id="regiontext02">You can add multiple Regions</p><br><br>';
             }
@@ -99,7 +85,7 @@
             echo '<div id="regions">';
                 foreach($regions as $post) {
                     echo '<div class="regiondiv">';
-                        echo "<input class='inputregion' type='text' value='$post->ID' name='regionid[]' style='width:50px;display:none' readonly>";
+                        echo "<input class='inputregion regionid' type='text' value='$post->ID' name='regionid[]' style='width:50px;display:none' readonly>";
                         echo "<input class='inputregion' type='text' value='$post->post_title' name='region[]' style='width:100%;' readonly>";
                     echo '</div>';
                 }

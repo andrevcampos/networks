@@ -81,7 +81,7 @@ function networkers_franchisees_new() {
             ';
 
             // Multiple selection and nothing selected.
-            regioninput("true", "");
+            regioninput();
             
             
         echo "<div style='margin-top:-10px' class='memberbuttom' onclick='newfranchise(\"$url\")' >Register</div>";
@@ -169,7 +169,7 @@ function networkers_franchisees_update() {
         echo "<input id='phone' type='text' name='phone' value='$phone'><br><br>";
 
         // Multiple selection and array with regions.
-        regioninput("true", $regions);
+        regioninput($regions);
     
 
     echo "<div style='margin-top:-10px' class='memberbuttom' onclick='updatefranchise(\"$url\")' >Update</div>";

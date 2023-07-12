@@ -11,7 +11,7 @@ Text Domain: bm_networks
 */ 
 
 //include ABSPATH . '/wp-content/plugins/thenetworks/members/new.php';
-include ABSPATH . '/wp-content/plugins/thenetworks/admin/group.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/groups/group.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/industry.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/profile.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/region.php';
@@ -35,6 +35,7 @@ function my_menu_networkers(){
             add_menu_page('Groups', 'Groups', 'the_networkers', 'networkers-group', 'networkers_group', null, 7 );
             add_submenu_page( 'networkers-group',  'New Group', 'New Group', 'the_networkers', 'networkers-group-new', 'networkers_group_new' );
             add_submenu_page( null,  'Update Group', 'Update Group', 'the_networkers', 'networkers-group-update', 'networkers_group_update' );
+            add_submenu_page( null,  'Delete Group', 'Delete Group', 'the_networkers', 'networkers-group-delete', 'networkers_group_delete' );
       }
       // Industry 
       if ($user_role == 'administrator'){
