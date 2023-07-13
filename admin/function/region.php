@@ -60,11 +60,11 @@
             //Select all region selected
             echo '<div id="regions">';
             foreach($regionselected as $region) {
-                echo '<div class="regiondiv">';
-                    echo "<input class='inputregion' type='text' value='$region->ID' name='regionid[]' style='width:50px;display:none' readonly>";
-                    echo "<input class='inputregion' type='text' value='$region->post_title' name='region[]' style='width:calc(100% - 250px);' readonly>";
+                echo '<div class="regiondiv" style="width:100%;max-width:500px;display:flex">';
+                    echo "<input class='inputregion regionid' type='text' value='$region->ID' name='regionid[]' style='width:50px;display:none' readonly>";
+                    echo "<input class='inputregion' type='text' value='$region->post_title' name='region[]' style='width:calc(100% - 50px);border-top-right-radius:0px;border-bottom-right-radius:0px;' readonly>";
                     $onclick = "removeregion2(this, " . ($multiple ? 'true' : 'false') . ")";
-                    echo "<div class='franchiseregionremove' onclick='$onclick'>X</div>";
+                    echo "<div class='regionremove' onclick='$onclick'>X</div>";
                 echo '</div>';
             }
             echo '</div>';
@@ -89,7 +89,7 @@
                         echo "<input class='inputregion' type='text' value='$post->post_title' name='region[]' style='width:100%;' readonly>";
                     echo '</div>';
                 }
-            echo '</div>';
+            echo '</div><br><br>';
         }
     
     }

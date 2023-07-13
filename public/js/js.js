@@ -237,8 +237,8 @@ function newregion(url) {
     if(name.length < 5){
         document.getElementById('messagetitle').innerHTML = "Error"
         document.getElementById('message').innerHTML = "Name must have 5 characters long."
-        document.getElementById('regionmessage').style = "display:block"
-        document.getElementById('memberbox').style = "display:none"
+        document.getElementById('popupbox').style = "display:block"
+        window.scrollTo(0, 0);
         return;
     }
 
@@ -260,22 +260,6 @@ function regionremovecheck() {
         document.getElementById('buttongobackregion').style="display:block;cursor: pointer;padding:10px;background-color:#6495ed;color:white;width:100px;height:20px;text-align:center;margin-top:20px"
         document.getElementById('buttonremoveregion').style="display:none;cursor: pointer;padding:10px;background-color:#d63638;color:white;width:100px;height:40px;text-align:center;margin-top:20px"
     }
-}
-
-function regionremovebox(id, name) {
-    document.getElementById('textregionremove').innerHTML = "Region Name: " + name;
-    document.getElementById('regionremoveid').value = id;
-    document.getElementById('inputremoveregion').value = "";
-    document.getElementById('regionremove').style = "display:block";
-    document.getElementById('regionedit').style = "display:none";
-    document.getElementById('regiontable').style = "display:none";
-}
-function regioneditbox(id, name) {
-    document.getElementById('editregionid').value = id;
-    document.getElementById('editregionname').value = name;
-    document.getElementById('regionedit').style = "display:block";
-    document.getElementById('regionremove').style = "display:none";
-    document.getElementById('regiontable').style = "display:none";
 }
 
 //INDUSTRY --------------------------------------------------------------
@@ -495,7 +479,8 @@ function addregion(id, name, multiple) {
         var addList = document.getElementById('regions');
         var text = document.createElement('div');
         text.className = "regiondiv";
-        text.innerHTML = '<input class="inputregion regionid" type="text" value="'+id+'" name="regionid[]" style="width:50px;display:none" readonly><input class="inputregion" type="text" value="'+name+'" name="region[]" style="width:calc(100% - 300px);" readonly><div class="franchiseregionremove" onclick="removeregion2(this,'+multiple+')">X</div>';
+        text.style = "width:100%;max-width:500px;display:flex";
+        text.innerHTML = '<input class="inputregion regionid" type="text" value="'+id+'" name="regionid[]" style="width:50px;display:none" readonly><input class="inputregion" type="text" value="'+name+'" name="region[]" style="width:calc(100% - 50px);border-top-right-radius:0px;border-bottom-right-radius:0px;" readonly><div class="regionremove" onclick="removeregion2(this,'+multiple+')">X</div>';
         addList.appendChild(text);
 
         if(multiple == false){
@@ -509,7 +494,7 @@ function addregion(id, name, multiple) {
 }
 
 function removeregion2(index, multiple) {
-    const allregionremovebuttom = document.getElementsByClassName("franchiseregionremove");
+    const allregionremovebuttom = document.getElementsByClassName("regionremove");
     const allregionclass = document.getElementsByClassName("regiondiv");
     for (let i = 0; i < allregionremovebuttom.length; i++) {
         if(allregionremovebuttom[i] == index){
@@ -591,6 +576,7 @@ function checkimage(input) {
         imagedisplay.src = URL.createObjectURL(file);
         imagebox.style = "width:100%;display:block;margin-top:20px";
         imageremovebutton.style = "display:block";
+        document.getElementById('originalimage').value = "";
     }
 
 }
@@ -599,5 +585,5 @@ function removeimage() {
     document.getElementById('groupimg').src = "";
     document.getElementById('image_url').value="";
     document.getElementById('imageremovebutton').style = "display:none";
-
+    document.getElementById('originalimage').value = "";
 }

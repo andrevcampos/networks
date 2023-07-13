@@ -5,9 +5,9 @@
     
     $post_id = $_POST["postid"];
     $orginalname = $_POST["orginalname"];
-    $originalimageid = $_POST["originalimage"];
-    if($originalimageid){
-        $originalurl = get_post_meta( $originalimageid, '_wp_attached_file', true );
+    $originalimage = $_POST["originalimage"];
+    if($originalimage){
+        $originalurl = get_post_meta( $originalimage, '_wp_attached_file', true );
     }
 
     $name = $_POST["name"];
@@ -34,7 +34,6 @@
     $start = $starthour . ":" . $startmin . ":" . $starttime;
     $finsh = $finishhour . ":" . $finishmin . ":" . $finishtime;
 
-    
     if($name != $orginalname){
 
         //Check if already have Group Name
@@ -62,7 +61,7 @@
         $regionslug = "group-".$slug;
 
         $my_post = array(
-            'ID'           => $postid,
+            'ID'           => $post_id,
             'post_title'   => $name,
             'post_name' => $regionslug,
         );
@@ -72,57 +71,73 @@
 
 
     //Create Post Meta
-    update_metadata( $post_id, 'weekday', $weekday, true );
-    update_metadata( $post_id, 'start', $start, true );
-    update_metadata( $post_id, 'finsh', $finsh, true );
-    update_metadata( $post_id, 'description', $encodedContent, true );
-    update_metadata( $post_id, 'lcompany', $lcompany, true );
-    update_metadata( $post_id, 'laddress', $laddress, true );
-    update_metadata( $post_id, 'lsuburb', $lsuburb, true );
-    update_metadata( $post_id, 'lcity', $lcity, true );
-    update_metadata( $post_id, 'lpostcode', $lpostcode, true );
+    update_post_meta( $post_id, 'weekday', $weekday);
+    update_post_meta( $post_id, 'start', $start);
+    update_post_meta( $post_id, 'finsh', $finsh);
+    update_post_meta( $post_id, 'description', $encodedContent);
+    update_post_meta( $post_id, 'lcompany', $lcompany);
+    update_post_meta( $post_id, 'laddress', $laddress);
+    update_post_meta( $post_id, 'lsuburb', $lsuburb);
+    update_post_meta( $post_id, 'lcity', $lcity);
+    update_post_meta( $post_id, 'lpostcode', $lpostcode);
+
     if($regions[0]){
-        update_metadata( $post_id, 'regions', $regions[0], true );
+        update_post_meta( $post_id, 'regions', $regions[0]);
     }
     
-    //Check if have Image
-    if(file_exists($_FILES['image_url']['tmp_name'][0])) {
 
-        $upload_dir = wp_upload_dir();
+    //Update image if have any change.
+    if(!$originalimage){
+        //Check if have Image
+        if(file_exists($_FILES['image_url']['tmp_name'][0])) {
 
-        $image_data = file_get_contents( $_FILES["image_url"]['tmp_name'] );
+            //remove the old post
+            $imageid = get_post_meta( $post_id, 'imageid', true );
+            wp_delete_attachment( $imageid );
+            delete_post_meta($post_id, 'imageid');
 
-        $filename = basename( $_FILES["image_url"]["name"] );
+            $upload_dir = wp_upload_dir();
 
-        if ( wp_mkdir_p( $upload_dir['path'] ) ) {
-        $file = $upload_dir['path'] . '/' . $filename;
+            $image_data = file_get_contents( $_FILES["image_url"]['tmp_name'] );
+
+            $filename = basename( $_FILES["image_url"]["name"] );
+
+            if ( wp_mkdir_p( $upload_dir['path'] ) ) {
+            $file = $upload_dir['path'] . '/' . $filename;
+            }
+            else {
+            $file = $upload_dir['basedir'] . '/' . $filename;
+            }
+
+            file_put_contents( $file, $image_data );
+
+            $wp_filetype = wp_check_filetype( $filename, null );
+
+            $attachment = array(
+            'post_mime_type' => $wp_filetype['type'],
+            'post_title' => sanitize_file_name( $filename ),
+            'post_content' => '',
+            'post_status' => 'inherit'
+            );
+
+            $attach_id = wp_insert_attachment( $attachment, $file );
+
+            //Add image ulr to postmeta
+            add_post_meta( $post_id, 'imageid', $attach_id, true );
+
+            require_once( ABSPATH . 'wp-admin/includes/image.php' );
+            $attach_data = wp_generate_attachment_metadata( $attach_id, $file );
+            wp_update_attachment_metadata( $attach_id, $attach_data );
+
+        }else{
+            //remove image 
+            $imageid = get_post_meta( $post_id, 'imageid', true );
+            wp_delete_attachment( $imageid );
+            delete_post_meta($post_id, 'imageid');
         }
-        else {
-        $file = $upload_dir['basedir'] . '/' . $filename;
-        }
-
-        file_put_contents( $file, $image_data );
-
-        $wp_filetype = wp_check_filetype( $filename, null );
-
-        $attachment = array(
-        'post_mime_type' => $wp_filetype['type'],
-        'post_title' => sanitize_file_name( $filename ),
-        'post_content' => '',
-        'post_status' => 'inherit'
-        );
-
-        $attach_id = wp_insert_attachment( $attachment, $file );
-
-        //Add image ulr to postmeta
-        add_post_meta( $post_id, 'imageid', $attach_id, true );
-
-        require_once( ABSPATH . 'wp-admin/includes/image.php' );
-        $attach_data = wp_generate_attachment_metadata( $attach_id, $file );
-        wp_update_attachment_metadata( $attach_id, $attach_data );
-
-        
     }
+
+    
     $url = admin_url('admin.php?page=networkers-group');
     header("Location: $url"); 
     exit();

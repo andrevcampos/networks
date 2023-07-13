@@ -1,6 +1,6 @@
 <?php
 
-    include '../../../../wp-load.php';
+    include '../../../../../wp-load.php';
 
     $regionremoveid = $_POST["regionremoveid"];
 

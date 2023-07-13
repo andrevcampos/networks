@@ -55,11 +55,11 @@ function networkers_group_update() {
 
             echo '<label>Group Name:</label><br>';
             echo "<input id='name' type='text' name='name' value='$title'><br><br>";
-            echo "<input id='orginalname' type='text' name='orginalname' value='$groupid'><br><br>";
-            echo "<input id='postid' type='text' name='postid' value='$groupid'><br><br>";
+            echo "<input style='display:none' id='orginalname' type='text' name='orginalname' value='$title'>";
+            echo "<input style='display:none' id='postid' type='text' name='postid' value='$groupid'>";
 
             echo '<label>Week Day:</label><br>';
-            echo '<select name="weekday" id="weekday">';
+            echo '<select name="weekday" id="weekday" class="select">';
                 if($weekday == "monday"){
                     echo '<option value="monday" selected>Monday</option>';
                 }else{
@@ -98,7 +98,7 @@ function networkers_group_update() {
             echo '</select><br><br>';
 
             echo '<label>Start at:</label><br>';
-            echo '<div><div style="float:left"><select name="starthour" id="starthour">';
+            echo '<div style="display:flex"><select name="starthour" id="starthour" class="select">';
             for ($i = 0; $i < 13; $i++){
                 if($i > 9){
                     if($starthour == "$i"){
@@ -115,8 +115,8 @@ function networkers_group_update() {
                 }
                 
             }
-            echo '</select></div>';
-            echo '<div style="float:left"><select name="startmin" id="startmin">';
+            echo '</select>';
+            echo '<select name="startmin" id="startmin" class="select">';
                 if($startmin == "00"){
                     echo '<option value="00" selected>00</option>';
                 }else{
@@ -137,8 +137,8 @@ function networkers_group_update() {
                 }else{
                     echo '<option value="45">45</option>';
                 }
-            echo '</select></div>';
-            echo '<div style="float:left"><select style="float:left" name="starttime" id="starttime">';
+            echo '</select>';
+            echo '<select style="float:left" name="starttime" id="starttime" class="select">';
                 if($starttime == "am"){
                     echo '<option value="am" selected>am</option>';
                 }else{
@@ -149,10 +149,10 @@ function networkers_group_update() {
                 }else{
                     echo '<option value="pm">pm</option>';
                 }
-            echo '</select></div></div><br><br>';
+            echo '</select></div><br>';
 
             echo '<label>Finish at:</label><br>';
-            echo '<div><div style="float:left"><select name="finishhour" id="finishhour">';
+            echo '<div style="display:flex"><select name="finishhour" id="finishhour" class="select">';
                 for ($i = 0; $i < 13; $i++){
                     if($i > 9){
                         if($finishhour == "$i"){
@@ -169,8 +169,8 @@ function networkers_group_update() {
                     }
                     
                 }
-            echo '</select></div>';
-            echo '<div style="float:left"><select name="finishmin" id="finishmin">';
+            echo '</select>';
+            echo '<select name="finishmin" id="finishmin" class="select">';
                 if($finishmin == "00"){
                     echo '<option value="00" selected>00</option>';
                 }else{
@@ -191,8 +191,8 @@ function networkers_group_update() {
                 }else{
                     echo '<option value="45">45</option>';
                 }
-            echo '</select></div>';
-            echo '<div style="float:left"><select style="float:left" name="finishtime" id="finishtime">';
+            echo '</select>';
+            echo '<select style="float:left" name="finishtime" id="finishtime" class="select">';
                 if($finishtime == "am"){
                     echo '<option value="am" selected>am</option>';
                 }else{
@@ -203,10 +203,10 @@ function networkers_group_update() {
                 }else{
                     echo '<option value="pm">pm</option>';
                 }
-            echo '</select></div></div><br><br><br>';
+            echo '</select></div><br><br>';
 
             echo '<label>Description:</label>';
-            
+            echo '<div style="max-width:500px">';
                 wp_editor( $description , 'my_option', array(
                     'wpautop'       => true,
                     'media_buttons' => false,
@@ -214,23 +214,22 @@ function networkers_group_update() {
                     'editor_class'  => 'my_custom_class',
                     'textarea_rows' => 10
                 ) );
+            echo '</div">';
             
             echo '<h3>Location:</h3>';
-            echo '<label>Company:</label><br>';
-            echo '<input id="lcompany" type="text" name="lcompany" value="'.$lcompany.'"><br>';
-            echo '<label>Street Address:</label><br>';
-            echo '<input id="laddress" type="text" name="laddress" value="'.$laddress.'"><br>';
-            echo '<label>Suburb:</label><br>';
-            echo '<input id="lsuburb" type="text" name="lsuburb" value="'.$lsuburb.'"><br>';
-            echo '<label>City:</label><br>';
-            echo '<input id="lcity" type="text" name="lcity" value="'.$lcity.'"><br>';
-            echo '<label>Postcode:</label><br>';
-            echo '<input id="lpostcode" type="text" name="lpostcode" value="'.$lpostcode.'"><br>';
+            echo '<div><label>Company:</label><br>';
+            echo '<input id="lcompany" type="text" name="lcompany" value="'.$lcompany.'"></div><br>';
+            echo '<div><label>Street Address:</label><br>';
+            echo '<input id="laddress" type="text" name="laddress" value="'.$laddress.'"></div><br>';
+            echo '<div><label>Suburb:</label><br>';
+            echo '<input id="lsuburb" type="text" name="lsuburb" value="'.$lsuburb.'"></div><br>';
+            echo '<div><label>City:</label><br>';
+            echo '<input id="lcity" type="text" name="lcity" value="'.$lcity.'"></div><br>';
+            echo '<div><label>Postcode:</label><br>';
+            echo '<input id="lpostcode" type="text" name="lpostcode" value="'.$lpostcode.'"></div><br>';
 
             ImageBox($imageid);
-            echo '<input id="originalimage" type="text" name="originalimage" value="'.$imageid.'"><br>';
-            
-            
+  
             echo '<h3>Facilitator</h3>';
             echo '<div id="facilitatorbox" style="position:relative">';
                 echo '<input id="facilitator" type="text" name="facilitator" onKeyUp="franchiseinputsearch()">';
@@ -255,7 +254,7 @@ function networkers_group_update() {
 
             regioninput($regions, false);
 
-            echo "<br><br><br><div style='margin-top:-10px' class='networkersbuttom' onclick='newgroup()' >Update</div>";
+            echo "<br><div style='margin-top:-10px' class='networkersbuttom' onclick='newgroup()' >Update</div>";
         echo "</form>";
     echo '</div">';
    

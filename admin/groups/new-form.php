@@ -26,8 +26,8 @@ echo '<div style="display:block" id="networkersbox" class="networkersbox">';
         echo '<label>Group Name:</label><br>';
         echo '<input id="name" type="text" name="name"><br><br>';
 
-        echo '<label>Week Day:</label><br>';
-        echo '<select name="weekday" id="weekday">';
+        echo '<label >Week Day:</label><br>';
+        echo '<select name="weekday" id="weekday" class="select">';
             echo '<option value="monday" selected>Monday</option>';
             echo '<option value="tuesday">Tuesday</option>';
             echo '<option value="wednesday">Wednesday</option>';
@@ -38,7 +38,7 @@ echo '<div style="display:block" id="networkersbox" class="networkersbox">';
         echo '</select><br><br>';
 
         echo '<label>Start at:</label><br>';
-        echo '<div><div style="float:left"><select name="starthour" id="starthour">';
+        echo '<div style="display:flex"><select name="starthour" id="starthour" class="select">';
             echo '<option value="00">00</option>';
             echo '<option value="01">01</option>';
             echo '<option value="02">02</option>';
@@ -52,20 +52,20 @@ echo '<div style="display:block" id="networkersbox" class="networkersbox">';
             echo '<option value="10">10</option>';
             echo '<option value="11">11</option>';
             echo '<option value="12">12</option>';
-        echo '</select></div>';
-        echo '<div style="float:left"><select name="startmin" id="startmin">';
+        echo '</select>';
+        echo '<select name="startmin" id="startmin" class="select">';
             echo '<option value="00" selected>00</option>';
             echo '<option value="15">15</option>';
             echo '<option value="30">30</option>';
             echo '<option value="45">45</option>';
-        echo '</select></div>';
-        echo '<div style="float:left"><select style="float:left" name="starttime" id="starttime">';
+        echo '</select>';
+        echo '<select style="float:left" name="starttime" id="starttime" class="select">';
             echo '<option value="am" selected>am</option>';
             echo '<option value="pm">pm</option>';
-        echo '</select></div></div><br><br>';
+        echo '</select></div><br>';
 
         echo '<label>Finish at:</label><br>';
-        echo '<div><div style="float:left"><select name="finishhour" id="finishhour">';
+        echo '<div style="display:flex"><select name="finishhour" id="finishhour" class="select">';
             echo '<option value="00">00</option>';
             echo '<option value="01">01</option>';
             echo '<option value="02">02</option>';
@@ -79,17 +79,17 @@ echo '<div style="display:block" id="networkersbox" class="networkersbox">';
             echo '<option value="10">10</option>';
             echo '<option value="11">11</option>';
             echo '<option value="12">12</option>';
-        echo '</select></div>';
-        echo '<div style="float:left"><select name="finishmin" id="finishmin">';
+        echo '</select>';
+        echo '<select name="finishmin" id="finishmin" class="select">';
             echo '<option value="00">00</option>';
             echo '<option value="15">15</option>';
             echo '<option value="30" selected>30</option>';
             echo '<option value="45">45</option>';
-        echo '</select></div>';
-        echo '<div style="float:left"><select style="float:left" name="finishtime" id="finishtime">';
+        echo '</select>';
+        echo '<select style="float:left" name="finishtime" id="finishtime" class="select">';
             echo '<option value="am" selected>am</option>';
             echo '<option value="pm">pm</option>';
-        echo '</select></div></div><br><br><br>';
+        echo '</select></div><br><br>';
 
         echo '<label>Description:</label>';
         echo '<div style="max-width:500px">';
@@ -102,17 +102,18 @@ echo '<div style="display:block" id="networkersbox" class="networkersbox">';
             ) );
         echo '</div">';
 
+        
         echo '<h3>Location:</h3>';
-        echo '<label>Company:</label><br>';
-        echo '<input id="lcompany" type="text" name="lcompany"><br>';
-        echo '<label>Street Address:</label><br>';
-        echo '<input id="laddress" type="text" name="laddress"><br>';
-        echo '<label>Suburb:</label><br>';
-        echo '<input id="lsuburb" type="text" name="lsuburb"><br>';
-        echo '<label>City:</label><br>';
-        echo '<input id="lcity" type="text" name="lcity"><br>';
-        echo '<label>Postcode:</label><br>';
-        echo '<input id="lpostcode" type="text" name="lpostcode"><br>';
+        echo '<div><label style="margin-bottom:10px">Company:</label><br>';
+        echo '<input id="lcompany" type="text" name="lcompany"></div><br>';
+        echo '<div><label style="margin-top:10px">Street Address:</label><br>';
+        echo '<input id="laddress" type="text" name="laddress"></div><br>';
+        echo '<div><label style="margin-bottom:5px">Suburb:</label><br>';
+        echo '<input id="lsuburb" type="text" name="lsuburb"></div><br>';
+        echo '<div><label style="margin-bottom:5px">City:</label><br>';
+        echo '<input id="lcity" type="text" name="lcity"></div><br>';
+        echo '<div><label style="margin-bottom:5px">Postcode:</label><br>';
+        echo '<input id="lpostcode" type="text" name="lpostcode"></div><br>';
 
         ImageBox();
 
@@ -140,7 +141,7 @@ echo '<div style="display:block" id="networkersbox" class="networkersbox">';
 
         regioninput($regions, false);
 
-        echo "<br><br><br><div style='margin-top:-10px' class='networkersbuttom' onclick='newgroup()' >Create</div>";
+        echo "<br><div style='margin-top:-10px' class='networkersbuttom' onclick='newgroup()' >Create</div>";
     echo "</form>";
 echo "</div>";
 

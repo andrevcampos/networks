@@ -14,7 +14,7 @@ Text Domain: bm_networks
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/groups/group.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/industry.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/profile.php';
-include ABSPATH . '/wp-content/plugins/thenetworks/admin/region.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/regions/region.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/members.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/franchisees.php';
 
@@ -35,7 +35,7 @@ function my_menu_networkers(){
             add_menu_page('Groups', 'Groups', 'the_networkers', 'networkers-group', 'networkers_group', null, 7 );
             add_submenu_page( 'networkers-group',  'New Group', 'New Group', 'the_networkers', 'networkers-group-new', 'networkers_group_new' );
             add_submenu_page( null,  'Update Group', 'Update Group', 'the_networkers', 'networkers-group-update', 'networkers_group_update' );
-            add_submenu_page( null,  'Delete Group', 'Delete Group', 'the_networkers', 'networkers-group-delete', 'networkers_group_delete' );
+            //add_submenu_page( null,  'Delete Group', 'Delete Group', 'the_networkers', 'networkers-group-delete', 'networkers_group_delete' );
       }
       // Industry 
       if ($user_role == 'administrator'){
@@ -47,6 +47,7 @@ function my_menu_networkers(){
       if ($user_role == 'administrator'){
             add_menu_page('Region', 'Region', 'network_region', 'networkers-region', 'networkers_region', null, 7 );
             add_submenu_page( 'networkers-region',  'New Region', 'New Region', 'network_region', 'network-region-new', 'network_region_new' );
+            add_submenu_page( null,  'Update Region', 'Update Region', 'the_networkers', 'networkers-region-update', 'networkers_region_update' );
       }
       // Member
       if ($user_role == 'franchise' || $user_role == 'administrator'){
@@ -60,6 +61,7 @@ function my_menu_networkers(){
             add_submenu_page( 'networkers-franchisees',  'Update Franchise', 'Update Franchise', 'network_franchise', 'networkers-franchisees-update', 'networkers_franchisees_update');
       }
 }
+
 
 // Remove Profile from Franchise from left menu
 function remove_profile_menu() {

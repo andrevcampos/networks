@@ -12,6 +12,7 @@
             echo "<div id='imagebox' style='width:100%;display:block;margin-top:20px'><img id='groupimg' src='/wp-content/uploads/$url' height='150'></div>";
             echo "<div id='imageremovebutton' onclick='removeimage()' class='smallbuttom' style='display:block;'>Remove</div>";
         }
+            echo '<input style="display:none" id="originalimage" type="text" name="originalimage" value="'.$imageid.'"><br>';
         echo "</div>";
     }
 ?>
