@@ -1,6 +1,6 @@
 <?php
 
-    include '../../../../wp-load.php';
+    include '../../../../../wp-load.php';
 
     $name = $_POST["name"];
 

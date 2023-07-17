@@ -5,9 +5,6 @@ include ABSPATH . '/wp-content/plugins/thenetworks/admin/regions/update-form.php
 
 function networkers_region() {
 
-    $plugin_url = plugin_dir_url( __FILE__ );
-    $removeurl = $plugin_url . 'delete.php';
-    $editurl = $plugin_url . 'update.php';
     wp_enqueue_style( 'membercss', plugins_url() . '/thenetworks/public/css/admin.css');
     wp_enqueue_script( 'js', plugins_url() . '/thenetworks/public/js/js.js' );
 
@@ -17,8 +14,6 @@ function networkers_region() {
     $message = $_GET["message"];
     $messagetitle = $_GET["messagetitle"];
     
-    //if(!$message){
-
     $exampleListTable = new Region_List_Table();
     $exampleListTable->prepare_items();
     echo '<div id="networkersbox" class="wrap">';
@@ -27,28 +22,6 @@ function networkers_region() {
         echo '<h2>Region List</h2>';
         $exampleListTable->display();
     echo '</div>';
-
-    // echo '<div id="regionremove" style="display:none" class="wrap">';
-    //     echo '<h2>Remove Region</h2>';
-    //     echo '<h3 id="textregionremove">Region Name: </h3>';
-    //     echo '<p>Type DELETE to remove this region</p>';
-    //     echo '<input id="inputremoveregion" type="text" name="inputremoveregion" onKeyUp="regionremovecheck()">';
-    //     echo "<form id='myFormRemove' action='$removeurl' method='post'>";
-    //         echo '<input id="regionremoveid" type="text" name="regionremoveid" style="display:none" value="">';
-    //         echo "<button type='submit' id='buttonremoveregion' style='display:none;cursor:pointer;padding:10px;background-color:#d63638;color:white;width:100px;height:40px;text-align:center;margin-top:20px'>Remove</button>";
-    //     echo '</form>';
-    //     echo "<div id='buttongobackregion' onclick='regiongoback()' style='display:block;cursor: pointer;padding:10px;background-color:#6495ed;color:white;width:100px;height:20px;text-align:center;margin-top:20px'>Go Back</div>";
-    // echo '</div>';
-
-
-
-    // }else{
-    //     echo '<div id="regionmessage" style="display:block" >';
-    //         echo "<h2>$messagetitle</h2>";
-    //         echo "<h4>$message</h4>";
-    //     echo '</div>';
-    // }
-
 }
 
 
@@ -98,10 +71,13 @@ class Region_List_Table extends WP_List_Table
 
     function column_name($item)
     {
+        $plugin_url = plugin_dir_url( __FILE__ );
+        $removeurl = $plugin_url . 'delete.php';
         $actions = array(
+            
             'edit' => sprintf('<a href="?page=networkers-region-update&id=%s">%s</a>', $item['id'], __('Edit', 'cltd_example')),
-            //'delete' => sprintf('<div style="display: inline-block;color:red;cursor: pointer;" onclick="PopupRemoveBox(\'Remove Group\',%s,\'%s\',\'%s\')">Remove</div>',  $item['id'], $item['name'], $removeurl),
-            'delete' => sprintf('<div style="display: inline-block;color:red;cursor: pointer;" onclick="regionremovebox(%s,\'%s\')">Remove</div>',  $item['id'],  $item['name']),
+            'delete' => sprintf('<div style="display: inline-block;color:red;cursor: pointer;" onclick="PopupRemoveBox(\'Remove Region\',%s,\'%s\',\'%s\')">Remove</div>',  $item['id'], $item['name'], $removeurl),
+            //'delete' => sprintf('<div style="display: inline-block;color:red;cursor: pointer;" onclick="regionremovebox(%s,\'%s\')">Remove</div>',  $item['id'],  $item['name']),
         );
 
         return sprintf('%s %s',
@@ -113,7 +89,7 @@ class Region_List_Table extends WP_List_Table
 
     public function get_hidden_columns()
     {
-        return array();
+        return array('id');
     }
 
     public function get_sortable_columns()

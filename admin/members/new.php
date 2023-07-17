@@ -1,8 +1,7 @@
 <?php
 
-    include '../../../../wp-load.php';
+    include '../../../../../wp-load.php';
 
-    $id = $_POST["networkersid"];
     $name = $_POST["name"];
 
     global $user_ID, $wpdb;
@@ -15,7 +14,7 @@
     $wpdb->query( $query );
 
     if ( $wpdb->num_rows ) {
-        $url = admin_url('admin.php?page=networkers-industry&messagetitle=Duplicate Registration&message=The Industry name has already been taken.');
+        $url = admin_url('admin.php?page=network-region-new&messagetitle=Duplicate Registration&message=The region title has already been taken.');
         header("Location: $url"); 
         exit();
     }
@@ -30,14 +29,16 @@
     $regionslug = "region-".$slug;
 
     $my_post = array(
-        'ID'           => $id,
-        'post_title'   => $name,
-        'post_name'    => $regionslug,
+    'post_title'    => $name,
+    'post_status'   => 'publish',
+    'post_author'   => 1,
+    'post_type'   => 'network-region',
+    'post_name'   => $regionslug,
     );
-  
-    wp_update_post( $my_post );
 
-    $url = admin_url('admin.php?page=networkers-industry');
+    wp_insert_post( $my_post );
+
+    $url = admin_url('admin.php?page=networkers-region');
     header("Location: $url"); 
     exit();
     

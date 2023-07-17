@@ -74,10 +74,10 @@
                 // Single selection will check if it needs to be displayed or not.
                 $regiondisplay = (count($regionselected) == 0) ? "display:block" : "display:none";
                 echo '<p id="regiontext01" style="' . $regiondisplay . '">Please Search the Region</p>';
-                echo '<p id="regiontext02" style="' . $regiondisplay . '"></p><br><br>';
+                echo '<p id="regiontext02" style="' . $regiondisplay . '"></p><br>';
             } else {
                 echo '<p id="regiontext01">Please Search the Region(s)</p>';
-                echo '<p id="regiontext02">You can add multiple Regions</p><br><br>';
+                echo '<p id="regiontext02">You can add multiple Regions</p><br>';
             }
 
         }else{
@@ -89,7 +89,7 @@
                         echo "<input class='inputregion' type='text' value='$post->post_title' name='region[]' style='width:100%;' readonly>";
                     echo '</div>';
                 }
-            echo '</div><br><br>';
+            echo '</div><br>';
         }
     
     }

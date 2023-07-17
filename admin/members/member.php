@@ -1,9 +1,9 @@
 <?php
 
-include ABSPATH . '/wp-content/plugins/thenetworks/admin/groups/new-form.php';
-include ABSPATH . '/wp-content/plugins/thenetworks/admin/groups/update-form.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/members/new-form.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/members/update-form.php';
 
-function networkers_group() {
+function networkers_members() {
 
     wp_enqueue_style( 'membercss', plugins_url() . '/thenetworks/public/css/admin.css');
     wp_enqueue_script( 'js', plugins_url() . '/thenetworks/public/js/js.js' );
@@ -11,18 +11,17 @@ function networkers_group() {
     //POPUP MESSAGE BOX
     include ABSPATH . '/wp-content/plugins/thenetworks/admin/function/popup.php';
 
-    $exampleListTable = new Group_List_Table();
+    $exampleListTable = new Member_List_Table();
     $exampleListTable->prepare_items();
     echo '<div id="networkersbox" class="wrap">';
         echo '<h1>The Networkers</h1><br>';
         echo '<div id="icon-users" class="icon32"></div>';
-        echo '<h2>Group List</h2>';
+        echo '<h2>Member List</h2>';
         $exampleListTable->display();
     echo '</div>';
-    
 }
 
-//Table List
+
 if( ! class_exists( 'WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
@@ -30,7 +29,7 @@ if( ! class_exists( 'WP_List_Table' ) ) {
 /**
  * Create a new table class that will extend the WP_List_Table
  */
-class Group_List_Table extends WP_List_Table
+class Member_List_Table extends WP_List_Table
 {
 
     public function prepare_items()
@@ -63,10 +62,9 @@ class Group_List_Table extends WP_List_Table
         $columns = array(
             'id' => 'ID',
             'name' => 'Name',
-            'region' => 'Region',
-            'time' => 'Time',
-            'city' => 'City',
-            'facilitator' => 'Facilitator',
+            'business' => 'Business',
+            'phone' => 'Phone',
+            'email' => 'Email',
         );
         return $columns;
     }
@@ -76,8 +74,10 @@ class Group_List_Table extends WP_List_Table
         $plugin_url = plugin_dir_url( __FILE__ );
         $removeurl = $plugin_url . 'delete.php';
         $actions = array(
-            'edit' => sprintf('<a href="?page=networkers-group-update&id=%s">%s</a>', $item['id'], __('Edit', 'cltd_example')),
-            'delete' => sprintf('<div style="display: inline-block;color:red;cursor: pointer;" onclick="PopupRemoveBox(\'Remove Group\',%s,\'%s\',\'%s\')">Remove</div>',  $item['id'], $item['name'], $removeurl),
+            
+            'edit' => sprintf('<a href="?page=networkers-region-update&id=%s">%s</a>', $item['id'], __('Edit', 'cltd_example')),
+            'delete' => sprintf('<div style="display: inline-block;color:red;cursor: pointer;" onclick="PopupRemoveBox(\'Remove Region\',%s,\'%s\',\'%s\')">Remove</div>',  $item['id'], $item['name'], $removeurl),
+            //'delete' => sprintf('<div style="display: inline-block;color:red;cursor: pointer;" onclick="regionremovebox(%s,\'%s\')">Remove</div>',  $item['id'],  $item['name']),
         );
 
         return sprintf('%s %s',
@@ -94,51 +94,27 @@ class Group_List_Table extends WP_List_Table
 
     public function get_sortable_columns()
     {
-        return array('name' => array('name', false),'region' => array('region', false));
+        return array('name' => array('name', false),'business' => array('business', false));
     }
 
   
     private function table_data()
     {
-        //check user role
-        $user = wp_get_current_user();
-        $roles = ( array ) $user->roles;
-        $user_role = $roles[0];
-
         $args = array(
-            'post_type' => "network-group",
+            'post_type' => "network-member",
             'posts_per_page' => -1
           );
         $latest_posts = get_posts( $args );
         $data = array();
         if(count($latest_posts) > 0 ){
             foreach($latest_posts as $post) {
-                
-                $weekday = get_post_meta( $post->ID, 'weekday', true );
-                $start = get_post_meta( $post->ID, 'start', true );
-                $finsh = get_post_meta( $post->ID, 'finsh', true );
-                $time = $weekday . " " . $start . " - " . $finsh;
-                $city = get_post_meta( $post->ID, 'lcity', true );
-
-                $regions = get_post_meta( $post->ID, 'regions', true );
-                $regions = get_post_meta( $post->ID, 'regions', true );
-                $regionname = get_post( $regions )->post_title;
-
-                $facilitator = get_post_meta( $post->ID, 'facilitator', true );
-
-                //Dont have permition
-                if ($user_role == 'franchise'){
-                    $userregionids = get_user_meta( $user->ID, 'region', false );
-                    if (!in_array($regions, $userregionids)) continue;
-                }
-
+                $phone = get_post_meta( $post->ID, 'phone', true );
+                $email = get_post_meta( $post->ID, 'email', true );
                 $data2 = array(
                     'id' => $post->ID,
                     'name' => $post->post_title,
-                    'region' => $regionname,
-                    'time' => $time,
-                    'city' => $city,
-                    'facilitator' => $facilitator,
+                    'phone' => $phone,
+                    'email' => $email,
                     );
                 array_push($data, $data2);
             }
@@ -151,10 +127,8 @@ class Group_List_Table extends WP_List_Table
         switch( $column_name ) {
             case 'id':
             case 'name':
-            case 'region':
-            case 'time':
-            case 'city':
-            case 'facilitator':
+            case 'phone':
+            case 'email':
                 return $item[ $column_name ];
 
             default:

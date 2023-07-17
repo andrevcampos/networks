@@ -1,6 +1,6 @@
 <?php
 
-function networkers_region_update() {
+function networkers_industry_update() {
 
 
     include '../../../../../wp-load.php';
@@ -13,16 +13,16 @@ function networkers_region_update() {
     //POPUP MESSAGE BOX
     include ABSPATH . '/wp-content/plugins/thenetworks/admin/function/popup.php';
 
-    $regionid = $_GET['id'];
-    $region = get_post($regionid);
-    $title = $region->post_title;
+    $industryid = $_GET['id'];
+    $industry = get_post($industryid);
+    $title = $industry->post_title;
 
     echo '<div style="display:block" id="networkersbox" class="networkersbox">';
         echo "<form id='myForm' action='$editurl' method='post'>";
             echo '<div class="wrap">';
-                echo '<h2>Edit Region</h2>';
+                echo '<h2>Edit Industry</h2>';
             echo '</div><br><br>';
-            echo '<input id="editregionid" type="text" name="editregionid" readonly style="display:none" value="'.$regionid.'">';
+            echo '<input id="editregionid" type="text" name="editregionid" readonly style="display:none" value="'.$industryid.'">';
             echo '<label>Name:</label><br>';
             echo '<input id="name" type="text" name="editregionname" value="'.$title.'">';
             echo "<br><br><div class='networkersbuttom' onclick='newregion()' >Update</div>";

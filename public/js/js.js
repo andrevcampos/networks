@@ -45,7 +45,7 @@ function franchisegoback() {
     document.getElementById('memberbox').style = "display:block"
 }
 
-function newfranchise(url) {
+function newfranchise() {
 
     var login = document.getElementById('login').value;
     var password = document.getElementById('password').value;
@@ -110,7 +110,7 @@ function newfranchise(url) {
 
 }
 
-function updatefranchise(url) {
+function updatefranchise() {
 
     var password = document.getElementById('password').value;
     var firstName = document.getElementById('firstName').value;
@@ -231,12 +231,12 @@ function removeregion(index) {
 
 //REGION --------------------------------------------------------------
 
-function newregion(url) {
+function newregion() {
     var name = document.getElementById('name').value;
 
     if(name.length < 5){
-        document.getElementById('messagetitle').innerHTML = "Error"
-        document.getElementById('message').innerHTML = "Name must have 5 characters long."
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration"
+        document.getElementById('message').innerHTML = "Name must have 3 characters long."
         document.getElementById('popupbox').style = "display:block"
         window.scrollTo(0, 0);
         return;
@@ -520,9 +520,10 @@ function PopupRemoveBox(title, id, name, url) {
     document.getElementById('popupRemoveTitle').innerHTML = title;
     document.getElementById('popupRemoveName').innerHTML = name;
     document.getElementById('popupRemoveForm').action = url;
-    document.getElementById('popupRemoveID').innerHTML = id;
+    document.getElementById('popupRemoveID').value = id;
     document.getElementById('popupRemoveBox').style = "display:block"
     document.getElementById('networkersbox').style = "display:none"
+    console.log("url " + url + "?" + id)
 }
 
 function PopupRemoveGoback() {

@@ -12,11 +12,11 @@ Text Domain: bm_networks
 
 //include ABSPATH . '/wp-content/plugins/thenetworks/members/new.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/groups/group.php';
-include ABSPATH . '/wp-content/plugins/thenetworks/admin/industry.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/industry/industry.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/profile.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/regions/region.php';
-include ABSPATH . '/wp-content/plugins/thenetworks/admin/members.php';
-include ABSPATH . '/wp-content/plugins/thenetworks/admin/franchisees.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/members/member.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/franchise/franchise.php';
 
 // Add button to wordpress admin menu.
 add_action('admin_menu', 'my_menu_networkers');
@@ -35,30 +35,30 @@ function my_menu_networkers(){
             add_menu_page('Groups', 'Groups', 'the_networkers', 'networkers-group', 'networkers_group', null, 7 );
             add_submenu_page( 'networkers-group',  'New Group', 'New Group', 'the_networkers', 'networkers-group-new', 'networkers_group_new' );
             add_submenu_page( null,  'Update Group', 'Update Group', 'the_networkers', 'networkers-group-update', 'networkers_group_update' );
-            //add_submenu_page( null,  'Delete Group', 'Delete Group', 'the_networkers', 'networkers-group-delete', 'networkers_group_delete' );
       }
       // Industry 
       if ($user_role == 'administrator'){
             add_menu_page('Industries', 'Industries', 'the_networkers', 'networkers-industry', 'networkers_industry', null, 7 );
-            add_submenu_page( 'networkers-industry',  'New Industry', 'New Industry', 'the_networkers', 'networkers-industry-new', 'networkers_industry_new' );
+            add_submenu_page( 'networkers-industry',  'New Industry', 'New Industry', 'the_networkers', 'networkers-industry-new', 'network_industry_new' );
             add_submenu_page( null,  'Update Industry', 'Update Industry', 'the_networkers', 'networkers-industry-update', 'networkers_industry_update' );
       }
       // Region 
       if ($user_role == 'administrator'){
-            add_menu_page('Region', 'Region', 'network_region', 'networkers-region', 'networkers_region', null, 7 );
-            add_submenu_page( 'networkers-region',  'New Region', 'New Region', 'network_region', 'network-region-new', 'network_region_new' );
+            add_menu_page('Region', 'Region', 'the_networkers', 'networkers-region', 'networkers_region', null, 7 );
+            add_submenu_page( 'networkers-region',  'New Region', 'New Region', 'the_networkers', 'network-region-new', 'network_region_new' );
             add_submenu_page( null,  'Update Region', 'Update Region', 'the_networkers', 'networkers-region-update', 'networkers_region_update' );
       }
       // Member
       if ($user_role == 'franchise' || $user_role == 'administrator'){
-            add_menu_page('Members', 'Members', 'network_members', 'my_menu_networkers_members', 'my_menu_networkers_members', null, 7 );
-            add_submenu_page( 'my_menu_networkers_members',  'New Members', 'New Members', 'network_members', 'network_members', 'networkers_members_new' );
+            add_menu_page('Members', 'Members', 'the_networkers', 'networkers-members', 'networkers_members', null, 7 );
+            add_submenu_page( 'networkers-members',  'New Member', 'New Member', 'the_networkers', 'network-members-new', 'network_members_new' );
+            add_submenu_page( null,  'Update Member', 'Update Member', 'the_networkers', 'networkers-members-update', 'networkers_members_update' );
       }
       //Franchisees
       if ($user_role == 'administrator'){
-            add_menu_page('Franchisees', 'Franchisees', 'network_franchise', 'networkers-franchisees', 'networkers_franchisees', null, 7 );
-            add_submenu_page( 'networkers-franchisees',  'New Franchise', 'New Franchise', 'network_franchise', 'networkers-franchisees-new', 'networkers_franchisees_new' );
-            add_submenu_page( 'networkers-franchisees',  'Update Franchise', 'Update Franchise', 'network_franchise', 'networkers-franchisees-update', 'networkers_franchisees_update');
+            add_menu_page('Franchise', 'Franchise', 'the_networkers', 'networkers-franchise', 'networkers_franchise', null, 7 );
+            add_submenu_page( 'networkers-franchise',  'New Franchise', 'New Franchise', 'the_networkers', 'network-franchise-new', 'networkers_franchise_new' );
+            add_submenu_page( null,  'Update Franchise', 'Update Franchise', 'the_networkers', 'networkers-franchise-update', 'networkers_franchise_update' );
       }
 }
 

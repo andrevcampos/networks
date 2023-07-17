@@ -1,6 +1,6 @@
 <?php
 
-function networkers_region_update() {
+function networkers_members_update() {
 
 
     include '../../../../../wp-load.php';

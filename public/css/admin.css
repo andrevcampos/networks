@@ -1,4 +1,37 @@
 
+.bg-info{
+    background-color: #17a2b8 !important;
+}
+.bg-success{
+    background-color: #28a745 !important;
+}
+.bg-danger{
+    background-color: #f7f7f9 !important;
+}
+.bg-warning{
+    background-color: #ffc107 !important;
+}
+.bg-primary{
+    background-color: #343a40 !important;
+}
+.bg-danger{
+    background-color: brown !important;
+}
+.d-block{
+    display:block;
+}
+.d-flex{
+    display:flex;
+}
+.m-0{
+    margin:0px;
+}
+.p-0{
+    padding:0px;
+}
+label{
+    cursor:auto;
+}
 .networkersbox {
     width:100%;
     max-width:600px;
@@ -7,7 +40,6 @@
     display: inline-block;
     padding: 5px;
     width:100%;
-    max-width:500px;
     margin-top:5px;
 }
 .networkersbox .select {
@@ -28,7 +60,6 @@
     color:white;
     font-size:16px;
     margin-top: 10px;
-    margin-bottom: 30px;
     padding:10px;
     background-color: cornflowerblue;
     border-radius:4px;
@@ -104,9 +135,8 @@
     left:0;
     top:40px;
     max-height:125px;
-    width:497px;
+    width: calc(100% - 3px);
     margin-left:3px;
-    background-color: pink;
 }
 .hideinputinside{
     display:none;
@@ -192,6 +222,9 @@
     border-left-style: solid;
     border-left-color: coral;
 }
+.messagealert-red{
+    border-left-color: brown;
+}
 
 /* IMAGE ---------------------- */
 
@@ -199,3 +232,15 @@
     margin-top:40px;
 }
 
+/* MEMBERS */
+
+.memberlogobox{
+    background-color: white;
+    padding:20px;
+    
+}
+
+.social_media_box{
+    background-color: rgb(209, 209, 209) !important;
+    padding:10px;
+}

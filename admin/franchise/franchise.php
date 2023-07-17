@@ -1,9 +1,9 @@
 <?php
 
-include ABSPATH . '/wp-content/plugins/thenetworks/admin/groups/new-form.php';
-include ABSPATH . '/wp-content/plugins/thenetworks/admin/groups/update-form.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/franchise/new-form.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/franchise/update-form.php';
 
-function networkers_group() {
+function networkers_franchise() {
 
     wp_enqueue_style( 'membercss', plugins_url() . '/thenetworks/public/css/admin.css');
     wp_enqueue_script( 'js', plugins_url() . '/thenetworks/public/js/js.js' );
@@ -11,18 +11,17 @@ function networkers_group() {
     //POPUP MESSAGE BOX
     include ABSPATH . '/wp-content/plugins/thenetworks/admin/function/popup.php';
 
-    $exampleListTable = new Group_List_Table();
+    $exampleListTable = new Example_List_Table();
     $exampleListTable->prepare_items();
     echo '<div id="networkersbox" class="wrap">';
         echo '<h1>The Networkers</h1><br>';
         echo '<div id="icon-users" class="icon32"></div>';
-        echo '<h2>Group List</h2>';
+        echo '<h2>Franchise List</h2>';
         $exampleListTable->display();
     echo '</div>';
     
 }
 
-//Table List
 if( ! class_exists( 'WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
@@ -30,7 +29,7 @@ if( ! class_exists( 'WP_List_Table' ) ) {
 /**
  * Create a new table class that will extend the WP_List_Table
  */
-class Group_List_Table extends WP_List_Table
+class Example_List_Table extends WP_List_Table
 {
 
     public function prepare_items()
@@ -57,104 +56,111 @@ class Group_List_Table extends WP_List_Table
         $this->items = $data;
     }
 
-
+    /**
+     * Override the parent columns method. Defines the columns to use in your listing table
+     *
+     * @return Array
+     */
     public function get_columns()
     {
         $columns = array(
             'id' => 'ID',
-            'name' => 'Name',
-            'region' => 'Region',
-            'time' => 'Time',
-            'city' => 'City',
-            'facilitator' => 'Facilitator',
+            'login' => 'Login',
+            'first_name' => 'First Name',
+            'last_name' => 'Last Name',
+            'email' => 'Email',
+            'phone' => 'Phone',
         );
+
         return $columns;
     }
 
-    function column_name($item)
+    function column_login($item)
     {
         $plugin_url = plugin_dir_url( __FILE__ );
         $removeurl = $plugin_url . 'delete.php';
         $actions = array(
-            'edit' => sprintf('<a href="?page=networkers-group-update&id=%s">%s</a>', $item['id'], __('Edit', 'cltd_example')),
-            'delete' => sprintf('<div style="display: inline-block;color:red;cursor: pointer;" onclick="PopupRemoveBox(\'Remove Group\',%s,\'%s\',\'%s\')">Remove</div>',  $item['id'], $item['name'], $removeurl),
+            'edit' => sprintf('<a href="?page=networkers-franchise-update&id=%s">%s</a>', $item['id'], __('Edit', 'cltd_example')),
+            'delete' => sprintf('<div style="display: inline-block;color:red;cursor: pointer;" onclick="PopupRemoveBox(\'Remove Franchise\',%s,\'%s\',\'%s\')">Remove</div>',  $item['id'], $item['login'], $removeurl),
         );
 
         return sprintf('%s %s',
-            $item['name'],
+            $item['login'],
             $this->row_actions($actions)
         );
 
     }
 
+    
+
+    /**
+     * Define which columns are hidden
+     *
+     * @return Array
+     */
     public function get_hidden_columns()
     {
-        return array('id');
+        return array();
     }
 
+    /**
+     * Define the sortable columns
+     *
+     * @return Array
+     */
     public function get_sortable_columns()
     {
-        return array('name' => array('name', false),'region' => array('region', false));
+        return array('id' => array('id', false));
     }
 
   
     private function table_data()
     {
-        //check user role
-        $user = wp_get_current_user();
-        $roles = ( array ) $user->roles;
-        $user_role = $roles[0];
-
         $args = array(
-            'post_type' => "network-group",
-            'posts_per_page' => -1
+            'role' => "franchise",
+            'orderby' => "display_name",
+            'order' => "ASC"
           );
-        $latest_posts = get_posts( $args );
+        $latest_posts = get_users( $args );
         $data = array();
         if(count($latest_posts) > 0 ){
             foreach($latest_posts as $post) {
-                
-                $weekday = get_post_meta( $post->ID, 'weekday', true );
-                $start = get_post_meta( $post->ID, 'start', true );
-                $finsh = get_post_meta( $post->ID, 'finsh', true );
-                $time = $weekday . " " . $start . " - " . $finsh;
-                $city = get_post_meta( $post->ID, 'lcity', true );
-
-                $regions = get_post_meta( $post->ID, 'regions', true );
-                $regions = get_post_meta( $post->ID, 'regions', true );
-                $regionname = get_post( $regions )->post_title;
-
-                $facilitator = get_post_meta( $post->ID, 'facilitator', true );
-
-                //Dont have permition
-                if ($user_role == 'franchise'){
-                    $userregionids = get_user_meta( $user->ID, 'region', false );
-                    if (!in_array($regions, $userregionids)) continue;
-                }
-
+                $first_name = get_user_meta( $post->ID, 'first_name', true );
+                $last_name = get_user_meta( $post->ID, 'last_name', true );
+                $phone = get_user_meta( $post->ID, 'phone', true );
                 $data2 = array(
                     'id' => $post->ID,
-                    'name' => $post->post_title,
-                    'region' => $regionname,
-                    'time' => $time,
-                    'city' => $city,
-                    'facilitator' => $facilitator,
+                    'first_name' => $first_name,
+                    'last_name' => $last_name,
+                    'login' => $post->user_login,
+                    'email' => $post->user_email,
+                    'phone' => $phone,
                     );
                 array_push($data, $data2);
             }
+            
         }
+
         return $data;
     }
 
+    /**
+     * Define what data to show on each column of the table
+     *
+     * @param  Array $item        Data
+     * @param  String $column_name - Current column name
+     *
+     * @return Mixed
+     */
     public function column_default( $item, $column_name )
     {
         switch( $column_name ) {
             case 'id':
-            case 'name':
-            case 'region':
-            case 'time':
-            case 'city':
-            case 'facilitator':
+            case 'login':
+            case 'first_name':
+            case 'last_name':
+            case 'email':
+            case 'phone':
                 return $item[ $column_name ];
 
             default:
@@ -162,6 +168,11 @@ class Group_List_Table extends WP_List_Table
         }
     }
 
+    /**
+     * Allows you to sort the data by the variables set in the $_GET
+     *
+     * @return Mixed
+     */
     private function sort_data( $a, $b )
     {
         // Set defaults

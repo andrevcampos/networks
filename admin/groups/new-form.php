@@ -21,7 +21,7 @@ echo '<div style="display:block" id="networkersbox" class="networkersbox">';
     echo "<form id='myForm' action='$url' method='post' enctype='multipart/form-data'>";
         echo '<div class="wrap">';
             echo '<h2>New Group</h2>';
-        echo '</div><br>';
+        echo '</div><br><br>';
 
         echo '<label>Group Name:</label><br>';
         echo '<input id="name" type="text" name="name"><br><br>';
@@ -92,7 +92,7 @@ echo '<div style="display:block" id="networkersbox" class="networkersbox">';
         echo '</select></div><br><br>';
 
         echo '<label>Description:</label>';
-        echo '<div style="max-width:500px">';
+        echo '<div style="max-width:100%">';
             wp_editor( $my_option , 'my_option', array(
                 'wpautop'       => true,
                 'media_buttons' => false,
@@ -113,11 +113,11 @@ echo '<div style="display:block" id="networkersbox" class="networkersbox">';
         echo '<div><label style="margin-bottom:5px">City:</label><br>';
         echo '<input id="lcity" type="text" name="lcity"></div><br>';
         echo '<div><label style="margin-bottom:5px">Postcode:</label><br>';
-        echo '<input id="lpostcode" type="text" name="lpostcode"></div><br>';
+        echo '<input id="lpostcode" type="text" name="lpostcode"></div>';
 
         ImageBox();
 
-        echo '<br><br><h3>Facilitator</h3>';
+        echo '<br><h3>Facilitator</h3>';
         echo '<div id="facilitatorbox" style="position:relative">';
             echo '<input id="facilitator" type="text" name="facilitator" onKeyUp="franchiseinputsearch()">';
             echo '<div class="hideinput">';
@@ -141,7 +141,7 @@ echo '<div style="display:block" id="networkersbox" class="networkersbox">';
 
         regioninput($regions, false);
 
-        echo "<br><div style='margin-top:-10px' class='networkersbuttom' onclick='newgroup()' >Create</div>";
+        echo "<div class='networkersbuttom' onclick='newgroup()' >Create</div>";
     echo "</form>";
 echo "</div>";
 

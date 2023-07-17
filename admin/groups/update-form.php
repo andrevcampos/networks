@@ -51,7 +51,7 @@ function networkers_group_update() {
         echo "<form id='myForm' action='$url' method='post' enctype='multipart/form-data'>";
             echo '<div class="wrap">';
                 echo '<h2>Edit Group</h2>';
-            echo '</div><br>';
+            echo '</div><br><br>';
 
             echo '<label>Group Name:</label><br>';
             echo "<input id='name' type='text' name='name' value='$title'><br><br>";
@@ -206,7 +206,7 @@ function networkers_group_update() {
             echo '</select></div><br><br>';
 
             echo '<label>Description:</label>';
-            echo '<div style="max-width:500px">';
+            echo '<div style="max-width:100%">';
                 wp_editor( $description , 'my_option', array(
                     'wpautop'       => true,
                     'media_buttons' => false,
@@ -254,7 +254,7 @@ function networkers_group_update() {
 
             regioninput($regions, false);
 
-            echo "<br><div style='margin-top:-10px' class='networkersbuttom' onclick='newgroup()' >Update</div>";
+            echo "<br><div class='networkersbuttom' onclick='newgroup()' >Update</div>";
         echo "</form>";
     echo '</div">';
    
