@@ -2,11 +2,6 @@
 
 // NETWORKERS -------------------------------------------------------------
 
-
-
-
-
-
 function checkemail(email) {
     const regexExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
     return regexExp.test(email);
@@ -17,7 +12,7 @@ function addnewphone() {
     var addList = document.getElementById('memberphone');
     var text = document.createElement('div');
     text.className = "phonediv";
-    text.innerHTML = '<input class="phone" type="text" style="width:calc(100% - 80px)"><div class="memberphoneremove" onclick="removephone(this)">X</div><br>';
+    text.innerHTML = '<input class="phone" name="phone[]" type="text" style="width:calc(100% - 80px)"><div class="memberphoneremove" onclick="removephone(this)">X</div><br>';
     addList.appendChild(text);
 }
 function removephone(index) {
@@ -55,53 +50,53 @@ function newfranchise() {
     var phone = document.getElementById('phone').value;
 
     if(!login || !password || !firstName || !lastName || !email || !phone){
-        document.getElementById('messagetitle').innerHTML = "Error";
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
         document.getElementById('message').innerHTML = "All Field are required.";
-        document.getElementById('regionmessage').style = "display:block"
-        document.getElementById('memberbox').style = "display:none"
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
         return;
     }
     
     if(login.length < 8){
-        document.getElementById('messagetitle').innerHTML = "Error"
-        document.getElementById('message').innerHTML = "Username must have 8 characters long"
-        document.getElementById('regionmessage').style = "display:block"
-        document.getElementById('memberbox').style = "display:none"
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
+        document.getElementById('message').innerHTML = "Username must have 8 characters long";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
         return;
     }
     if(password.length < 8){
-        document.getElementById('messagetitle').innerHTML = "Error"
-        document.getElementById('message').innerHTML = "password must have 8 characters long"
-        document.getElementById('regionmessage').style = "display:block"
-        document.getElementById('memberbox').style = "display:none"
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
+        document.getElementById('message').innerHTML = "password must have 8 characters long";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
         return;
     }
     if(firstName.length < 3){
-        document.getElementById('messagetitle').innerHTML = "Error"
-        document.getElementById('message').innerHTML = "First name is too short."
-        document.getElementById('regionmessage').style = "display:block"
-        document.getElementById('memberbox').style = "display:none"
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
+        document.getElementById('message').innerHTML = "First name is too short.";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
         return;
     }
     if(lastName.length < 3){
-        document.getElementById('messagetitle').innerHTML = "Error"
-        document.getElementById('message').innerHTML = "Last name is too short."
-        document.getElementById('regionmessage').style = "display:block"
-        document.getElementById('memberbox').style = "display:none"
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
+        document.getElementById('message').innerHTML = "Last name is too short.";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
         return;
     }
     if(phone.length < 8){
-        document.getElementById('messagetitle').innerHTML = "Error"
-        document.getElementById('message').innerHTML = "Invalid phone number."
-        document.getElementById('regionmessage').style = "display:block"
-        document.getElementById('memberbox').style = "display:none"
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
+        document.getElementById('message').innerHTML = "Invalid phone number.";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
         return;
     }
     if(!checkemail(email)){
-        document.getElementById('messagetitle').innerHTML = "Error"
-        document.getElementById('message').innerHTML = "Invalid email address."
-        document.getElementById('regionmessage').style = "display:block"
-        document.getElementById('memberbox').style = "display:none"
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
+        document.getElementById('message').innerHTML = "Invalid email address.";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
         return;
     }
 
@@ -119,46 +114,46 @@ function updatefranchise() {
     var phone = document.getElementById('phone').value;
 
     if(!firstName || !lastName || !email || !phone){
-        document.getElementById('messagetitle').innerHTML = "Error";
+        document.getElementById('messagetitle').innerHTML = "Unable to Update Franchise";
         document.getElementById('message').innerHTML = "All Field are required.";
-        document.getElementById('regionmessage').style = "display:block"
-        document.getElementById('memberbox').style = "display:none"
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
         return;
     }
     
     if(password.length > 1 && password.length < 8){
-        document.getElementById('messagetitle').innerHTML = "Error"
-        document.getElementById('message').innerHTML = "password must have 8 characters long"
-        document.getElementById('regionmessage').style = "display:block"
-        document.getElementById('memberbox').style = "display:none"
+        document.getElementById('messagetitle').innerHTML = "Unable to Update Franchise";
+        document.getElementById('message').innerHTML = "password must have 8 characters long";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
         return;
     }
     if(firstName.length < 3){
-        document.getElementById('messagetitle').innerHTML = "Error"
-        document.getElementById('message').innerHTML = "First name is too short."
-        document.getElementById('regionmessage').style = "display:block"
-        document.getElementById('memberbox').style = "display:none"
+        document.getElementById('messagetitle').innerHTML = "Unable to Update Franchise";
+        document.getElementById('message').innerHTML = "First name is too short.";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
         return;
     }
     if(lastName.length < 3){
-        document.getElementById('messagetitle').innerHTML = "Error"
-        document.getElementById('message').innerHTML = "Last name is too short."
-        document.getElementById('regionmessage').style = "display:block"
-        document.getElementById('memberbox').style = "display:none"
+        document.getElementById('messagetitle').innerHTML = "Unable to Update Franchise";
+        document.getElementById('message').innerHTML = "Last name is too short.";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
         return;
     }
     if(phone.length < 8){
-        document.getElementById('messagetitle').innerHTML = "Error"
-        document.getElementById('message').innerHTML = "Invalid phone number."
-        document.getElementById('regionmessage').style = "display:block"
-        document.getElementById('memberbox').style = "display:none"
+        document.getElementById('messagetitle').innerHTML = "Unable to Update Franchise";
+        document.getElementById('message').innerHTML = "Invalid phone number.";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
         return;
     }
     if(!checkemail(email)){
-        document.getElementById('messagetitle').innerHTML = "Error"
-        document.getElementById('message').innerHTML = "Invalid email address."
-        document.getElementById('regionmessage').style = "display:block"
-        document.getElementById('memberbox').style = "display:none"
+        document.getElementById('messagetitle').innerHTML = "Unable to Update Franchise";
+        document.getElementById('message').innerHTML = "Invalid email address.";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
         return;
     }
 
@@ -235,9 +230,9 @@ function newregion() {
     var name = document.getElementById('name').value;
 
     if(name.length < 5){
-        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration"
-        document.getElementById('message').innerHTML = "Name must have 3 characters long."
-        document.getElementById('popupbox').style = "display:block"
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
+        document.getElementById('message').innerHTML = "Name must have 3 characters long.";
+        document.getElementById('popupbox').style = "display:block";
         window.scrollTo(0, 0);
         return;
     }
@@ -269,10 +264,10 @@ function newindustry() {
     var name = document.getElementById('name').value;
 
     if(name.length < 3){
-        document.getElementById('messagetitle').innerHTML = "Error"
-        document.getElementById('message').innerHTML = "Name must have 3 characters long."
-        document.getElementById('networkersmessage').style = "display:block"
-        document.getElementById('networkersbox').style = "display:none"
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
+        document.getElementById('message').innerHTML = "Name must have 3 characters long.";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
         return;
     }
 
@@ -284,10 +279,55 @@ function updateindustry() {
     var name = document.getElementById('name').value;
 
     if(name.length < 3){
-        document.getElementById('messagetitle').innerHTML = "Error"
-        document.getElementById('message').innerHTML = "Name must have 3 characters long."
-        document.getElementById('networkersmessage').style = "display:block"
-        document.getElementById('networkersbox').style = "display:none"
+        document.getElementById('messagetitle').innerHTML = "Unable to Update Industry";
+        document.getElementById('message').innerHTML = "Name must have 3 characters long.";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
+        return;
+    }
+
+    document.getElementById("myForm").submit();
+    return;
+}
+
+//MEMBER --------------------------------------------------------------
+
+function newmember() {
+
+    var firstName = document.getElementById('firstName').value;
+    var lastName = document.getElementById('lastName').value;
+    var businessname = document.getElementById('businessname').value;
+    var paymentcheckbox = document.getElementById('paymentcheckbox').checked;
+    var newslettercheckbox = document.getElementById('newslettercheckbox').checked;
+    var businessinformationcheckbox = document.getElementById('businessinformationcheckbox').checked;
+    var agreecheckbox = document.getElementById('agreecheckbox').checked;
+
+    if(firstName.length < 3){
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
+        document.getElementById('message').innerHTML = "Invalid First Name";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
+        return;
+    }
+    if(lastName.length < 3){
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
+        document.getElementById('message').innerHTML = "Invalid Last Name";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
+        return;
+    }
+    if(businessname.length < 3){
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
+        document.getElementById('message').innerHTML = "Invalid Business Name";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
+        return;
+    }
+    if(!paymentcheckbox || !newslettercheckbox || !businessinformationcheckbox || !agreecheckbox){
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
+        document.getElementById('message').innerHTML = "Invalid Business Name";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
         return;
     }
 
@@ -508,6 +548,195 @@ function removeregion2(index, multiple) {
     }
 }
 
+// GROUP ----------
+
+function searchgroup() {
+    
+    var group = document.getElementById('group').value;
+    const collection = document.getElementsByClassName("hideinputinsidegroup");
+    for (let i = 0; i < collection.length; i++) {
+        collection[i].style = "display:none"
+    }
+
+    if (group.length > 2){
+        for (let i = 0; i < collection.length; i++) {
+            if (collection[i].innerHTML.toLowerCase().includes(group.toLowerCase())){
+                collection[i].style = "display:block"
+            }
+        }
+    }else{
+        for (let i = 0; i < collection.length; i++) {
+            collection[i].style = "display:block"
+        }
+    }
+}
+
+function cleansearchgroup(){
+    const collection = document.getElementsByClassName("hideinputinsidegroup");
+
+    var a = document.querySelector('.hideinputinsidegroup:hover');
+    if (a) {
+        console.log("over")
+    }
+    else {
+        for (let i = 0; i < collection.length; i++) {
+            collection[i].style = "display:none"
+        }
+    }
+}
+
+function addgroup(id, name, multiple) {
+
+    console.log(multiple);
+
+    // remove all options from main intup
+    document.getElementById('group').value = "";
+    const collection = document.getElementsByClassName("hideinputinsidegroup");
+    for (let i = 0; i < collection.length; i++) {
+        collection[i].style = "display:none"
+    }
+    
+    // Check if already have this group selected
+    const inputgroup = document.getElementsByClassName("inputgroup");
+    for (let i = 0; i < inputgroup.length; i++) {
+        if(inputgroup[i].value == name){
+            return;
+        }
+    }
+
+    const groups = document.getElementsByClassName("inputgroup");
+    console.log(groups.length)
+    if(groups.length > 0 && multiple == false){
+        console.log("Can only add one")
+    }else{
+        //add new input to the groups
+        var addList = document.getElementById('groups');
+        var text = document.createElement('div');
+        text.className = "groupdiv";
+        text.style = "width:100%;max-width:500px;display:flex";
+        text.innerHTML = '<input class="inputgroup groupid" type="text" value="'+id+'" name="groupid[]" style="width:50px;display:none" readonly><input class="inputgroup" type="text" value="'+name+'" name="group[]" style="width:calc(100% - 50px);border-top-right-radius:0px;border-bottom-right-radius:0px;" readonly><div class="groupremove" onclick="removegroup2(this,'+multiple+')">X</div>';
+        addList.appendChild(text);
+
+        if(multiple == false){
+            document.getElementById('group').style="display:none";
+            document.getElementById('grouptext01').style="display:none";
+            document.getElementById('grouptext02').style="display:none";
+        }
+
+    }
+
+}
+
+function removegroup2(index, multiple) {
+    const allgroupremovebuttom = document.getElementsByClassName("groupremove");
+    const allgroupclass = document.getElementsByClassName("groupdiv");
+    for (let i = 0; i < allgroupremovebuttom.length; i++) {
+        if(allgroupremovebuttom[i] == index){
+            allgroupclass[i].remove();
+        }
+    }
+    if(multiple == false){
+        document.getElementById('group').style="display:block";
+        document.getElementById('grouptext01').style="display:block";
+        document.getElementById('grouptext02').style="display:block";
+    }
+}
+
+
+// Industry ----------
+
+function searchindustry() {
+    
+    var industry = document.getElementById('industry').value;
+    const collection = document.getElementsByClassName("hideinputinsideindustry");
+    for (let i = 0; i < collection.length; i++) {
+        collection[i].style = "display:none"
+    }
+
+    if (industry.length > 2){
+        for (let i = 0; i < collection.length; i++) {
+            if (collection[i].innerHTML.toLowerCase().includes(industry.toLowerCase())){
+                collection[i].style = "display:block"
+            }
+        }
+    }else{
+        for (let i = 0; i < collection.length; i++) {
+            collection[i].style = "display:block"
+        }
+    }
+}
+
+function cleansearchindustry(){
+    const collection = document.getElementsByClassName("hideinputinsideindustry");
+
+    var a = document.querySelector('.hideinputinsideindustry:hover');
+    if (a) {
+        console.log("over")
+    }
+    else {
+        for (let i = 0; i < collection.length; i++) {
+            collection[i].style = "display:none"
+        }
+    }
+}
+
+function addindustry(id, name, multiple) {
+
+    console.log(multiple);
+
+    // remove all options from main intup
+    document.getElementById('industry').value = "";
+    const collection = document.getElementsByClassName("hideinputinsideindustry");
+    for (let i = 0; i < collection.length; i++) {
+        collection[i].style = "display:none"
+    }
+    
+    // Check if already have this industry selected
+    const inputindustry = document.getElementsByClassName("inputindustry");
+    for (let i = 0; i < inputindustry.length; i++) {
+        if(inputindustry[i].value == name){
+            return;
+        }
+    }
+
+    const industrys = document.getElementsByClassName("inputindustry");
+    console.log(industrys.length)
+    if(industrys.length > 0 && multiple == false){
+        console.log("Can only add one")
+    }else{
+        //add new input to the industrys
+        var addList = document.getElementById('industrys');
+        var text = document.createElement('div');
+        text.className = "industrydiv";
+        text.style = "width:100%;max-width:500px;display:flex";
+        text.innerHTML = '<input class="inputindustry industryid" type="text" value="'+id+'" name="industryid[]" style="width:50px;display:none" readonly><input class="inputindustry" type="text" value="'+name+'" name="industry[]" style="width:calc(100% - 50px);border-top-right-radius:0px;border-bottom-right-radius:0px;" readonly><div class="industryremove" onclick="removeindustry2(this,'+multiple+')">X</div>';
+        addList.appendChild(text);
+
+        if(multiple == false){
+            document.getElementById('industry').style="display:none";
+            document.getElementById('industrytext01').style="display:none";
+            document.getElementById('industrytext02').style="display:none";
+        }
+
+    }
+
+}
+
+function removeindustry2(index, multiple) {
+    const allindustryremovebuttom = document.getElementsByClassName("industryremove");
+    const allindustryclass = document.getElementsByClassName("industrydiv");
+    for (let i = 0; i < allindustryremovebuttom.length; i++) {
+        if(allindustryremovebuttom[i] == index){
+            allindustryclass[i].remove();
+        }
+    }
+    if(multiple == false){
+        document.getElementById('industry').style="display:block";
+        document.getElementById('industrytext01').style="display:block";
+        document.getElementById('industrytext02').style="display:block";
+    }
+}
+
 // POPUP ----------
 
 // message box
@@ -587,4 +816,52 @@ function removeimage() {
     document.getElementById('image_url').value="";
     document.getElementById('imageremovebutton').style = "display:none";
     document.getElementById('originalimage').value = "";
+}
+
+
+// USER IMAGE ----------
+function checkuserimage(input) {
+
+    var imagedisplay = document.getElementById('userimg');
+    var imagebox = document.getElementById('userimagebox');
+    var imageremovebutton = document.getElementById('userimageremovebutton');
+    var imagecomment = document.getElementById('userimagecomment');
+    imagedisplay.src = "";
+    imagebox.style = "width:100%;display:none;margin-top:20px";
+    imagecomment.style = "font-size:16px;display:none;color:red;";
+    imagecomment.innerHTML = "";
+
+    var file = input.files[0];
+    var filename = file.name.toLowerCase();
+    if (!filename.match(/\.(jpg|jpeg|png|gif)$/i)){
+        imagebox.style = "width:100%;display:none;margin-top:20px";
+        imagedisplay.src = "";
+        imagecomment.innerHTML = "Please choose an image in the following formats: JPG, JPEG, PNG, or GIF.";
+        imagecomment.style = "font-size:16px;display:block;color:red;";
+        document.getElementById('image_url').value='';
+        return;
+    }
+
+    console.log(Math.ceil(file.size / 1000) + "kbs")
+
+    if (file) {
+        var image = new Image();
+
+        image.onload = function() {
+            console.log("image Dimention: " + this.width + "x" +this.height)
+        };
+        image.src = URL.createObjectURL(file);
+        imagedisplay.src = URL.createObjectURL(file);
+        imagebox.style = "width:100%;display:block;margin-top:20px";
+        imageremovebutton.style = "display:block";
+        document.getElementById('originaluserimage').value = "";
+    }
+
+}
+function removeuserimage() {
+    document.getElementById('userimagebox').style = "display:none";
+    document.getElementById('userimg').src = "";
+    document.getElementById('userimage_url').value="";
+    document.getElementById('userimageremovebutton').style = "display:none";
+    document.getElementById('originaluserimage').value = "";
 }

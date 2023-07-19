@@ -10,13 +10,45 @@ Author: Andre Campos
 Text Domain: bm_networks
 */ 
 
-//include ABSPATH . '/wp-content/plugins/thenetworks/members/new.php';
-include ABSPATH . '/wp-content/plugins/thenetworks/admin/groups/group.php';
-include ABSPATH . '/wp-content/plugins/thenetworks/admin/industry/industry.php';
+//MAIN BLOCK
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/profile.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/groups/group.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/groups/new-form.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/groups/update-form.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/industry/industry.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/industry/new-form.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/industry/update-form.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/regions/region.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/regions/new-form.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/regions/update-form.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/members/member.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/members/new-form.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/members/update-form.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/franchise/franchise.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/franchise/new-form.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/franchise/update-form.php';
+
+//ADMIN FUNCTION
+include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/user-image-box.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/industry-box.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/get-industrys.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/get-groups.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/get-regions.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/get-role.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/group-box.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/imagebox.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/region.php';
+
+
+//FUNCTION
+include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-group.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-region.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/function/member-logo.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/function/member-social-media.php';
+
+//CLASS
+include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-region.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-group.php';
 
 // Add button to wordpress admin menu.
 add_action('admin_menu', 'my_menu_networkers');
@@ -25,6 +57,10 @@ function my_menu_networkers(){
       $user = wp_get_current_user();
       $roles = ( array ) $user->roles;
       $user_role = $roles[0];
+
+      wp_enqueue_style( 'admincss', plugins_url() . '/thenetworks/public/css/admin.css');
+      wp_enqueue_script( 'mainjs', plugins_url() . '/thenetworks/public/js/js.js' );
+      wp_enqueue_script( 'functionjs', plugins_url() . '/thenetworks/public/js/functions.js' );
 
       // Profile 
       if ($user_role == 'franchise' || $user_role == 'administrator'){
@@ -61,7 +97,6 @@ function my_menu_networkers(){
             add_submenu_page( null,  'Update Franchise', 'Update Franchise', 'the_networkers', 'networkers-franchise-update', 'networkers_franchise_update' );
       }
 }
-
 
 // Remove Profile from Franchise from left menu
 function remove_profile_menu() {

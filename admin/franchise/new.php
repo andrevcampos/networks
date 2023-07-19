@@ -21,7 +21,6 @@ $user_id = wp_update_user( array( 'ID' => $user_id, 'role' => 'franchise', 'disp
 
 add_user_meta( $user_id, 'phone', $phone);
 
-
 foreach($_POST['region'] as $region) {
     add_user_meta( $user_id, 'region', $region);
 }
@@ -35,7 +34,6 @@ if ( is_wp_error( $user_id ) ) {
 }
 
 }else{ 
-
     $url = admin_url('admin.php?page=network-franchise-new&messagetitle=Duplicate Registration&message=The Franchise username or email alrady exist');
     header("Location: $url"); 
     exit();

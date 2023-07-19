@@ -3,8 +3,8 @@ function member_logo($logoimageid = null) {
     ob_start();
 ?>
     <div id='logo_image_div'>
-        <label>Company Banner Picture or Logo</label><br>
-        <p style="margin-left:5px;margin-top:5px">Upload your company's logo here</p>
+        <label><b>Company Banner Picture or Logo</b></label><br>
+        <p style="margin-left:5px;margin-top:5px">Allowed types: png gif jpg jpeg. 20 MB limit</p>
         <input type="file" onchange="logoimagecheck(this)" name="logo_image_url" id="logo_image_url" accept="image/png, image/gif, image/jpeg">
         <div id="logo_image_comment" style="font-size:16px;display:none;color:red;">Success</div>
         <?php if (!$imageid){ ?>

@@ -1,18 +1,14 @@
 <?php
-
 function networkers_franchise_update() {
 
     include '../../../../../wp-load.php';
 
     $plugin_url = plugin_dir_url( __FILE__ );
     $editurl = $plugin_url . 'update.php';
-    wp_enqueue_style( 'membercss', plugins_url() . '/thenetworks/public/css/admin.css');
-	wp_enqueue_script( 'js', plugins_url() . '/thenetworks/public/js/js.js' );
-
-    include ABSPATH . '/wp-content/plugins/thenetworks/admin/function/region.php';
-    
-    //POPUP MESSAGE BOX
     include ABSPATH . '/wp-content/plugins/thenetworks/admin/function/popup.php';
+    wp_enqueue_style( 'admincss', plugins_url() . '/thenetworks/public/css/admin.css');
+    wp_enqueue_script( 'mainjs', plugins_url() . '/thenetworks/public/js/js.js' );
+    wp_enqueue_script( 'functionjs', plugins_url() . '/thenetworks/public/js/functions.js' );
 
     $userid = $_GET['id'];
     $user = get_user_by('id', $userid);
@@ -62,7 +58,6 @@ function networkers_franchise_update() {
 
         echo '</form>';
     echo '</div>';
-    
 }
 
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 $message = $_GET["message"];
 $messagetitle = $_GET["messagetitle"];
 
@@ -25,7 +24,5 @@ echo '<div id="popupRemoveBox" style="display:none" class="wrap">';
     echo '</form>';
     echo "<br><div id='popupRemoveGoback' onclick='PopupRemoveGoback()' class='networkersbuttom'>Go Back</div>";
 echo '</div>';
-
-
 
 ?>

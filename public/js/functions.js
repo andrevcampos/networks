@@ -38,6 +38,7 @@ function logoimagecheck(input) {
 
 }
 function logoimageremove() {
+    console.log("aqui")
     document.getElementById('logo_imagebox').style = "display:none";
     document.getElementById('logo_img').src = "";
     document.getElementById('logo_image_url').value="";
@@ -48,13 +49,97 @@ function logoimageremove() {
 // SOCIAL MEDIA ----------
 function newsocialmediainput() {
 
-    
+    var smbox = document.getElementById('social_media_box');
+
+    var smsection = document.createElement('div');
+    smsection.className = "socialmediaseciton";
+    smbox.appendChild(smsection);
+
+    var titleinput = document.createElement('input');
+    titleinput.className = "d-block socialmediatitle";
+    titleinput.type = "text";
+    titleinput.name = "socialmediatitle[]";
+    titleinput.placeholder = "Title: Ex: Website, Facebook, Instagram";
+    titleinput.style = "width:calc(100% - 50px);margin-top:5px";
+    smsection.appendChild(titleinput);
+
+    var linkinput = document.createElement('input');
+    linkinput.className = "d-block socialmedialink";
+    linkinput.type = "text";
+    linkinput.name = "socialmedialink[]";
+    linkinput.placeholder = "Link: Ex: https://your-website-here";
+    linkinput.style = "width:calc(100% - 50px);margin-top:5px";
+    smsection.appendChild(linkinput);
+
+    var closebutton = document.createElement('div');
+    closebutton.className = "smremovebutton";
+    closebutton.onclick = function () {
+        socialmediaremove(this);
+    };
+    smsection.appendChild(closebutton);
+
+    var buttonspam = document.createElement('spam');
+    buttonspam.innerHTML = "X";
+    closebutton.appendChild(buttonspam);
+
 }
 
-function logoimageremove() {
-    document.getElementById('logo_imagebox').style = "display:none";
-    document.getElementById('logo_img').src = "";
-    document.getElementById('logo_image_url').value="";
-    document.getElementById('logo_image_remove_button').style = "display:none";
-    document.getElementById('logo_original_image').value = "";
+function socialmediaremove(index) {
+
+    const smremovebutton = document.getElementsByClassName("smremovebutton");
+    const socialmediaseciton = document.getElementsByClassName("socialmediaseciton");
+    for (let i = 0; i < smremovebutton.length; i++) {
+        if(smremovebutton[i] == index){
+            socialmediaseciton[i].remove();
+        }
+    }
+
+}
+
+function getlatlong(url){
+    console.log("aqui")
+    var country = document.getElementById('country').value;
+    var address = document.getElementById('streetaddress1').value;
+    var address2 = document.getElementById('streetaddress2').value;
+    if(address2)
+        address += ", " + address2;
+    var suburb = document.getElementById('suburb').value;
+    if(suburb)
+        address += ", " + suburb;
+    var city = document.getElementById('city').value;
+    if(city)
+        address += ", " + city;
+    var postalcode = document.getElementById('postalcode').value;
+    if(postalcode)
+        address += " " + postalcode;
+
+    var params = 'country=' + country + '&address=' + address;
+    url = url + '?' + params;
+
+    console.log("url " + url)
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+        var response = xhr.responseText;
+        var result = JSON.parse(response);
+        var lat = result[0];
+        var lng = result[1];
+        console.log("lat " + lat)
+        } else {
+        // Handle errors or other status codes here
+        // ...
+        }
+    };
+    xhr.send();
+}
+
+function getmap(lat,lon){
+    var mapOptions = {
+    center: new google.maps.LatLng(lat,lon),
+    zoom: 8,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);
 }

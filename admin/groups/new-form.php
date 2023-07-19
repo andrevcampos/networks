@@ -1,20 +1,18 @@
 <?php
+
 function networkers_group_new() {
 
 wp_enqueue_media();
 include '../../../../../wp-load.php';
-include ABSPATH . '/wp-content/plugins/thenetworks/admin/function/region.php';
-include ABSPATH . '/wp-content/plugins/thenetworks/admin/function/imagebox.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/function/popup.php';
+wp_enqueue_style( 'admincss', plugins_url() . '/thenetworks/public/css/admin.css');
+wp_enqueue_script( 'mainjs', plugins_url() . '/thenetworks/public/js/js.js' );
+wp_enqueue_script( 'functionjs', plugins_url() . '/thenetworks/public/js/functions.js' );
 
 $plugin_url = plugin_dir_url( __FILE__ );
 $url = $plugin_url . 'new.php';
-wp_enqueue_style( 'membercss', plugins_url() . '/thenetworks/public/css/admin.css');
-wp_enqueue_script( 'js', plugins_url() . '/thenetworks/public/js/js.js' );
 
 $imagesearch = plugins_url() . '/thenetworks/public/img/searchbutton.png';
-
-//POPUP MESSAGE BOX
-include ABSPATH . '/wp-content/plugins/thenetworks/admin/function/popup.php';
 
 global $wpdb;
 echo '<div style="display:block" id="networkersbox" class="networkersbox">';
