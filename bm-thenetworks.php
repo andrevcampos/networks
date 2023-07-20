@@ -45,10 +45,12 @@ include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-group.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-region.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/member-logo.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/member-social-media.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-industry.php';
 
 //CLASS
 include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-region.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-group.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-industry.php';
 
 // Add button to wordpress admin menu.
 add_action('admin_menu', 'my_menu_networkers');

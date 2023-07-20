@@ -57,10 +57,10 @@ class Member_List_Table extends WP_List_Table
     {
         $columns = array(
             'id' => 'ID',
-            'name' => 'Name',
             'business' => 'Business',
-            'phone' => 'Phone',
+            'name' => 'Name',
             'email' => 'Email',
+            'memberstatus' => 'Status',
         );
         return $columns;
     }
@@ -70,14 +70,12 @@ class Member_List_Table extends WP_List_Table
         $plugin_url = plugin_dir_url( __FILE__ );
         $removeurl = $plugin_url . 'delete.php';
         $actions = array(
-            
-            'edit' => sprintf('<a href="?page=networkers-region-update&id=%s">%s</a>', $item['id'], __('Edit', 'cltd_example')),
-            'delete' => sprintf('<div style="display: inline-block;color:red;cursor: pointer;" onclick="PopupRemoveBox(\'Remove Region\',%s,\'%s\',\'%s\')">Remove</div>',  $item['id'], $item['name'], $removeurl),
-            //'delete' => sprintf('<div style="display: inline-block;color:red;cursor: pointer;" onclick="regionremovebox(%s,\'%s\')">Remove</div>',  $item['id'],  $item['name']),
+            'edit' => sprintf('<a href="?page=networkers-members-update&id=%s">%s</a>', $item['id'], __('Edit', 'cltd_example')),
+            'delete' => sprintf('<div style="display: inline-block;color:red;cursor: pointer;" onclick="PopupRemoveBox(\'Remove Member\',%s,\'%s\',\'%s\')">Remove</div>',  $item['id'], $item['business'], $removeurl),
         );
 
         return sprintf('%s %s',
-            $item['name'],
+            $item['business'],
             $this->row_actions($actions)
         );
 
@@ -90,7 +88,7 @@ class Member_List_Table extends WP_List_Table
 
     public function get_sortable_columns()
     {
-        return array('name' => array('name', false),'business' => array('business', false));
+        return array('business' => array('business', false),'name' => array('name', false));
     }
 
   
@@ -104,13 +102,17 @@ class Member_List_Table extends WP_List_Table
         $data = array();
         if(count($latest_posts) > 0 ){
             foreach($latest_posts as $post) {
-                $phone = get_post_meta( $post->ID, 'phone', true );
+                $memberstatus = get_post_meta( $post->ID, 'memberstatus', true );
                 $email = get_post_meta( $post->ID, 'email', true );
+                $first = get_post_meta( $post->ID, 'firstName', true );
+                $last = get_post_meta( $post->ID, 'lastName', true );
+                $name = $first . " " . $last;
                 $data2 = array(
                     'id' => $post->ID,
-                    'name' => $post->post_title,
-                    'phone' => $phone,
+                    'business' => $post->post_title,
+                    'name' => $name,
                     'email' => $email,
+                    'memberstatus' => $memberstatus,
                     );
                 array_push($data, $data2);
             }
@@ -122,9 +124,10 @@ class Member_List_Table extends WP_List_Table
     {
         switch( $column_name ) {
             case 'id':
+            case 'business':
             case 'name':
-            case 'phone':
             case 'email':
+            case 'memberstatus':
                 return $item[ $column_name ];
 
             default:

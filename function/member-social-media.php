@@ -24,3 +24,32 @@ function member_social_media($socialmedias = []) {
 <?php
     return ob_get_clean();
 }
+
+function Add_Social_Media($id) {
+    $socialmediatitle = $_POST["socialmediatitle"];
+    $socialmedialink = $_POST["socialmedialink"];
+    if($socialmediatitle){
+        for ($x = 0; $x < count($socialmediatitle); $x++) {
+            if($socialmediatitle[$x] && $socialmedialink[$x]){
+                $array = array("$socialmediatitle[$x]","$socialmedialink[$x]");
+                $socialmedia = json_encode($array); 
+                add_post_meta( $id, 'socialmedia', $socialmedia, false);
+            }
+        }
+    }
+}
+
+function Update_Social_Media($id) {
+    $socialmediatitle = $_POST["socialmediatitle"];
+    $socialmedialink = $_POST["socialmedialink"];
+    delete_user_meta( $id, 'socialmedia' );
+    if($socialmediatitle){
+        for ($x = 0; $x < count($socialmediatitle); $x++) {
+            if($socialmediatitle[$x] && $socialmedialink[$x]){
+                $array = array("$socialmediatitle[$x]","$socialmedialink[$x]");
+                $socialmedia = json_encode($array); 
+                add_post_meta( $id, 'socialmedia', $socialmedia, false);
+            }
+        }
+    }
+}

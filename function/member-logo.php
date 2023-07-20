@@ -22,10 +22,10 @@ function member_logo($logoimageid = null) {
     return ob_get_clean();
 }
 
-function member_logo_new($post_id) {
+function Add_User_Logo($post_id) {
 
+    //Check if have Logo Image
     if(file_exists($_FILES['logo_image_url']['tmp_name'][0])) {
-
         $upload_dir = wp_upload_dir();
 
         $image_data = file_get_contents( $_FILES["logo_image_url"]['tmp_name'] );
@@ -53,16 +53,15 @@ function member_logo_new($post_id) {
         $attach_id = wp_insert_attachment( $attachment, $file );
 
         //Add image ulr to postmeta
-        add_post_meta( $post_id, 'logo', $attach_id, true );
+        add_post_meta( $post_id, 'logoimageid', $attach_id, true );
 
         require_once( ABSPATH . 'wp-admin/includes/image.php' );
         $attach_data = wp_generate_attachment_metadata( $attach_id, $file );
         wp_update_attachment_metadata( $attach_id, $attach_data );
-
     }
 }
 
-function member_logo_update($post_id) {
+function Update_User_Logo($post_id) {
 
     $originalimage = $_POST["originalimage"];
     if($originalimage){

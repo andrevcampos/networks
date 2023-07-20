@@ -4,6 +4,7 @@ function network_members_new() {
 
     $plugin_url = plugin_dir_url( __FILE__ );
     $url = $plugin_url . 'new.php';
+    $membercheckurl = plugins_url() . '/thenetworks/admin/function/member-check.php';
     include ABSPATH . '/wp-content/plugins/thenetworks/admin/function/popup.php';
     wp_enqueue_style( 'admincss', plugins_url() . '/thenetworks/public/css/admin.css');
     wp_enqueue_script( 'mainjs', plugins_url() . '/thenetworks/public/js/js.js' );
@@ -12,7 +13,7 @@ function network_members_new() {
     ?>
 
     <div style="display:block" id="networkersbox" class="networkersbox">
-        <form id='myForm' action='<?php echo $url; ?>' method='post'>
+        <form id='myForm' action='<?php echo $url; ?>' method='post' enctype='multipart/form-data'>
            <div class="wrap">
                 <h2>New Member</h2>
             </div><br><br>
@@ -82,13 +83,12 @@ function network_members_new() {
                 <input id="businessname" name="businessname" type="text"><br>
 
                 <?php
-                // Multiple selection and nothing selected.
-                Industry_Box($groups, false);
-                ?>
 
-                <?php 
+                Industry_Box($groups, false);
+
                 $logoHtml = member_logo();
                 echo $logoHtml;
+
                 ?>
 
                 <br><br>
@@ -144,7 +144,7 @@ function network_members_new() {
             <div class="memberlogobox">
 
                 <h2 style="font-size:22px"><b>Payment Preference</b></h2>
-                <input style="width:10px" type="radio" id="n/a" name="payment" value="n/a" checked>
+                <input style="width:10px" type="radio" id="N/A" name="payment" value="N/A" checked>
                 <label for="n/a">N/A</label><br><br>
                 <input style="width:10px" type="radio" id="1month" name="payment" value="1 Month @ $50+GST">
                 <label for="1month">1 Month @ $50+GST</label><br><br>
@@ -189,7 +189,7 @@ function network_members_new() {
         <br><br>
     </div>
 
-    <div class='networkersbuttom' onclick='newmember()' >Create</div>
+    <div class='networkersbuttom' onclick='membercheck("<?php echo $membercheckurl; ?>")' >Create</div>
 
 <?php
 }

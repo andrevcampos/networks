@@ -325,7 +325,7 @@ function newmember() {
     }
     if(!paymentcheckbox || !newslettercheckbox || !businessinformationcheckbox || !agreecheckbox){
         document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
-        document.getElementById('message').innerHTML = "Invalid Business Name";
+        document.getElementById('message').innerHTML = "You must accept all terms and coditions";
         document.getElementById('popupbox').style = "display:block";
         window.scrollTo(0, 0);
         return;
@@ -333,6 +333,40 @@ function newmember() {
 
     document.getElementById("myForm").submit();
     return;
+}
+
+function membercheck(url) {
+
+console.log(url)
+
+var businessname = document.getElementById('businessname').value;
+const fullUrl = url + "?businessname=" + businessname;
+
+const xhr = new XMLHttpRequest();
+xhr.open('GET', fullUrl, true);
+xhr.onreadystatechange = function () {
+  if (xhr.readyState === XMLHttpRequest.DONE) {
+    if (xhr.status === 200) {
+        if (xhr.responseText == "false"){
+            newmember();
+        }else{
+            document.getElementById('messagetitle').innerHTML = "Duplicate Registration";
+            document.getElementById('message').innerHTML = "This Business name has already been taken";
+            document.getElementById('popupbox').style = "display:block";
+            window.scrollTo(0, 0);
+            return;
+        }
+    } else {
+        document.getElementById('messagetitle').innerHTML = "Error";
+        document.getElementById('message').innerHTML = "Please try again.";
+        document.getElementById('popupbox').style = "display:block";
+        window.scrollTo(0, 0);
+        return;
+    }
+  }
+};
+xhr.send();
+
 }
 
 

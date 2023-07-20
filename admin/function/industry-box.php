@@ -5,7 +5,7 @@ function Industry_Box($industryselectedd = [], $multiple = true) {
     if(!$industryselectedd)
         $industryselectedd = [];
 
-    $industrys = Get_Industry();
+    $industrys = Get_Industrys();
 
     echo '<h3>Industry</h3>';
 
@@ -24,14 +24,15 @@ function Industry_Box($industryselectedd = [], $multiple = true) {
 
         //Select all industry selected
         echo '<div id="industrys">';
-        foreach($industryselectedd as $industry) {
-            echo '<div class="industrydiv" style="width:100%;max-width:500px;display:flex">';
-                echo "<input class='inputindustry industryid' type='text' value='$industry->ID' name='industryid[]' style='width:50px;display:none' readonly>";
-                echo "<input class='inputindustry' type='text' value='$industry->post_title' name='industry[]' style='width:calc(100% - 50px);border-top-right-radius:0px;border-bottom-right-radius:0px;' readonly>";
-                $onclick = "removeindustry2(this, " . ($multiple ? 'true' : 'false') . ")";
-                echo "<div class='industryremove' onclick='$onclick'>X</div>";
-            echo '</div>';
-        }
+            foreach($industryselectedd as $industryid) {
+                $industry = Get_Industry($industryid);
+                echo '<div class="industrydiv" style="width:100%;max-width:500px;display:flex">';
+                    echo "<input class='inputindustry industryid' type='text' value='$industry->ID' name='industryid[]' style='width:50px;display:none' readonly>";
+                    echo "<input class='inputindustry' type='text' value='$industry->post_title' name='industry[]' style='width:calc(100% - 50px);border-top-right-radius:0px;border-bottom-right-radius:0px;' readonly>";
+                    $onclick = "removeindustry2(this, " . ($multiple ? 'true' : 'false') . ")";
+                    echo "<div class='industryremove' onclick='$onclick'>X</div>";
+                echo '</div>';
+            }
         echo '</div>';
 
         //Messagem at the bottom of the industry Box
@@ -56,9 +57,21 @@ function Industry_Box($industryselectedd = [], $multiple = true) {
             }
         echo '</div><br>';
     }
+}
 
+function Add_Industry($id) {
+    $industryid = $_POST["industryid"];
+    foreach($industryid as $industry) {
+        add_post_meta( $id, 'industry', $industry, false );
+    }
+}
 
-
+function Update_Industry($id) {
+    $industryid = $_POST["industryid"];
+    delete_user_meta( $id, 'industry' );
+    foreach($industryid as $industry) {
+        add_post_meta( $id, 'industry', $industry, false );
+    }
 }
 
 ?>

@@ -25,7 +25,8 @@ function Group_Box($groupselectedd = [], $multiple = true) {
 
         //Select all group selected
         echo '<div id="groups">';
-        foreach($groupselectedd as $group) {
+        foreach($groupselectedd as $groupid) {
+            $group = Get_Group($groupid);
             echo '<div class="groupdiv" style="width:100%;max-width:500px;display:flex">';
                 echo "<input class='inputgroup groupid' type='text' value='$group->ID' name='groupid[]' style='width:50px;display:none' readonly>";
                 echo "<input class='inputgroup' type='text' value='$group->post_title' name='group[]' style='width:calc(100% - 50px);border-top-right-radius:0px;border-bottom-right-radius:0px;' readonly>";
@@ -60,6 +61,21 @@ function Group_Box($groupselectedd = [], $multiple = true) {
 
 
 
+}
+
+function Add_Group($id) {
+    $groupid = $_POST["groupid"];
+    foreach($groupid as $group) {
+        add_post_meta( $id, 'group', $group, false);
+    }
+}
+
+function Update_Group($id) {
+    $groupid = $_POST["groupid"];
+    delete_user_meta( $id, 'group' );
+    foreach($groupid as $group) {
+        add_post_meta( $id, 'group', $group, false);
+    }
 }
 
 ?>
