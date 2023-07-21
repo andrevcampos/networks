@@ -4,7 +4,7 @@ function networkers_members_update() {
 
 
     $plugin_url = plugin_dir_url( __FILE__ );
-    $url = $plugin_url . 'new.php';
+    $url = $plugin_url . 'update.php';
     $membercheckurl = plugins_url() . '/thenetworks/admin/function/member-check.php';
     include ABSPATH . '/wp-content/plugins/thenetworks/admin/function/popup.php';
     wp_enqueue_style( 'admincss', plugins_url() . '/thenetworks/public/css/admin.css');
@@ -35,9 +35,8 @@ function networkers_members_update() {
     $group = get_post_meta( $id, 'group', false );
     $socialmedia = get_post_meta( $id, 'socialmedia', false );
 
-    $logoimageid = get_post_meta( $groupid, 'logoimageid', true );
-    $userimageid = get_post_meta( $groupid, 'userimageid', true );
-
+    $logoimageid = get_post_meta( $id, 'logoimageid', true );
+    $userimageid = get_post_meta( $id, 'userimageid', true );
 
     ?>
 
@@ -46,6 +45,9 @@ function networkers_members_update() {
            <div class="wrap">
                 <h2>New Member</h2>
             </div><br><br>
+
+            <input style='display:none' id='orginalname' type='text' name='orginalname' value='<?php echo $businessname;?>'>
+            <input style='display:none' id='post_id' type='text' name='post_id' value='<?php echo $id;?>'>
 
             <div class="memberlogobox">
 
@@ -104,7 +106,7 @@ function networkers_members_update() {
 
             <div class="memberlogobox">
                 <?php
-                User_Image_Box();
+                User_Image_Box($userimageid);
                 ?>
             </div>
 
@@ -132,8 +134,8 @@ function networkers_members_update() {
                 <?php
 
                 Industry_Box($industry, false);
-
-                $logoHtml = member_logo();
+                echo "<br>";
+                $logoHtml = member_logo($logoimageid);
                 echo $logoHtml;
 
                 ?>
@@ -141,7 +143,7 @@ function networkers_members_update() {
                 <br><br>
 
                 <?php 
-                $socialmediaHtml = member_social_media();
+                $socialmediaHtml = member_social_media($socialmedia);
                 echo $socialmediaHtml;
                 ?>
                 
@@ -233,7 +235,7 @@ function networkers_members_update() {
         <br><br>
     </div>
 
-    <div class='networkersbuttom' onclick='membercheck("<?php echo $membercheckurl; ?>")' >Create</div>
+    <div class='networkersbuttom' onclick='updatemember("<?php echo $membercheckurl; ?>")' >Update</div>
 
 <?php
 }

@@ -369,6 +369,18 @@ xhr.send();
 
 }
 
+function updatemember(url) {
+
+    var orginalname = document.getElementById('orginalname').value;
+    var businessname = document.getElementById('businessname').value;
+    if(orginalname == businessname){
+        newmember();
+    }else{
+        membercheck(url)
+    }
+    
+}
+
 
 // GROUPS -------------------------------------------------------------------------
 

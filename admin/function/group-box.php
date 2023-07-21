@@ -72,7 +72,7 @@ function Add_Group($id) {
 
 function Update_Group($id) {
     $groupid = $_POST["groupid"];
-    delete_user_meta( $id, 'group' );
+    delete_post_meta( $id, 'group' );
     foreach($groupid as $group) {
         add_post_meta( $id, 'group', $group, false);
     }

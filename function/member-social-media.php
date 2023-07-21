@@ -1,5 +1,9 @@
 <?php
 function member_social_media($socialmedias = []) {
+
+    if(!$socialmedias)
+        $socialmedias = [];
+
     ob_start();
 ?>
     <div id='div_social_media'>
@@ -8,13 +12,14 @@ function member_social_media($socialmedias = []) {
     
         <div id='social_media_box'>
             <?php if ($socialmedias){ 
-                foreach($socialmedias as $socialmedia) {    
-            ?>
-                <div class="socialmediaseciton">
-                    <input class='d-block socialmediatitle' placeholder='Title: (Ex: Website, Facebook, Instagram)' value='<?php echo $socialmedia->title;?>' type='text' name='socialmediatitle[]' style='width:calc(100% - 50px);margin-top:5px'>
-                    <input class='d-block socialmedialink' placeholder="Link: (Ex: https://your-website-here)" value='<?php echo $socialmedia->link;?>' type='text' name='socialmedialink[]' style='width:calc(100% - 50px);margin-top:5px'>
-                    <div class="smremovebutton" onclick="socialmediaremove(this)"><spam>X</spam></div>
-                </div>
+                foreach($socialmedias as $socialmediaa) {  
+                    $socialmedia = json_decode($socialmediaa); 
+                    ?>
+                    <div class="socialmediaseciton">
+                        <input class='d-block socialmediatitle' placeholder='Title: (Ex: Website, Facebook, Instagram)' value='<?php echo $socialmedia[0];?>' type='text' name='socialmediatitle[]' style='width:calc(100% - 50px);margin-top:5px'>
+                        <input class='d-block socialmedialink' placeholder="Link: (Ex: https://your-website-here)" value='<?php echo $socialmedia[1];?>' type='text' name='socialmedialink[]' style='width:calc(100% - 50px);margin-top:5px'>
+                        <div class="smremovebutton" onclick="socialmediaremove(this)"><spam>X</spam></div>
+                    </div>
             <?php }
             }
             ?> 
@@ -42,7 +47,7 @@ function Add_Social_Media($id) {
 function Update_Social_Media($id) {
     $socialmediatitle = $_POST["socialmediatitle"];
     $socialmedialink = $_POST["socialmedialink"];
-    delete_user_meta( $id, 'socialmedia' );
+    delete_post_meta( $id, 'socialmedia' );
     if($socialmediatitle){
         for ($x = 0; $x < count($socialmediatitle); $x++) {
             if($socialmediatitle[$x] && $socialmedialink[$x]){

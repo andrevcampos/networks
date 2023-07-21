@@ -38,7 +38,6 @@ function logoimagecheck(input) {
 
 }
 function logoimageremove() {
-    console.log("aqui")
     document.getElementById('logo_imagebox').style = "display:none";
     document.getElementById('logo_img').src = "";
     document.getElementById('logo_image_url').value="";

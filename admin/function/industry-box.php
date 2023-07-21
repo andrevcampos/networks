@@ -68,7 +68,7 @@ function Add_Industry($id) {
 
 function Update_Industry($id) {
     $industryid = $_POST["industryid"];
-    delete_user_meta( $id, 'industry' );
+    delete_post_meta( $id, 'industry' );
     foreach($industryid as $industry) {
         add_post_meta( $id, 'industry', $industry, false );
     }

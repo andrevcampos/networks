@@ -55,5 +55,63 @@ function Add_User_Image($id) {
     }
 }
 
+function Update_User_Image($post_id) {
+
+    $originaluserimage = $_POST["originaluserimage"];
+
+    //if member made any changes to the image, it will change the orginal value to empty.
+    //Update image if member made any changes.
+    if(!$originaluserimage){
+        //Check if have Image
+        if(file_exists($_FILES['userimage_url']['tmp_name'][0])) {
+
+            //remove the old post
+            $imageid = get_post_meta( $post_id, 'userimageid', true );
+            wp_delete_attachment( $imageid );
+            delete_post_meta($post_id, 'userimageid');
+
+            $upload_dir = wp_upload_dir();
+
+            $image_data = file_get_contents( $_FILES["userimage_url"]['tmp_name'] );
+
+            $filename = basename( $_FILES["userimage_url"]["name"] );
+
+            if ( wp_mkdir_p( $upload_dir['path'] ) ) {
+            $file = $upload_dir['path'] . '/' . $filename;
+            }
+            else {
+            $file = $upload_dir['basedir'] . '/' . $filename;
+            }
+
+            file_put_contents( $file, $image_data );
+
+            $wp_filetype = wp_check_filetype( $filename, null );
+
+            $attachment = array(
+            'post_mime_type' => $wp_filetype['type'],
+            'post_title' => sanitize_file_name( $filename ),
+            'post_content' => '',
+            'post_status' => 'inherit'
+            );
+
+            $attach_id = wp_insert_attachment( $attachment, $file );
+
+            //Add image ulr to postmeta
+            add_post_meta( $post_id, 'userimageid', $attach_id, true );
+
+            require_once( ABSPATH . 'wp-admin/includes/image.php' );
+            $attach_data = wp_generate_attachment_metadata( $attach_id, $file );
+            wp_update_attachment_metadata( $attach_id, $attach_data );
+
+        }else{
+            //remove image 
+            $imageid = get_post_meta( $post_id, 'userimageid', true );
+            wp_delete_attachment( $imageid );
+            delete_post_meta($post_id, 'userimageid');
+        }
+    }
+}
+
+
 
 ?>
