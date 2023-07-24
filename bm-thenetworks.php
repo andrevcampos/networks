@@ -28,6 +28,8 @@ include ABSPATH . '/wp-content/plugins/thenetworks/admin/franchise/franchise.php
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/franchise/new-form.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/franchise/update-form.php';
 
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/oldnetwork.php';
+
 //ADMIN FUNCTION
 include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/user-image-box.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/industry-box.php';
@@ -52,6 +54,9 @@ include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-region.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-group.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-industry.php';
 
+
+
+
 // Add button to wordpress admin menu.
 add_action('admin_menu', 'my_menu_networkers');
 function my_menu_networkers(){
@@ -72,6 +77,7 @@ function my_menu_networkers(){
       if ($user_role == 'franchise' || $user_role == 'administrator'){
             add_menu_page('Groups', 'Groups', 'the_networkers', 'networkers-group', 'networkers_group', null, 7 );
             add_submenu_page( 'networkers-group',  'New Group', 'New Group', 'the_networkers', 'networkers-group-new', 'networkers_group_new' );
+            // add_submenu_page( 'networkers-group',  'Admin Group', 'Admin Group', 'the_networkers', 'networkers-group-admin', 'GetRegionformation' );
             add_submenu_page( null,  'Update Group', 'Update Group', 'the_networkers', 'networkers-group-update', 'networkers_group_update' );
       }
       // Industry 
