@@ -70,37 +70,37 @@ function my_menu_networkers(){
       wp_enqueue_script( 'functionjs', plugins_url() . '/thenetworks/public/js/functions.js' );
 
       // Profile 
-      if ($user_role == 'franchise' || $user_role == 'administrator'){
-            add_menu_page('My Profile', 'My Profile', 'network_profile', 'networkers-profile', 'my_menu_networkers_profile', null, 7 );
+      if ($user_role == 'franchise' || $user_role == 'administrator' || $user_role == 'network-admin'){
+            add_menu_page('My Profile', 'My Profile', 'network_profile', 'networkers-profile', 'my_menu_networkers_profile', '/wp-content/uploads/2023/07/menu-icon.png', 7 );
       }
       // Group 
-      if ($user_role == 'franchise' || $user_role == 'administrator'){
-            add_menu_page('Groups', 'Groups', 'the_networkers', 'networkers-group', 'networkers_group', null, 7 );
+      if ($user_role == 'franchise' || $user_role == 'administrator' || $user_role == 'network-admin'){
+            add_menu_page('Groups', 'Groups', 'the_networkers', 'networkers-group', 'networkers_group', '/wp-content/uploads/2023/07/menu-icon.png', 7 );
             add_submenu_page( 'networkers-group',  'New Group', 'New Group', 'the_networkers', 'networkers-group-new', 'networkers_group_new' );
-            // add_submenu_page( 'networkers-group',  'Admin Group', 'Admin Group', 'the_networkers', 'networkers-group-admin', 'GetRegionformation' );
+            add_submenu_page( 'networkers-group',  'Admin Group', 'Admin Group', 'the_networkers', 'networkers-group-admin', 'GetGroupInformation' );
             add_submenu_page( null,  'Update Group', 'Update Group', 'the_networkers', 'networkers-group-update', 'networkers_group_update' );
       }
       // Industry 
-      if ($user_role == 'administrator'){
-            add_menu_page('Industries', 'Industries', 'the_networkers', 'networkers-industry', 'networkers_industry', null, 7 );
+      if ($user_role == 'administrator' || $user_role == 'network-admin'){
+            add_menu_page('Industries', 'Industries', 'the_networkers', 'networkers-industry', 'networkers_industry', '/wp-content/uploads/2023/07/menu-icon.png', 7 );
             add_submenu_page( 'networkers-industry',  'New Industry', 'New Industry', 'the_networkers', 'networkers-industry-new', 'network_industry_new' );
             add_submenu_page( null,  'Update Industry', 'Update Industry', 'the_networkers', 'networkers-industry-update', 'networkers_industry_update' );
       }
       // Region 
-      if ($user_role == 'administrator'){
-            add_menu_page('Region', 'Region', 'the_networkers', 'networkers-region', 'networkers_region', null, 7 );
+      if ($user_role == 'administrator' || $user_role == 'network-admin'){
+            add_menu_page('Region', 'Region', 'the_networkers', 'networkers-region', 'networkers_region', '/wp-content/uploads/2023/07/menu-icon.png', 7 );
             add_submenu_page( 'networkers-region',  'New Region', 'New Region', 'the_networkers', 'network-region-new', 'network_region_new' );
             add_submenu_page( null,  'Update Region', 'Update Region', 'the_networkers', 'networkers-region-update', 'networkers_region_update' );
       }
       // Member
-      if ($user_role == 'franchise' || $user_role == 'administrator'){
-            add_menu_page('Members', 'Members', 'the_networkers', 'networkers-members', 'networkers_members', null, 7 );
+      if ($user_role == 'franchise' || $user_role == 'administrator' || $user_role == 'network-admin'){
+            add_menu_page('Members', 'Members', 'the_networkers', 'networkers-members', 'networkers_members', '/wp-content/uploads/2023/07/menu-icon.png', 7 );
             add_submenu_page( 'networkers-members',  'New Member', 'New Member', 'the_networkers', 'network-members-new', 'network_members_new' );
             add_submenu_page( null,  'Update Member', 'Update Member', 'the_networkers', 'networkers-members-update', 'networkers_members_update' );
       }
       //Franchisees
-      if ($user_role == 'administrator'){
-            add_menu_page('Franchise', 'Franchise', 'the_networkers', 'networkers-franchise', 'networkers_franchise', null, 7 );
+      if ($user_role == 'administrator' || $user_role == 'network-admin'){
+            add_menu_page('Franchise', 'Franchise', 'the_networkers', 'networkers-franchise', 'networkers_franchise', '/wp-content/uploads/2023/07/menu-icon.png', 7 );
             add_submenu_page( 'networkers-franchise',  'New Franchise', 'New Franchise', 'the_networkers', 'network-franchise-new', 'networkers_franchise_new' );
             add_submenu_page( null,  'Update Franchise', 'Update Franchise', 'the_networkers', 'networkers-franchise-update', 'networkers_franchise_update' );
       }
@@ -125,7 +125,7 @@ add_action('wp_before_admin_bar_render', 'ya_do_it_admin_bar_remove', 0);
 // Redirect the profile page
 add_action( 'load-profile.php', function() {
       if( ! current_user_can( 'manage_options' ) )
-          exit( wp_safe_redirect( admin_url('admin.php?page=my_menu_networkers_members') ) );
+          exit( wp_safe_redirect( admin_url('admin.php?page=networkers-profile') ) );
 } );
 
 
