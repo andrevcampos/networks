@@ -13,6 +13,7 @@ function networkers_members() {
         echo '<h1>The Networkers</h1><br>';
         echo '<div id="icon-users" class="icon32"></div>';
         echo '<h2>Member List</h2>';
+        $exampleListTable->search_box('Search', 'search_id');
         $exampleListTable->display();
     echo '</div>';
 }
@@ -47,6 +48,15 @@ class Member_List_Table extends WP_List_Table
         ) );
 
         $data = array_slice($data,(($currentPage-1)*$perPage),$perPage);
+
+        // Process search query if set
+        $search = isset($_REQUEST['s']) ? sanitize_text_field($_REQUEST['s']) : '';
+
+        if (!empty($search)) {
+            $data = array_filter($data, function ($item) use ($search) {
+                return false !== stripos($item['name'], $search);
+            });
+        }
 
         $this->_column_headers = array($columns, $hidden, $sortable);
         $this->items = $data;
@@ -162,6 +172,37 @@ class Member_List_Table extends WP_List_Table
         }
 
         return -$result;
+    }
+
+    function search_box($text, $input_id) {
+        if (empty($_REQUEST['s']) && !$this->has_items()) {
+            return;
+        }
+    
+        $input_id = $input_id . '-search-input';
+    
+        if (!empty($_REQUEST['orderby'])) {
+            echo '<input type="hidden" name="orderby" value="' . esc_attr($_REQUEST['orderby']) . '" />';
+        }
+        if (!empty($_REQUEST['order'])) {
+            echo '<input type="hidden" name="order" value="' . esc_attr($_REQUEST['order']) . '" />';
+        }
+        if (!empty($_REQUEST['post_mime_type'])) {
+            echo '<input type="hidden" name="post_mime_type" value="' . esc_attr($_REQUEST['post_mime_type']) . '" />';
+        }
+        if (!empty($_REQUEST['detached'])) {
+            echo '<input type="hidden" name="detached" value="' . esc_attr($_REQUEST['detached']) . '" />';
+        }
+        ?>
+        <form method="get" action="<?php echo esc_url(admin_url('admin.php')); ?>">
+            <input type="hidden" name="page" value="networkers-members" />
+            <p class="search-box">
+                <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php echo $text; ?>:</label>
+                <input type="search" id="<?php echo esc_attr($input_id); ?>" name="s" value="<?php echo esc_attr(isset($_REQUEST['s']) ? $_REQUEST['s'] : ''); ?>" />
+                <?php submit_button($text, '', '', false, array('id' => 'search-submit')); ?>
+            </p>
+        </form>
+        <?php
     }
 }
 
