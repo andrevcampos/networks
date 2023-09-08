@@ -27,11 +27,11 @@ function network_members_new() {
                         <option value="Active Visitor">Active Visitor</option>
                         <option value="Active Member">Active Member</option>
                         <option value="Past Member">Past Member</option>
-                </select><br><br>
+                </select><br><br><br>
 
-                <input style="width:10px;margin-top:2px" value="yes" type="checkbox" id="facilitator" name="facilitator">
-                <label style="font-size:18px !important;" for="facilitator">Facilitator</label><br>
-                <p>Select the box if this member is facilitator</p>
+                <label>First Visit:</label><br>
+                <input style="width:200px" type="date" id="firstvisit" name="firstvisit">
+                <p>Please choose the date of the member's initial visit.</p>
 
             </div>
 
@@ -71,7 +71,7 @@ function network_members_new() {
             <div class="memberlogobox">
                 <?php
                 // Multiple selection and nothing selected.
-                Group_Box($groups, false);
+                Group_Box($groups, true);
                 ?>
             </div>
 
@@ -137,6 +137,15 @@ function network_members_new() {
                 </div>
 
                 <br>
+            </div>
+
+            <br><br>
+
+            <div class="memberlogobox">
+                <?php
+                // Multiple selection and nothing selected.
+                Referedby_Box($members, true);
+                ?>
             </div>
 
             <br><br>

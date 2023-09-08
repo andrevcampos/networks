@@ -5,7 +5,6 @@
     $post_id = $_POST["post_id"];
 
     $memberstatus = $_POST["memberstatus"];
-    $facilitator = $_POST["facilitator"];
     $firstName = $_POST["firstName"];
     $lastName = $_POST["lastName"];
     $email = $_POST["email"];
@@ -45,11 +44,6 @@
     }
 
     update_post_meta( $post_id, 'memberstatus', $memberstatus );
-
-    delete_post_meta( $post_id, 'facilitator' );
-    if($facilitator)
-        update_post_meta( $post_id, 'facilitator', $facilitator );
-
     update_post_meta( $post_id, 'firstName', $firstName );
     update_post_meta( $post_id, 'lastName', $lastName );
     if($email)

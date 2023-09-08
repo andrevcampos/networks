@@ -117,4 +117,11 @@ function Update_User_Logo($post_id) {
     }
 }
 
+function Remove_User_Logo($post_id) {
+    $imageid = get_post_meta( $post_id, 'logoimageid', true );
+    if($imageid){
+        wp_delete_attachment( $imageid );
+    }
+}
+
 ?>

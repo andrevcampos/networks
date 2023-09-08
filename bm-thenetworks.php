@@ -40,7 +40,9 @@ include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/get-role.
 include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/group-box.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/imagebox.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/region.php';
-
+include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/get-members.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/referedby-box.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/facilitator-box.php';
 
 //FUNCTION
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-group.php';
@@ -48,11 +50,13 @@ include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-region.php'
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/member-logo.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/member-social-media.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-industry.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-member.php';
 
 //CLASS
 include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-region.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-group.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-industry.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-member.php';
 
 
 
@@ -77,7 +81,8 @@ function my_menu_networkers(){
       if ($user_role == 'franchise' || $user_role == 'administrator' || $user_role == 'network-admin'){
             add_menu_page('Groups', 'Groups', 'the_networkers', 'networkers-group', 'networkers_group', '/wp-content/uploads/2023/07/menu-icon.png', 7 );
             add_submenu_page( 'networkers-group',  'New Group', 'New Group', 'the_networkers', 'networkers-group-new', 'networkers_group_new' );
-            add_submenu_page( 'networkers-group',  'Admin Group', 'Admin Group', 'the_networkers', 'networkers-group-admin', 'GetGroupInformation' );
+            add_submenu_page( 'networkers-group',  'Admin Group', 'Admin Group', 'the_networkers', 'networkers-group-admin', 'GetMemberIdChange' );
+            add_submenu_page( 'networkers-group',  'Remove Group', 'Remove Group', 'the_networkers', 'networkers-group-admin1', 'GetMemberDelete' );
             add_submenu_page( null,  'Update Group', 'Update Group', 'the_networkers', 'networkers-group-update', 'networkers_group_update' );
       }
       // Industry 

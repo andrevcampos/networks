@@ -114,35 +114,46 @@ echo '<div style="display:block" id="networkersbox" class="networkersbox">';
         echo '<input id="lpostcode" type="text" name="lpostcode"></div>';
 
         ImageBox();
+        ?>
 
-        echo '<br><h3>Facilitator</h3>';
-        echo '<div id="facilitatorbox" style="position:relative">';
-            echo '<input id="facilitator" type="text" name="facilitator" onKeyUp="franchiseinputsearch()">';
-            echo '<div class="hideinput">';
-                $args = array('post_type' => 'network-member','posts_per_page' => -1);
-                $posts = get_posts($args);
-                foreach($posts as $post) {
-                    $facilitator = get_post_meta( $post->ID, 'facilitator', true );
-                    if($facilitator == "yes"){
-                        $firstName = get_post_meta( $post->ID, 'firstName', true );
-                        $lastName = get_post_meta( $post->ID, 'lastName', true );
-                        $fullName = $firstName . " " . $lastName; 
-                        echo "<div onclick='franchiseaddsearch(\"$post->ID\",\"$fullName\")' class='hideinputinside'>$post->post_title</div>";
-                    }
-                }
-            echo '</div>';
-        echo '</div>';
-        echo '<div id="facilitators">';
-        echo '</div>';
-        echo '<p id="pfacilitator01">Please select the facilitator</p>';
-        echo '<p id="pfacilitator02">Start typing to view facilitator names. Type "all" to view all.</p>';
+        <br>
+        <?php
+        
+        // Multiple selection and nothing selected.
+        Facilitator_Box($members, true);
+        ?>
+        
+
+        <?php
+
+        // echo '<br><h3>Facilitator</h3>';
+        // echo '<div id="facilitatorbox" style="position:relative">';
+        //     echo '<input id="facilitator" type="text" name="facilitator" onKeyUp="franchiseinputsearch()">';
+        //     echo '<div class="hideinput">';
+        //         $args = array('post_type' => 'network-member','posts_per_page' => -1);
+        //         $posts = get_posts($args);
+        //         foreach($posts as $post) {
+        //             $facilitator = get_post_meta( $post->ID, 'facilitator', true );
+        //             if($facilitator == "yes"){
+        //                 $firstName = get_post_meta( $post->ID, 'firstName', true );
+        //                 $lastName = get_post_meta( $post->ID, 'lastName', true );
+        //                 $fullName = $firstName . " " . $lastName; 
+        //                 echo "<div onclick='franchiseaddsearch(\"$post->ID\",\"$fullName\")' class='hideinputinside'>$post->post_title</div>";
+        //             }
+        //         }
+        //     echo '</div>';
+        // echo '</div>';
+        // echo '<div id="facilitators">';
+        // echo '</div>';
+        // echo '<p id="pfacilitator01">Please select the facilitator</p>';
+        // echo '<p id="pfacilitator02">Start typing to view facilitator names. Type "all" to view all.</p>';
 
         regioninput($regions, false);
 
-        echo "<div class='networkersbuttom' onclick='newgroup()' >Create</div>";
+        echo "<br><div class='networkersbuttom' onclick='newgroup()' >Create</div>";
     echo "</form>";
 echo "</div>";
-
+echo "<div style='height:200px'></div>";
 }
 
 ?>

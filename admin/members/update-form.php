@@ -18,6 +18,7 @@ function networkers_members_update() {
     $businessname = $member->post_title;
     $memberstatus = get_post_meta( $id, 'memberstatus', true );
     $facilitator = get_post_meta( $id, 'facilitator', true );
+    $firstvisit = get_post_meta( $id, 'firstvisit', true );
     $firstName = get_post_meta( $id, 'firstName', true );
     $lastName = get_post_meta( $id, 'lastName', true );
     $email = get_post_meta( $id, 'email', true );
@@ -32,6 +33,7 @@ function networkers_members_update() {
     $postalcode = get_post_meta( $id, 'postalcode', true );
     $payment = get_post_meta( $id, 'payment', true );
     $industry = get_post_meta( $id, 'industry', false );
+    $referedby = get_post_meta( $id, 'referedby', true );
     $group = get_post_meta( $id, 'group', false );
     $socialmedia = get_post_meta( $id, 'socialmedia', false );
 
@@ -59,12 +61,13 @@ function networkers_members_update() {
                         $selected = ($status == $memberstatus) ? "selected" : "";
                         echo "<option value='" . $status . "' $selected>$status</option>";
                     }
-                    echo '</select><br><br>';
-                    $facilitatorselected = ($facilitator == "yes") ? "checked" : "";
+                    echo '</select><br><br><br>';
+                    
                 ?>
-                <input style="width:10px;margin-top:2px" value="yes" type="checkbox" id="facilitator" name="facilitator" <?php echo $facilitatorselected;?>>
-                <label style="font-size:18px !important;" for="facilitator">Facilitator</label><br>
-                <p>Select the box if this member is facilitator</p>
+
+                <label>First Visit:</label><br>
+                <input style="width:200px" type="date" value="<?php echo $firstvisit; ?>" id="firstvisit" name="firstvisit">
+                <p>Please choose the date of the member's initial visit.</p>
 
             </div>
 
@@ -186,6 +189,15 @@ function networkers_members_update() {
                 </div>
 
                 <br>
+            </div>
+            
+            <br><br>
+
+            <div class="memberlogobox">
+                <?php
+                // Multiple selection and nothing selected.
+                Referedby_Box($referedby, true);
+                ?>
             </div>
 
             <br><br>

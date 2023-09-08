@@ -142,3 +142,57 @@ function getmap(lat,lon){
     };
     var map = new google.maps.Map(document.getElementById("map_canvas"),mapOptions);
 }
+
+function getmemberlist(url, url2){
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+        var response = xhr.responseText;
+        var result = JSON.parse(response);
+        //loop here
+        document.getElementById("contar").innerHTML = result.length + "/0";
+        //for (nid in result) {
+            addmemberlist(url2, result, 0)
+            //addmemberlist(url2, result, 1000)
+            // addmemberlist(url2, result, 2000)
+        //}
+        //
+
+        } else {
+        // Handle errors or other status codes here
+        // ...
+        }
+    };
+    xhr.send();
+}
+
+function addmemberlist(url2, result, index){
+
+    var nid = result[index];
+    let next = index + 1;
+    
+    document.getElementById("contar").innerHTML = result.length + "/" + next;
+
+    url = url2 + "?nid=" + nid;
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                if(next < result.length){
+                    addmemberlist(url2, result, next);
+                }
+                
+            } else {
+                console.log("Error: HTTP status " + xhr.status);
+                if(next < result.length){
+                    addmemberlist(url2, result, next);
+                }
+            }
+        }
+    };
+    xhr.send();
+}

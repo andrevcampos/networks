@@ -17,6 +17,7 @@
     $lcity = $_POST["lcity"];
     $lpostcode = $_POST["lpostcode"];
     $regions = $_POST["regionid"];
+    $facilitator = $_POST["facilitator"];
 
     //Get Decription and encode
     $my_option = $_POST["my_option"];
@@ -48,7 +49,7 @@
     //replace space with -
     $slug = str_replace(' ', '-', $post_name2);
     //add region to slug
-    $regionslug = "group-".$slug;
+    $regionslug = $slug;
 
     //Create Post
     $my_post = array(
@@ -66,13 +67,17 @@
     add_post_meta( $post_id, 'start', $start, true );
     add_post_meta( $post_id, 'finsh', $finsh, true );
     add_post_meta( $post_id, 'description', $encodedContent, true );
-    add_post_meta( $post_id, 'lcompany', $lcompany, true );
-    add_post_meta( $post_id, 'laddress', $laddress, true );
-    add_post_meta( $post_id, 'lsuburb', $lsuburb, true );
-    add_post_meta( $post_id, 'lcity', $lcity, true );
-    add_post_meta( $post_id, 'lpostcode', $lpostcode, true );
+    add_post_meta( $post_id, 'company', $lcompany, true );
+    add_post_meta( $post_id, 'address1', $laddress, true );
+    add_post_meta( $post_id, 'address2', $laddress, true );
+    add_post_meta( $post_id, 'suburb', $lsuburb, true );
+    add_post_meta( $post_id, 'city', $lcity, true );
+    add_post_meta( $post_id, 'postcode', $lpostcode, true );
     if($regions[0]){
         add_post_meta( $post_id, 'regions', $regions[0], true );
+    }
+    if($facilitator){
+        add_post_meta( $post_id, 'facilitator', $facilitator, true );
     }
     
     //Check if have Image

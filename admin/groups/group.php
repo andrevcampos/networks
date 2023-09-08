@@ -37,27 +37,34 @@ class Group_List_Table extends WP_List_Table
         $sortable = $this->get_sortable_columns();
 
         $data = $this->table_data();
-        usort( $data, array( &$this, 'sort_data' ) );
+        usort($data, array(&$this, 'sort_data'));
 
-        $perPage = 5;
+        $perPage = 10;
         $currentPage = $this->get_pagenum();
         $totalItems = count($data);
-
-        $this->set_pagination_args( array(
-            'total_items' => $totalItems,
-            'per_page'    => $perPage
-        ) );
-
-        $data = array_slice($data,(($currentPage-1)*$perPage),$perPage);
 
         // Process search query if set
         $search = isset($_REQUEST['s']) ? sanitize_text_field($_REQUEST['s']) : '';
 
         if (!empty($search)) {
             $data = array_filter($data, function ($item) use ($search) {
-                return false !== stripos($item['name'], $search);
+                foreach ($item as $column_value) {
+                    if (stripos($column_value, $search) !== false) {
+                        return true;
+                    }
+                }
+                return false;
             });
         }
+
+        $totalItems = count($data);
+
+        $this->set_pagination_args(array(
+            'total_items' => $totalItems,
+            'per_page' => $perPage
+        ));
+
+        $data = array_slice($data, (($currentPage - 1) * $perPage), $perPage);
 
         $this->_column_headers = array($columns, $hidden, $sortable);
         $this->items = $data;
@@ -122,15 +129,18 @@ class Group_List_Table extends WP_List_Table
                 
                 $weekday = get_post_meta( $post->ID, 'weekday', true );
                 $start = get_post_meta( $post->ID, 'start', true );
-                $finsh = get_post_meta( $post->ID, 'finsh', true );
-                $time = $weekday . " " . $start . " - " . $finsh;
-                $city = get_post_meta( $post->ID, 'lcity', true );
+                $finish = get_post_meta( $post->ID, 'finish', true );
+                $time = $weekday . " " . $start . " - " . $finish;
+                $city = get_post_meta( $post->ID, 'city', true );
 
                 $regions = get_post_meta( $post->ID, 'regions', true );
                 $regions = get_post_meta( $post->ID, 'regions', true );
                 $regionname = get_post( $regions )->post_title;
 
-                $facilitator = get_post_meta( $post->ID, 'facilitator', true );
+                $facilitator2 = get_post_meta( $post->ID, 'facilitator', true );
+                $ffirstname = get_post_meta( $facilitator2, 'firstName', true );
+                $flastname = get_post_meta( $facilitator2, 'lastName', true );
+                $fullname =  $ffirstname . " " . $flastname;
 
                 //Dont have permition
                 if ($user_role == 'franchise'){
@@ -144,7 +154,7 @@ class Group_List_Table extends WP_List_Table
                     'region' => $regionname,
                     'time' => $time,
                     'city' => $city,
-                    'facilitator' => $facilitator,
+                    'facilitator' => $fullname,
                     );
                 array_push($data, $data2);
             }

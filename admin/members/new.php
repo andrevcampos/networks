@@ -3,7 +3,7 @@
     include '../../../../../wp-load.php';
 
     $memberstatus = $_POST["memberstatus"];
-    $facilitator = $_POST["facilitator"];
+    $firstvisit = $_POST["firstvisit"];
     $firstName = $_POST["firstName"];
     $lastName = $_POST["lastName"];
     $email = $_POST["email"];
@@ -58,8 +58,8 @@
     //------------------------------------------------------------
 
     add_post_meta( $post_id, 'memberstatus', $memberstatus, true );
-    if($facilitator)
-        add_post_meta( $post_id, 'facilitator', $facilitator, true );
+    if($firstvisit)
+        add_post_meta( $post_id, 'firstvisit', $firstvisit, true );
     add_post_meta( $post_id, 'firstName', $firstName, true );
     add_post_meta( $post_id, 'lastName', $lastName, true );
     if($email)
@@ -84,6 +84,7 @@
     Add_User_Logo($post_id);
 
     Add_Industry($post_id);
+    Add_Referedby($post_id);
 
     if($phones ){
         foreach($phones as $phone) {

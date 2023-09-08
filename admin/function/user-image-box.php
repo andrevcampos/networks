@@ -112,6 +112,11 @@ function Update_User_Image($post_id) {
     }
 }
 
-
+function Delete_User_Image($post_id) {
+    $imageid = get_post_meta( $post_id, 'userimageid', true );
+    if($imageid){
+        wp_delete_attachment( $imageid );
+    }
+}
 
 ?>

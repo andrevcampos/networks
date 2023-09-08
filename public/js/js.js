@@ -783,6 +783,195 @@ function removeindustry2(index, multiple) {
     }
 }
 
+// Refered By ----------
+
+function searchreferedby() {
+    
+    var referedby = document.getElementById('referedby').value;
+    const collection = document.getElementsByClassName("hideinputinsidereferedby");
+    for (let i = 0; i < collection.length; i++) {
+        collection[i].style = "display:none"
+    }
+
+    if (referedby.length > 2){
+        for (let i = 0; i < collection.length; i++) {
+            if (collection[i].innerHTML.toLowerCase().includes(referedby.toLowerCase())){
+                collection[i].style = "display:block"
+            }
+        }
+    }else{
+        for (let i = 0; i < collection.length; i++) {
+            collection[i].style = "display:block"
+        }
+    }
+}
+
+function cleansearchreferedby(){
+    const collection = document.getElementsByClassName("hideinputinsidereferedby");
+
+    var a = document.querySelector('.hideinputinsidereferedby:hover');
+    if (a) {
+        console.log("over")
+    }
+    else {
+        for (let i = 0; i < collection.length; i++) {
+            collection[i].style = "display:none"
+        }
+    }
+}
+
+function addreferedby(id, name, multiple) {
+
+    console.log(multiple);
+
+    // remove all options from main intup
+    document.getElementById('referedby').value = "";
+    const collection = document.getElementsByClassName("hideinputinsidereferedby");
+    for (let i = 0; i < collection.length; i++) {
+        collection[i].style = "display:none"
+    }
+    
+    // Check if already have this industry selected
+    const inputreferedby = document.getElementsByClassName("inputreferedby");
+    for (let i = 0; i < inputreferedby.length; i++) {
+        if(inputreferedby[i].value == name){
+            return;
+        }
+    }
+
+    const referedbys = document.getElementsByClassName("inputreferedby");
+    console.log(referedbys.length)
+    if(referedbys.length > 0 && multiple == false){
+        console.log("Can only add one")
+    }else{
+        //add new input to the industrys
+        var addList = document.getElementById('referedbys');
+        var text = document.createElement('div');
+        text.className = "referedbydiv";
+        text.style = "width:100%;max-width:500px;display:flex";
+        text.innerHTML = '<input class="inputreferedby referedbyid" type="text" value="'+id+'" name="referedbyid[]" style="width:50px;display:none" readonly><input class="inputreferedby" type="text" value="'+name+'" name="referedby[]" style="width:calc(100% - 50px);border-top-right-radius:0px;border-bottom-right-radius:0px;" readonly><div class="referedbyremove" onclick="removereferedby2(this,'+multiple+')">X</div>';
+        addList.appendChild(text);
+
+        if(multiple == false){
+            document.getElementById('referedby').style="display:none";
+            document.getElementById('referedbytext01').style="display:none";
+            document.getElementById('referedbytext02').style="display:none";
+        }
+
+    }
+
+}
+
+function removereferedby2(index, multiple) {
+    const allreferedbyremovebuttom = document.getElementsByClassName("referedbyremove");
+    const allreferedbyclass = document.getElementsByClassName("referedbydiv");
+    for (let i = 0; i < allreferedbyremovebuttom.length; i++) {
+        if(allreferedbyremovebuttom[i] == index){
+            allreferedbyclass[i].remove();
+        }
+    }
+    if(multiple == false){
+        document.getElementById('referedby').style="display:block";
+        document.getElementById('referedbytext01').style="display:block";
+        document.getElementById('referedbytext02').style="display:block";
+    }
+}
+
+
+// Facilitator ----------
+
+function searchfacilitator() {
+    
+    var facilitator = document.getElementById('facilitator').value;
+    const collection = document.getElementsByClassName("hideinputinsidefacilitator");
+    for (let i = 0; i < collection.length; i++) {
+        collection[i].style = "display:none"
+    }
+
+    if (facilitator.length > 2){
+        for (let i = 0; i < collection.length; i++) {
+            if (collection[i].innerHTML.toLowerCase().includes(facilitator.toLowerCase())){
+                collection[i].style = "display:block"
+            }
+        }
+    }else{
+        for (let i = 0; i < collection.length; i++) {
+            collection[i].style = "display:block"
+        }
+    }
+}
+
+function cleansearchfacilitator(){
+    const collection = document.getElementsByClassName("hideinputinsidefacilitator");
+
+    var a = document.querySelector('.hideinputinsidefacilitator:hover');
+    if (a) {
+        console.log("over")
+    }
+    else {
+        for (let i = 0; i < collection.length; i++) {
+            collection[i].style = "display:none"
+        }
+    }
+}
+
+function addfacilitator(id, name, multiple) {
+
+    console.log(multiple);
+
+    // remove all options from main intup
+    document.getElementById('facilitator').value = "";
+    const collection = document.getElementsByClassName("hideinputinsidefacilitator");
+    for (let i = 0; i < collection.length; i++) {
+        collection[i].style = "display:none"
+    }
+    
+    // Check if already have this industry selected
+    const inputfacilitator = document.getElementsByClassName("inputfacilitator");
+    for (let i = 0; i < inputfacilitator.length; i++) {
+        if(inputfacilitator[i].value == name){
+            return;
+        }
+    }
+
+    const facilitators = document.getElementsByClassName("inputfacilitator");
+    console.log(facilitators.length)
+    if(facilitators.length > 0 && multiple == false){
+        console.log("Can only add one")
+    }else{
+        //add new input to the industrys
+        var addList = document.getElementById('facilitators');
+        var text = document.createElement('div');
+        text.className = "facilitatordiv";
+        text.style = "width:100%;max-width:500px;display:flex";
+        text.innerHTML = '<input class="inputfacilitator facilitatorid" type="text" value="'+id+'" name="facilitatorid[]" style="width:50px;display:none" readonly><input class="inputfacilitator" type="text" value="'+name+'" name="facilitator[]" style="width:calc(100% - 50px);border-top-right-radius:0px;border-bottom-right-radius:0px;" readonly><div class="facilitatorremove" onclick="removefacilitator2(this,'+multiple+')">X</div>';
+        addList.appendChild(text);
+
+        if(multiple == false){
+            document.getElementById('facilitator').style="display:none";
+            document.getElementById('facilitatortext01').style="display:none";
+            document.getElementById('facilitatortext02').style="display:none";
+        }
+
+    }
+
+}
+
+function removefacilitator2(index, multiple) {
+    const allfacilitatorremovebuttom = document.getElementsByClassName("facilitatorremove");
+    const allfacilitatorclass = document.getElementsByClassName("facilitatordiv");
+    for (let i = 0; i < allfacilitatorremovebuttom.length; i++) {
+        if(allfacilitatorremovebuttom[i] == index){
+            allfacilitatorclass[i].remove();
+        }
+    }
+    if(multiple == false){
+        document.getElementById('facilitator').style="display:block";
+        document.getElementById('facilitatortext01').style="display:block";
+        document.getElementById('facilitatortext02').style="display:block";
+    }
+}
+
 // POPUP ----------
 
 // message box

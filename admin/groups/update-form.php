@@ -20,13 +20,13 @@ function networkers_group_update() {
     $title = $group->post_title;
     $weekday = get_post_meta( $groupid, 'weekday', true );
     $start = get_post_meta( $groupid, 'start', true );
-    $finsh = get_post_meta( $groupid, 'finsh', true );
+    $finish = get_post_meta( $groupid, 'finish', true );
     $description = base64_decode(get_post_meta( $groupid, 'description', true ));
-    $lcompany = get_post_meta( $groupid, 'lcompany', true );
-    $laddress = get_post_meta( $groupid, 'laddress', true );
-    $lsuburb = get_post_meta( $groupid, 'lsuburb', true );
-    $lcity = get_post_meta( $groupid, 'lcity', true );
-    $lpostcode = get_post_meta( $groupid, 'lpostcode', true );
+    $lcompany = get_post_meta( $groupid, 'company', true );
+    $laddress = get_post_meta( $groupid, 'address', true );
+    $lsuburb = get_post_meta( $groupid, 'suburb', true );
+    $lcity = get_post_meta( $groupid, 'city', true );
+    $lpostcode = get_post_meta( $groupid, 'postcode', true );
     $imageid = get_post_meta( $groupid, 'imageid', true );
 
     $region = get_post_meta( $groupid, 'regions', true );
@@ -37,7 +37,7 @@ function networkers_group_update() {
     $startmin = $startpieces[1]; 
     $starttime = $startpieces[2]; 
 
-    $finishpieces = explode(":", $finsh);
+    $finishpieces = explode(":", $finish);
     $finishhour = $finishpieces[0]; 
     $finishmin = $finishpieces[1]; 
     $finishtime = $finishpieces[2]; 
