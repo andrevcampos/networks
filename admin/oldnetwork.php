@@ -1,5 +1,63 @@
 <?php
 
+function networkers_superadmin() {
+
+    wp_enqueue_script( 'superadminjs', plugins_url() . '/thenetworks/public/js/superadmin.js' );
+    
+    echo '<div id="networkersbox" class="wrap">';
+        echo '<h1>Super Admin</h1><br>';
+        echo '<div id="icon-users" class="icon32"></div>';
+        echo '<h4>Delete All Images</h4>';
+        echo '<button id="deleteImagesButton">Delete Images</button>';
+        echo '<h4>Delete Members</h4>';
+        echo '<button id="deleteMembersButton">Delete Members</button>';
+        echo '<h4>Add Members</h4>';
+        echo '<button id="addMembersButton">Add Members</button>';
+
+        $query = new WP_Query(array(
+            'post_type' => 'network-member',
+            'posts_per_page' => -1,
+        ));
+        $num_rows = $query->found_posts;
+
+        $images = array();
+        while ($query->have_posts()) {
+            $query->the_post();
+            $post_id = get_the_ID();
+            if (metadata_exists('post', $post_id, 'imageid')) {
+                $imageid = get_post_meta( $post_id, 'imageid', true );
+                $image = array($post_id, $imageid);
+                array_push($images, $image);
+            } 
+        }
+        $contar = Count($images);
+
+        echo '<h4>Update Member Images</h4>';
+        echo '<h4 id="imagelabel">(' . $contar . ' Images to update)</h4>';
+        echo '<button onclick="checkimagearray()">Update Member Images</button>';
+        //echo '<button id="updateMemberImagesButton">Update Member Images</button>';
+
+        $logos = array();
+        while ($query->have_posts()) {
+            $query->the_post();
+            $post_id = get_the_ID();
+            if (metadata_exists('post', $post_id, 'logoid')) {
+                $logoid = get_post_meta( $post_id, 'logoid', true );
+                $logo = array($post_id, $logoid);
+                array_push($logos, $logo);
+            }
+        }
+        $contar2 = Count($logos);
+
+        echo '<h4>Update Members Logo (' . $contar2 . ' Logos to update)</h4>';
+        echo '<h4 id="logolabel">(' . $contar2 . ' Logos to update)</h4>';
+        echo '<button onclick="checklogoarray()">Update Members Logo</button>';
+        //echo '<button id="updateMemberLogosButton">Update Member Images</button>';
+    echo '</div>';
+    
+}
+
+add_action('wp_ajax_add_members', 'GetMemberInformation');
 function GetMemberInformation() {
 
     wp_enqueue_script( 'functionjs', plugins_url() . '/thenetworks/public/js/functions.js' );
@@ -21,12 +79,6 @@ function GetMemberInformation() {
     $sql = "SELECT * FROM node WHERE type='member'";
     $result = mysqli_query($conn, $sql);
 
-    echo "<div id='contar'></div>";
-    echo '<script>';
-    echo "getmemberlist('$membercheckurl', '$memberaddurl');";
-    echo '</script>';
-    return;
-    
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
             $nid = $row['nid'];
@@ -154,6 +206,7 @@ function GetMemberInformation() {
                 if ($result1 && mysqli_num_rows($result1) > 0) {
                     $row = mysqli_fetch_assoc($result1);
                     $referenceby = $row['field_member_referred_by_target_id'];
+                    add_post_meta( $post_id, 'referenceby', $referenceby, true);
                 } 
 
                 //Phone
@@ -175,7 +228,21 @@ function GetMemberInformation() {
                         $url = $row['field_member_website_uri'];
                         $array = array("$title","$url");
                         $socialmedia = json_encode($array); 
-                        add_post_meta( $id, 'socialmedia', $socialmedia, false);
+                        add_post_meta( $post_id, 'socialmedia', $socialmedia, false);
+                    }
+                }
+
+                //Status
+                $sql1 = "SELECT * FROM node_field_data WHERE nid='$nid'";
+                $result1 = mysqli_query($conn, $sql1);
+                if ($result1 && mysqli_num_rows($result1) > 0) {
+                    while($row = $result1->fetch_assoc()) {
+                        $status = $row['status'];
+                        if($status == 0){
+                            add_post_meta( $post_id, 'status', 'Active Member', true);
+                        }else{
+                            add_post_meta( $post_id, 'status', 'Past Member', true);
+                        }
                     }
                 }
 
@@ -185,39 +252,7 @@ function GetMemberInformation() {
                 if ($result7 && mysqli_num_rows($result7) > 0) {
                     $row = mysqli_fetch_assoc($result7);
                     $fid = $row['field_member_image_target_id'];
-                    $sql8 = "SELECT * FROM file_managed WHERE fid='$fid'";
-                    $result8 = mysqli_query($conn, $sql8);
-                    $row8 = mysqli_fetch_assoc($result8);
-                    $photourl2 = $row8['uri'];
-                    $photourl = str_replace('public://', "https://networkers.breeze.marketing/web/sites/default/files/", $photourl2);
-                    $encoded_url = str_replace(' ', '%20', $photourl);
-    
-                    //Upload image to WP Media
-                    $upload_dir = wp_upload_dir();
-                    $image_data = file_get_contents( $encoded_url );
-                    if(!$image_data){
-                        $image_data = file_get_contents( $photourl );
-                    }
-                    $filename = basename( $photourl );
-                    if ( wp_mkdir_p( $upload_dir['path'] ) ) {
-                    $file = $upload_dir['path'] . '/' . $filename;
-                    }
-                    else {
-                    $file = $upload_dir['basedir'] . '/' . $filename;
-                    }
-                    file_put_contents( $file, $image_data );
-                    $wp_filetype = wp_check_filetype( $filename, null );
-                    $attachment = array(
-                    'post_mime_type' => $wp_filetype['type'],
-                    'post_title' => sanitize_file_name( $filename ),
-                    'post_content' => '',
-                    'post_status' => 'inherit'
-                    );
-                    $attach_id = wp_insert_attachment( $attachment, $file );
-                    add_post_meta( $post_id, 'userimageid', $attach_id, true );
-                    require_once( ABSPATH . 'wp-admin/includes/image.php' );
-                    $attach_data = wp_generate_attachment_metadata( $attach_id, $file );
-                    wp_update_attachment_metadata( $attach_id, $attach_data );
+                    add_post_meta( $post_id, 'imageid', $fid, true);
                 }
 
                 //logo
@@ -226,40 +261,7 @@ function GetMemberInformation() {
                 if ($result7 && mysqli_num_rows($result7) > 0) {
                     $row = mysqli_fetch_assoc($result7);
                     $fid = $row['field_member_logo_target_id'];
-                    $sql8 = "SELECT * FROM file_managed WHERE fid='$fid'";
-                    $result8 = mysqli_query($conn, $sql8);
-                    $row8 = mysqli_fetch_assoc($result8);
-                    $photourl2 = $row8['uri'];
-                    $photourl = str_replace('public://', "https://networkers.breeze.marketing/web/sites/default/files/", $photourl2);
-                    $encoded_url = str_replace(' ', '%20', $photourl);
-    
-                    //Upload image to WP Media
-                    $upload_dir = wp_upload_dir();
-                    $image_data = file_get_contents( $encoded_url );
-                    if(!$image_data){
-                        $image_data = file_get_contents( $photourl );
-                    }
-                    $filename = basename( $photourl );
-                    if ( wp_mkdir_p( $upload_dir['path'] ) ) {
-                    $file = $upload_dir['path'] . '/' . $filename;
-                    }
-                    else {
-                    $file = $upload_dir['basedir'] . '/' . $filename;
-                    }
-                    file_put_contents( $file, $image_data );
-                    $wp_filetype = wp_check_filetype( $filename, null );
-                    $attachment = array(
-                    'post_mime_type' => $wp_filetype['type'],
-                    'post_title' => sanitize_file_name( $filename ),
-                    'post_content' => '',
-                    'post_status' => 'inherit'
-                    );
-                    $attach_id = wp_insert_attachment( $attachment, $file );
-                    add_post_meta( $post_id, 'logoimageid', $attach_id, true );
-                    require_once( ABSPATH . 'wp-admin/includes/image.php' );
-                    $attach_data = wp_generate_attachment_metadata( $attach_id, $file );
-                    wp_update_attachment_metadata( $attach_id, $attach_data );
-                    
+                    add_post_meta( $post_id, 'logoid', $fid, true);
                 }
 
                 //Location
@@ -319,11 +321,203 @@ function GetMemberInformation() {
             }
         }
     }
-    
     mysqli_close($conn);
-    
 }
 
+add_action('wp_ajax_update_member_images', 'GetMemberImage');
+function GetMemberImage() {
+
+    $servername = "thenetworkers.co.nz";
+    $username = "thenetw_andre";
+    $password = "Andre@123!";
+    $dbname = "thenetw_networkers";
+
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    $query = new WP_Query(array(
+        'post_type' => 'network-member',
+        'posts_per_page' => -1,
+    ));
+
+    while ($query->have_posts()) {
+        $query->the_post();
+        $post_id = get_the_ID();
+        $nid = get_post_meta( $post_id, 'nid', true );
+
+        //User Image
+        if (metadata_exists('post', $post_id, 'imageid')) {
+            $imageid = get_post_meta($post_id, 'imageid', true);
+            if (!empty($imageid)) {
+                $sql8 = "SELECT * FROM file_managed WHERE fid='$imageid'";
+                $result8 = mysqli_query($conn, $sql8);
+                if ($result8) {
+                    $row8 = mysqli_fetch_assoc($result8);
+                    if ($row8) {
+                        $photourl2 = $row8['uri'];
+                        $photourl = str_replace('public://', "https://networkers.breeze.marketing/web/sites/default/files/", $photourl2);
+                        $encoded_url = str_replace(' ', '%20', $photourl);
+        
+                        // Upload image to WP Media
+                        $upload_dir = wp_upload_dir();
+                        $image_data = file_get_contents($encoded_url);
+                        if (!$image_data) {
+                            // Fallback to the original URL
+                            $image_data = file_get_contents($photourl);
+                        }
+        
+                        if ($image_data) {
+                            $filename = basename($photourl);
+                            if (wp_mkdir_p($upload_dir['path'])) {
+                                $file = $upload_dir['path'] . '/' . $filename;
+                            } else {
+                                $file = $upload_dir['basedir'] . '/' . $filename;
+                            }
+        
+                            if (file_put_contents($file, $image_data)) {
+                                $wp_filetype = wp_check_filetype($filename, null);
+                                $attachment = array(
+                                    'post_mime_type' => $wp_filetype['type'],
+                                    'post_title' => sanitize_file_name($filename),
+                                    'post_content' => '',
+                                    'post_status' => 'inherit'
+                                );
+        
+                                delete_post_meta($post_id, 'imageid');
+                                $attach_id = wp_insert_attachment($attachment, $file);
+
+                                if (!is_wp_error($attach_id)) {
+                                    add_post_meta($post_id, 'userimageid', $attach_id, true);
+                                    require_once(ABSPATH . 'wp-admin/includes/image.php');
+                                    $attach_data = wp_generate_attachment_metadata($attach_id, $file);
+                                    wp_update_attachment_metadata($attach_id, $attach_data);
+                                }
+                            }else{
+                                delete_post_meta($post_id, 'imageid');
+                            }
+                        }else{
+                            delete_post_meta($post_id, 'imageid');
+                        }
+                    } else {
+                        // Handle the case where $row8 is empty
+                        delete_post_meta($post_id, 'imageid');
+                    }
+                } else {
+                    // Handle the SQL query error
+                    delete_post_meta($post_id, 'imageid');
+                }
+            } else {
+                // Handle the case where $imageid is empty
+                delete_post_meta($post_id, 'imageid');
+            }
+        }
+        
+    }
+    wp_reset_postdata();
+}
+
+add_action('wp_ajax_update_member_logo', 'GetMemberLogo');
+function GetMemberLogo() {
+
+    $servername = "thenetworkers.co.nz";
+    $username = "thenetw_andre";
+    $password = "Andre@123!";
+    $dbname = "thenetw_networkers";
+
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    $query = new WP_Query(array(
+        'post_type' => 'network-member',
+        'posts_per_page' => -1,
+    ));
+
+    while ($query->have_posts()) {
+        $query->the_post();
+        $post_id = get_the_ID();
+        $nid = get_post_meta( $post_id, 'nid', true );
+
+        //logo
+        if (metadata_exists('post', $post_id, 'logoid')) {
+            $logoid = get_post_meta($post_id, 'logoid', true);
+            
+            if (!empty($logoid)) {
+                $sql8 = "SELECT * FROM file_managed WHERE fid='$logoid'";
+                $result8 = mysqli_query($conn, $sql8);
+        
+                if ($result8) {
+                    $row8 = mysqli_fetch_assoc($result8);
+        
+                    if ($row8) {
+                        $photourl2 = $row8['uri'];
+                        $photourl = str_replace('public://', "https://networkers.breeze.marketing/web/sites/default/files/", $photourl2);
+                        $encoded_url = str_replace(' ', '%20', $photourl);
+        
+                        // Upload image to WP Media
+                        $upload_dir = wp_upload_dir();
+                        $image_data = file_get_contents($encoded_url);
+                        
+                        if (!$image_data) {
+                            // Fallback to the original URL
+                            $image_data = file_get_contents($photourl);
+                        }
+        
+                        if ($image_data) {
+                            $filename = basename($photourl);
+        
+                            if (wp_mkdir_p($upload_dir['path'])) {
+                                $file = $upload_dir['path'] . '/' . $filename;
+                            } else {
+                                $file = $upload_dir['basedir'] . '/' . $filename;
+                            }
+        
+                            if (file_put_contents($file, $image_data)) {
+                                $wp_filetype = wp_check_filetype($filename, null);
+                                $attachment = array(
+                                    'post_mime_type' => $wp_filetype['type'],
+                                    'post_title' => sanitize_file_name($filename),
+                                    'post_content' => '',
+                                    'post_status' => 'inherit'
+                                );
+                                delete_post_meta($post_id, 'logoid');
+                                $attach_id = wp_insert_attachment($attachment, $file);
+        
+                                if (!is_wp_error($attach_id)) {
+                                    add_post_meta($post_id, 'logoimageid', $attach_id, true);
+                                    require_once(ABSPATH . 'wp-admin/includes/image.php');
+                                    $attach_data = wp_generate_attachment_metadata($attach_id, $file);
+                                    wp_update_attachment_metadata($attach_id, $attach_data);
+                                }
+                            }else{
+                                delete_post_meta($post_id, 'logoid');
+                            }
+                        }else{
+                            delete_post_meta($post_id, 'logoid');
+                        }
+                    } else {
+                        // Handle the case where $row8 is empty
+                        delete_post_meta($post_id, 'logoid');
+                    }
+                } else {
+                    // Handle the SQL query error
+                    delete_post_meta($post_id, 'logoid');
+                }
+            } else {
+                // Handle the case where $logoid is empty
+                delete_post_meta($post_id, 'logoid');
+            }
+        }        
+    }
+    wp_reset_postdata();
+}
+
+add_action('wp_ajax_delete_images', 'GetMemberDeleteImage');
 function GetMemberDeleteImage() {
     $query = new WP_Query(array(
         'post_type' => 'attachment',
@@ -341,6 +535,8 @@ function GetMemberDeleteImage() {
     wp_reset_query();
 }
 
+
+add_action('wp_ajax_delete_members', 'GetMemberDelete');
 function GetMemberDelete() {
 
     $query = new WP_Query(array(

@@ -18,16 +18,18 @@ function networkers_group_update() {
     $groupid = $_GET['id'];
     $group = get_post($groupid);
     $title = $group->post_title;
+    $status = get_post_meta( $groupid, 'status', true );
     $weekday = get_post_meta( $groupid, 'weekday', true );
     $start = get_post_meta( $groupid, 'start', true );
     $finish = get_post_meta( $groupid, 'finish', true );
     $description = base64_decode(get_post_meta( $groupid, 'description', true ));
-    $lcompany = get_post_meta( $groupid, 'company', true );
-    $laddress = get_post_meta( $groupid, 'address', true );
-    $lsuburb = get_post_meta( $groupid, 'suburb', true );
-    $lcity = get_post_meta( $groupid, 'city', true );
-    $lpostcode = get_post_meta( $groupid, 'postcode', true );
+    $lcompany = get_post_meta( $groupid, 'lcompany', true );
+    $laddress = get_post_meta( $groupid, 'laddress', true );
+    $lsuburb = get_post_meta( $groupid, 'lsuburb', true );
+    $lcity = get_post_meta( $groupid, 'lcity', true );
+    $lpostcode = get_post_meta( $groupid, 'lpostcode', true );
     $imageid = get_post_meta( $groupid, 'imageid', true );
+    $facilitator = get_post_meta( $groupid, 'facilitator', true );
 
     $region = get_post_meta( $groupid, 'regions', true );
     $regions = array($region);
@@ -53,6 +55,20 @@ function networkers_group_update() {
             echo "<input id='name' type='text' name='name' value='$title'><br><br>";
             echo "<input style='display:none' id='orginalname' type='text' name='orginalname' value='$title'>";
             echo "<input style='display:none' id='postid' type='text' name='postid' value='$groupid'>";
+
+            echo '<label >Status:</label><br>';
+            echo '<select name="status" id="status" class="select" style="width:180px">';
+                if($status == "active"){
+                    echo '<option value="active" selected>Active</option>';
+                }else{
+                    echo '<option value="active">Active</option>';
+                }
+                if($status == "inactive"){
+                    echo '<option value="inactive" selected>Inactive</option>';
+                }else{
+                    echo '<option value="inactive">Inactive</option>';
+                }
+            echo '</select><br><br>';
 
             echo '<label>Week Day:</label><br>';
             echo '<select name="weekday" id="weekday" class="select">';
@@ -225,30 +241,25 @@ function networkers_group_update() {
             echo '<input id="lpostcode" type="text" name="lpostcode" value="'.$lpostcode.'"></div><br>';
 
             ImageBox($imageid);
-  
-            echo '<h3>Facilitator</h3>';
-            echo '<div id="facilitatorbox" style="position:relative">';
-                echo '<input id="facilitator" type="text" name="facilitator" onKeyUp="franchiseinputsearch()">';
-                echo '<div class="hideinput">';
-                    $args = array('post_type' => 'network-member','posts_per_page' => -1);
-                    $posts = get_posts($args);
-                    foreach($posts as $post) {
-                        $facilitator = get_post_meta( $post->ID, 'facilitator', true );
-                        if($facilitator == "yes"){
-                            $firstName = get_post_meta( $post->ID, 'firstName', true );
-                            $lastName = get_post_meta( $post->ID, 'lastName', true );
-                            $fullName = $firstName . " " . $lastName; 
-                            echo "<div onclick='franchiseaddsearch(\"$post->ID\",\"$fullName\")' class='hideinputinside'>$post->post_title</div>";
-                        }
-                    }
-                echo '</div>';
-            echo '</div>';
-            echo '<div id="facilitators">';
-            echo '</div>';
-            echo '<p id="pfacilitator01">Please select the facilitator</p>';
-            echo '<p id="pfacilitator02">Start typing to view facilitator names. Type "all" to view all.</p>';
 
-            regioninput($regions, false);
+            ?>
+            <div class="memberlogobox">
+                <?php
+                Facilitator_Box($facilitator, true);
+                ?>
+            </div>
+            <br>
+            <?php
+
+            ?>
+            <div class="memberlogobox">
+                <?php
+                regioninput($regions, false);
+                ?>
+            </div>
+            <?php
+  
+            
 
             echo "<br><div class='networkersbuttom' onclick='newgroup()' >Update</div>";
         echo "</form>";

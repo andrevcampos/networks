@@ -6,6 +6,7 @@ function Get_Group($id) {
     $obj = new group();
     $obj->ID = $group->ID;
     $obj->post_title = $group->post_title;
+    $obj->status = get_post_meta( $group->ID, 'status', true );
     $obj->weekday = get_post_meta( $group->ID, 'weekday', true );
     $obj->start = get_post_meta( $group->ID, 'start', true );
     $obj->finsh = get_post_meta( $group->ID, 'finsh', true );
@@ -18,7 +19,8 @@ function Get_Group($id) {
     $obj->regions = get_post_meta( $group->ID, 'regions', true );
     
     $imageid = get_post_meta( $group->ID, 'imageid', true );
-    $imageurl = get_site_url()."wp-content/uploads/".get_post_meta( $imageid, '_wp_attached_file', true );
+    $obj->imageid = $imageid;
+    $imageurl = get_site_url()."/wp-content/uploads/".get_post_meta( $imageid, '_wp_attached_file', true );
     $obj->imageurl = $imageurl;
     return $obj;
 }

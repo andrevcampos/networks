@@ -917,8 +917,6 @@ function cleansearchfacilitator(){
 
 function addfacilitator(id, name, multiple) {
 
-    console.log(multiple);
-
     // remove all options from main intup
     document.getElementById('facilitator').value = "";
     const collection = document.getElementsByClassName("hideinputinsidefacilitator");

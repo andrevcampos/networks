@@ -58,6 +58,20 @@ include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-group.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-industry.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-member.php';
 
+// //SHORTCODE
+// include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/slide.php';
+
+//API
+include_once ABSPATH . '/wp-content/plugins/thenetworks/API/group_list.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/API/member-image-list.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/API/member-image-upload.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/API/member-logo-list.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/API/member-logo-upload.php';
+
+//SUPER ADMIN
+include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/oldnetwork.php';
+
+
 
 
 
@@ -108,6 +122,11 @@ function my_menu_networkers(){
             add_menu_page('Franchise', 'Franchise', 'the_networkers', 'networkers-franchise', 'networkers_franchise', '/wp-content/uploads/2023/07/menu-icon.png', 7 );
             add_submenu_page( 'networkers-franchise',  'New Franchise', 'New Franchise', 'the_networkers', 'network-franchise-new', 'networkers_franchise_new' );
             add_submenu_page( null,  'Update Franchise', 'Update Franchise', 'the_networkers', 'networkers-franchise-update', 'networkers_franchise_update' );
+      }
+
+      //Super Admin
+      if ($user_role == 'administrator'){
+            add_menu_page('SuperAdmin', 'SuperAdmin', 'the_networkers', 'networkers-superadmin', 'networkers_superadmin', '/wp-content/uploads/2023/07/menu-icon.png', 7 );
       }
 }
 

@@ -16,7 +16,7 @@ function networkers_members_update() {
     $id = $_GET['id'];
     $member = get_post($id);
     $businessname = $member->post_title;
-    $memberstatus = get_post_meta( $id, 'memberstatus', true );
+    $memberstatus = get_post_meta( $id, 'status', true );
     $facilitator = get_post_meta( $id, 'facilitator', true );
     $firstvisit = get_post_meta( $id, 'firstvisit', true );
     $firstName = get_post_meta( $id, 'firstName', true );
@@ -45,7 +45,7 @@ function networkers_members_update() {
     <div style="display:block" id="networkersbox" class="networkersbox">
         <form id='myForm' action='<?php echo $url; ?>' method='post' enctype='multipart/form-data'>
            <div class="wrap">
-                <h2>New Member</h2>
+                <h2>Update Member</h2>
             </div><br><br>
 
             <input style='display:none' id='orginalname' type='text' name='orginalname' value='<?php echo $businessname;?>'>

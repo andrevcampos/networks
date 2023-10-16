@@ -1,8 +1,11 @@
 <?php
 
+    ob_start();
+    
     include '../../../../../wp-load.php';
 
     $name = $_POST["name"];
+    $status = $_POST["status"];
     $weekday = $_POST["weekday"];
     $starthour = $_POST["starthour"];
     $startmin = $_POST["startmin"];
@@ -17,7 +20,7 @@
     $lcity = $_POST["lcity"];
     $lpostcode = $_POST["lpostcode"];
     $regions = $_POST["regionid"];
-    $facilitator = $_POST["facilitator"];
+    $facilitator = $_POST["facilitatorid"];
 
     //Get Decription and encode
     $my_option = $_POST["my_option"];
@@ -63,6 +66,7 @@
     $post_id = wp_insert_post( $my_post );
 
     //Create Post Meta
+    add_post_meta( $post_id, 'status', $status, true );
     add_post_meta( $post_id, 'weekday', $weekday, true );
     add_post_meta( $post_id, 'start', $start, true );
     add_post_meta( $post_id, 'finsh', $finsh, true );
@@ -77,7 +81,7 @@
         add_post_meta( $post_id, 'regions', $regions[0], true );
     }
     if($facilitator){
-        add_post_meta( $post_id, 'facilitator', $facilitator, true );
+        add_post_meta( $post_id, 'facilitator', $facilitator[0], true );
     }
     
     //Check if have Image
@@ -116,7 +120,6 @@
         $attach_data = wp_generate_attachment_metadata( $attach_id, $file );
         wp_update_attachment_metadata( $attach_id, $attach_data );
 
-        
     }
     $url = admin_url('admin.php?page=networkers-group');
     header("Location: $url"); 

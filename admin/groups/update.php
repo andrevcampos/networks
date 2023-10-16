@@ -1,5 +1,7 @@
 <?php
 
+    ob_start();
+
     include '../../../../../wp-load.php';
 
     
@@ -11,6 +13,7 @@
     }
 
     $name = $_POST["name"];
+    $status = $_POST["status"];
     $weekday = $_POST["weekday"];
     $starthour = $_POST["starthour"];
     $startmin = $_POST["startmin"];
@@ -25,9 +28,11 @@
     $lcity = $_POST["lcity"];
     $lpostcode = $_POST["lpostcode"];
     $regions = $_POST["regionid"];
+    $facilitator = $_POST["facilitatorid"];
 
     //Get Decription and encode
     $my_option = $_POST["my_option"];
+    $my_option = stripslashes($my_option);
     $encodedContent = base64_encode($my_option);
 
     //Change Time Formation
@@ -71,6 +76,7 @@
 
 
     //Create Post Meta
+    update_post_meta( $post_id, 'status', $status);
     update_post_meta( $post_id, 'weekday', $weekday);
     update_post_meta( $post_id, 'start', $start);
     update_post_meta( $post_id, 'finsh', $finsh);
@@ -83,8 +89,28 @@
 
     if($regions[0]){
         update_post_meta( $post_id, 'regions', $regions[0]);
+        if (metadata_exists('post', $post_id, 'regions')) {
+            update_post_meta( $post_id, 'regions', $regions[0]);
+        }else{
+            add_post_meta( $post_id, 'regions', $regions[0], true );
+        }
+    }else{
+        if (metadata_exists('post', $post_id, 'regions')) {
+            update_post_meta( $post_id, 'regions', "");
+        }
     }
-    
+
+    if($facilitator[0]){
+        if (metadata_exists('post', $post_id, 'facilitator')) {
+            update_post_meta( $post_id, 'facilitator', $facilitator[0]);
+        }else{
+            add_post_meta( $post_id, 'facilitator', $facilitator[0], true );
+        }
+    }else{
+        if (metadata_exists('post', $post_id, 'facilitator')) {
+            update_post_meta( $post_id, 'facilitator', "");
+        }
+    }
 
     //Update image if have any change.
     if(!$originalimage){
@@ -136,9 +162,8 @@
             delete_post_meta($post_id, 'imageid');
         }
     }
-
     
     $url = admin_url('admin.php?page=networkers-group');
-    header("Location: $url"); 
+    header("Location: $url");
     exit();
 ?>

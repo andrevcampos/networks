@@ -80,6 +80,7 @@ class Group_List_Table extends WP_List_Table
             'time' => 'Time',
             'city' => 'City',
             'facilitator' => 'Facilitator',
+            'status' => 'Status',
         );
         return $columns;
     }
@@ -132,6 +133,7 @@ class Group_List_Table extends WP_List_Table
                 $finish = get_post_meta( $post->ID, 'finish', true );
                 $time = $weekday . " " . $start . " - " . $finish;
                 $city = get_post_meta( $post->ID, 'city', true );
+                $status = get_post_meta( $post->ID, 'status', true );
 
                 $regions = get_post_meta( $post->ID, 'regions', true );
                 $regions = get_post_meta( $post->ID, 'regions', true );
@@ -155,6 +157,7 @@ class Group_List_Table extends WP_List_Table
                     'time' => $time,
                     'city' => $city,
                     'facilitator' => $fullname,
+                    'status' => $status,
                     );
                 array_push($data, $data2);
             }
@@ -171,6 +174,7 @@ class Group_List_Table extends WP_List_Table
             case 'time':
             case 'city':
             case 'facilitator':
+            case 'status':
                 return $item[ $column_name ];
 
             default:

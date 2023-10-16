@@ -1,8 +1,10 @@
 <?php
 
+    ob_start();
+
     include '../../../../../wp-load.php';
 
-    $memberstatus = $_POST["memberstatus"];
+    $status = $_POST["memberstatus"];
     $firstvisit = $_POST["firstvisit"];
     $firstName = $_POST["firstName"];
     $lastName = $_POST["lastName"];
@@ -57,7 +59,7 @@
 
     //------------------------------------------------------------
 
-    add_post_meta( $post_id, 'memberstatus', $memberstatus, true );
+    add_post_meta( $post_id, 'status', $status, true );
     if($firstvisit)
         add_post_meta( $post_id, 'firstvisit', $firstvisit, true );
     add_post_meta( $post_id, 'firstName', $firstName, true );
