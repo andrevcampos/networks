@@ -229,3 +229,129 @@ jQuery(document).ready(function($) {
         });
     });
 });
+
+jQuery(document).ready(function($) {
+    $('#removeIndustryButton').click(function() {
+        // Send an AJAX request to execute the PHP function
+        $.ajax({
+            url: ajaxurl, // WordPress AJAX URL
+            type: 'POST',
+            data: {
+                action: 'IndustryRemove' // Action name to execute in PHP
+            },
+            success: function(response) {
+                // Handle the success response here, if needed
+                alert('Industry removed successfully.');
+            },
+            error: function() {
+                // Handle any errors here, if needed
+                alert('Error deleting industry.');
+            }
+        });
+    });
+});
+
+jQuery(document).ready(function($) {
+    $('#addIndustryButton').click(function() {
+        // Send an AJAX request to execute the PHP function
+        $.ajax({
+            url: ajaxurl, // WordPress AJAX URL
+            type: 'POST',
+            data: {
+                action: 'IndustryAdd' // Action name to execute in PHP
+            },
+            success: function(response) {
+                // Handle the success response here, if needed
+                alert('Industry added successfully.');
+            },
+            error: function() {
+                // Handle any errors here, if needed
+                alert('Error adding industry.');
+            }
+        });
+    });
+});
+
+jQuery(document).ready(function($) {
+    $('#updateIDIndustryButton').click(function() {
+        // Send an AJAX request to execute the PHP function
+        $.ajax({
+            url: ajaxurl, // WordPress AJAX URL
+            type: 'POST',
+            data: {
+                action: 'IndustryUpdateID' // Action name to execute in PHP
+            },
+            success: function(response) {
+                // Handle the success response here, if needed
+                alert('Industry ID Update successfully.');
+            },
+            error: function() {
+                // Handle any errors here, if needed
+                alert('Error Updating industry ID.');
+            }
+        });
+    });
+});
+
+jQuery(document).ready(function($) {
+    $('#deleteGroupButton').click(function() {
+        // Send an AJAX request to execute the PHP function
+        $.ajax({
+            url: ajaxurl, // WordPress AJAX URL
+            type: 'POST',
+            data: {
+                action: 'GroupDelete' // Action name to execute in PHP
+            },
+            success: function(response) {
+                // Handle the success response here, if needed
+                alert('Groups deleted successfully.');
+            },
+            error: function() {
+                // Handle any errors here, if needed
+                alert('Error deleting groups.');
+            }
+        });
+    });
+});
+
+jQuery(document).ready(function($) {
+    $('#addGroupButton').click(function() {
+        // Send an AJAX request to execute the PHP function
+        $.ajax({
+            url: ajaxurl, // WordPress AJAX URL
+            type: 'POST',
+            data: {
+                action: 'GroupAdd' // Action name to execute in PHP
+            },
+            success: function(response) {
+                // Handle the success response here, if needed
+                alert('Groups added successfully.');
+            },
+            error: function() {
+                // Handle any errors here, if needed
+                alert('Error adding groups.');
+            }
+        });
+    });
+});
+
+jQuery(document).ready(function($) {
+    $('#updateidGroupButton').click(function() {
+        // Send an AJAX request to execute the PHP function
+        $.ajax({
+            url: ajaxurl, // WordPress AJAX URL
+            type: 'POST',
+            data: {
+                action: 'GroupUpdateID' // Action name to execute in PHP
+            },
+            success: function(response) {
+                // Handle the success response here, if needed
+                alert('Groups Ids successfully update.');
+            },
+            error: function() {
+                // Handle any errors here, if needed
+                alert('Error updating the groups ids.');
+            }
+        });
+    });
+});

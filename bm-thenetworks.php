@@ -59,7 +59,7 @@ include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-industry.php
 include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-member.php';
 
 // //SHORTCODE
-// include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/slide.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/slide.php';
 
 //API
 include_once ABSPATH . '/wp-content/plugins/thenetworks/API/group_list.php';
@@ -95,9 +95,9 @@ function my_menu_networkers(){
       if ($user_role == 'franchise' || $user_role == 'administrator' || $user_role == 'network-admin'){
             add_menu_page('Groups', 'Groups', 'the_networkers', 'networkers-group', 'networkers_group', '/wp-content/uploads/2023/07/menu-icon.png', 7 );
             add_submenu_page( 'networkers-group',  'New Group', 'New Group', 'the_networkers', 'networkers-group-new', 'networkers_group_new' );
-            add_submenu_page( 'networkers-group',  'Admin Group', 'Admin Group', 'the_networkers', 'networkers-group-admin', 'GetMemberIdChange' );
-            add_submenu_page( 'networkers-group',  'Remove Group', 'Remove Group', 'the_networkers', 'networkers-group-admin1', 'GetMemberDelete' );
-            add_submenu_page( null,  'Update Group', 'Update Group', 'the_networkers', 'networkers-group-update', 'networkers_group_update' );
+            // add_submenu_page( 'networkers-group',  'Admin Group', 'Admin Group', 'the_networkers', 'networkers-group-admin', 'GetMemberIdChange' );
+            // add_submenu_page( 'networkers-group',  'Remove Group', 'Remove Group', 'the_networkers', 'networkers-group-admin1', 'GetMemberDelete' );
+            // add_submenu_page( null,  'Update Group', 'Update Group', 'the_networkers', 'networkers-group-update', 'networkers_group_update' );
       }
       // Industry 
       if ($user_role == 'administrator' || $user_role == 'network-admin'){

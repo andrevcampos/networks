@@ -7,12 +7,10 @@ function networkers_superadmin() {
     echo '<div id="networkersbox" class="wrap">';
         echo '<h1>Super Admin</h1><br>';
         echo '<div id="icon-users" class="icon32"></div>';
-        echo '<h4>Delete All Images</h4>';
-        echo '<button id="deleteImagesButton">Delete Images</button>';
-        echo '<h4>Delete Members</h4>';
-        echo '<button id="deleteMembersButton">Delete Members</button>';
-        echo '<h4>Add Members</h4>';
-        echo '<button id="addMembersButton">Add Members</button>';
+        echo '<h3>Members</h3>';
+        echo '<button id="deleteImagesButton">Delete Images</button><br><br>';
+        echo '<button id="deleteMembersButton">Delete Members</button><br><br>';
+        echo '<button id="addMembersButton">Add Members</button><br><br>';
 
         $query = new WP_Query(array(
             'post_type' => 'network-member',
@@ -32,9 +30,9 @@ function networkers_superadmin() {
         }
         $contar = Count($images);
 
-        echo '<h4>Update Member Images</h4>';
+        
+        echo '<button onclick="checkimagearray()">Update Member Images</button><br>';
         echo '<h4 id="imagelabel">(' . $contar . ' Images to update)</h4>';
-        echo '<button onclick="checkimagearray()">Update Member Images</button>';
         //echo '<button id="updateMemberImagesButton">Update Member Images</button>';
 
         $logos = array();
@@ -49,10 +47,25 @@ function networkers_superadmin() {
         }
         $contar2 = Count($logos);
 
-        echo '<h4>Update Members Logo (' . $contar2 . ' Logos to update)</h4>';
+        echo '<button onclick="checklogoarray()">Update Members Logo</button><br>';
         echo '<h4 id="logolabel">(' . $contar2 . ' Logos to update)</h4>';
-        echo '<button onclick="checklogoarray()">Update Members Logo</button>';
         //echo '<button id="updateMemberLogosButton">Update Member Images</button>';
+
+        echo '<h3>Industry</h3>';
+        echo '<button id="removeIndustryButton">Remove Industry</button><br><br>';
+        echo '<button id="addIndustryButton">Add Industry</button><br><br>';
+        echo '<button id="updateIDIndustryButton">Update Industry ID</button>';
+
+        echo '<h3>Groups</h3>';
+        echo '<button id="deleteGroupButton">Delete Groups</button><br><br>';
+        echo '<button id="addGroupButton">Add Groups</button><br><br>';
+        echo '<button id="updateidGroupButton">Update Groups ID</button>';
+        
+
+        
+
+        
+
     echo '</div>';
     
 }
@@ -177,7 +190,9 @@ function GetMemberInformation() {
                 if ($result1 && mysqli_num_rows($result1) > 0) {
                     while($row = $result1->fetch_assoc()) {
                         $groupid = $row['field_member_group_target_id'];
-                        add_post_meta( $post_id, 'group', $groupid, true );
+                        if($groupid && $groupid != ""){
+                            add_post_meta( $post_id, 'group', $groupid, true );
+                        }
                     }
                 }
 
@@ -188,15 +203,16 @@ function GetMemberInformation() {
                     $row = mysqli_fetch_assoc($result1);
                     $industry = $row['field_member_industries_target_id'];
                     if($industry){
-                        $args = array("post_type" => "network-industry",'posts_per_page' => -1);
-                        $query = get_posts( $args );
-                        if(count($query) > 0 ){
-                            foreach($query as $post) {
-                                if($post->post_content == $industry){
-                                    add_post_meta( $post_id, 'industry', $post->ID, true );
-                                }
-                            }
-                        }
+                        add_post_meta( $post_id, 'industry', $industry, true );
+                        // $args = array("post_type" => "network-industry",'posts_per_page' => -1);
+                        // $query = get_posts( $args );
+                        // if(count($query) > 0 ){
+                        //     foreach($query as $post) {
+                        //         if($post->post_content == $industry){
+                        //             add_post_meta( $post_id, 'industry', $post->ID, true );
+                        //         }
+                        //     }
+                        // }
                     }
                 } 
 
@@ -627,8 +643,8 @@ function get_post_id_by_meta_key_and_value($key, $value) {
 
 // }
     
-
-function GetGroupInformation() {
+add_action('wp_ajax_GroupAdd', 'GroupAdd');
+function GroupAdd() {
 
 $servername = "thenetworkers.co.nz";
 $username = "thenetw_andre";
@@ -686,6 +702,10 @@ if (mysqli_num_rows($result) > 0) {
             );
 
             $post_id = wp_insert_post( $my_post );
+
+            //NID
+            add_post_meta( $post_id, 'groupoldid', $nid, true );
+   
 
             //Region
             $sql2 = "SELECT * FROM node__field_group_grouping WHERE entity_id='$nid'";
@@ -935,26 +955,79 @@ if (mysqli_num_rows($result) > 0) {
 mysqli_close($conn);
 
 }
-function GetGroupDelete() {
 
+add_action('wp_ajax_GroupDelete', 'GroupDelete');
+function GroupDelete() {
     $query = new WP_Query(array(
         'post_type' => 'network-group',
+        'posts_per_page' => -1,
+    ));
+    while ($query->have_posts()) {
+        $query->the_post();
+        $post_id = get_the_ID();
+        $imageid = get_post_meta( $post_id, 'imageid', true );
+        wp_delete_attachment( $imageid );
+        wp_delete_post( $post_id, false );
+    }
+    wp_reset_query();
+}
+
+add_action('wp_ajax_GroupUpdateID', 'GroupUpdateID');
+function GroupUpdateID() {
+
+    $query = new WP_Query(array(
+        'post_type' => 'network-member',
+        'posts_per_page' => -1,
+    ));
+    
+    while ($query->have_posts()) {
+
+        $query->the_post();
+        $post_id = get_the_ID();
+        $groupids = get_post_meta($post_id, 'group', false );
+
+        foreach ($groupids as $group_id) {
+            $query2 = new WP_Query(array(
+                'post_type' => 'network-group',
+                'posts_per_page' => -1,
+            ));
+            
+            while ($query2->have_posts()) {
+                $query2->the_post();
+                $post_id2 = get_the_ID();
+                $groupoldid = get_post_meta($post_id2, 'groupoldid', true );
+                if ($groupoldid == $group_id){
+                    delete_post_meta($post_id, 'group', $group_id);
+                    add_post_meta( $post_id, 'group', $post_id2, true );
+                }
+            }
+            wp_reset_postdata();
+        }
+        
+    }
+    
+    wp_reset_postdata();
+
+}
+
+
+add_action('wp_ajax_IndustryRemove', 'IndustryRemove');
+function IndustryRemove() {
+    $query = new WP_Query(array(
+        'post_type' => 'network-industry',
         'posts_per_page' => -1,
     ));
 
     while ($query->have_posts()) {
         $query->the_post();
         $post_id = get_the_ID();
-        echo $post_id;
-        $imageid = get_post_meta( $post_id, 'imageid', true );
-        wp_delete_attachment( $imageid );
         wp_delete_post( $post_id, false );
     }
     wp_reset_query();
-
 }
 
-function GetIndustryInformation() {
+add_action('wp_ajax_IndustryAdd', 'IndustryAdd');
+function IndustryAdd() {
 
     $servername = "thenetworkers.co.nz";
     $username = "thenetw_andre";
@@ -974,7 +1047,6 @@ function GetIndustryInformation() {
         while ($row = mysqli_fetch_assoc($result)) {
             $name = $row['name'];
             $tid = $row['tid'];
-            echo $name;
 
             //lowercap
             $post_name = strtolower($name);
@@ -989,20 +1061,65 @@ function GetIndustryInformation() {
             'post_title'    => $name,
             'post_status'   => 'publish',
             'post_author'   => 1,
-            'post_content'   => $tid,
             'post_type'   => 'network-industry',
             'post_name'   => $regionslug,
             );
-
-            wp_insert_post( $my_post );
-
-
+            $post_id = wp_insert_post( $my_post );
+            add_post_meta( $post_id, 'industryoldid', $tid, true );
         }
     } else {
         echo "No nodes found.";
     }
     
     mysqli_close($conn);
+    
+}
+
+
+add_action('wp_ajax_IndustryUpdateID', 'IndustryUpdateID');
+function IndustryUpdateID() {
+
+    $query = new WP_Query(array(
+        'post_type' => 'network-member',
+        'posts_per_page' => -1,
+    ));
+
+    while ($query->have_posts()) {
+        $query->the_post();
+        $post_id = get_the_ID();
+        $industryid = get_post_meta( $post_id, 'industry', true );
+
+        $query2 = new WP_Query(array(
+            'post_type' => 'network-industry',
+            'posts_per_page' => 1,
+            'meta_query' => array(
+                array(
+                    'key' => 'industryoldid',
+                    'value' => $industryid, 
+                    'compare' => '=',
+                ),
+            ),
+        ));
+        while ($query2->have_posts()) {
+            $query2->the_post();
+            $post_id2 = get_the_ID();
+            update_post_meta($post_id, 'industry', $post_id2);
+        }
+        wp_reset_postdata();
+    }
+    wp_reset_postdata();
+
+    //Delete old ID from the database
+    $query = new WP_Query(array(
+        'post_type' => 'network-industry',
+        'posts_per_page' => -1,
+    ));
+    while ($query->have_posts()) {
+        $query->the_post();
+        $post_id = get_the_ID();
+        delete_post_meta($post_id, 'industryoldid');
+    }
+    wp_reset_postdata();
     
 }
 
@@ -1056,6 +1173,5 @@ function GetRegionformation() {
     mysqli_close($conn);
     
 }
-
 
 ?>

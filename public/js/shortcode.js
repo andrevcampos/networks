@@ -4,16 +4,16 @@ showSlide(slideIndex);
 // Auto change slide every 3 seconds (3000 milliseconds)
 setInterval(function() {
     changeSlide(1); // Move to the next slide
-}, 3000);
+}, 5000);
 
 function changeSlide(n) {
     showSlide(slideIndex += n);
 }
 
 function showSlide(index) {
-    const slides = document.getElementsByClassName('slide');
-    const slidestitle = document.getElementsByClassName('slidestitle');
-    const slideslink = document.getElementsByClassName('slideslink');
+    const slides = document.getElementsByClassName('netslide');
+    const slidestitle = document.getElementsByClassName('netslidestitle');
+    const slideslink = document.getElementsByClassName('netslideslink');
     if (index < 0) {
         slideIndex = slides.length - 1;
     }
