@@ -1,31 +1,20 @@
-let slideIndex = 0;
-showSlide(slideIndex);
 
-// Auto change slide every 3 seconds (3000 milliseconds)
-setInterval(function() {
-    changeSlide(1); // Move to the next slide
-}, 5000);
-
-function changeSlide(n) {
-    showSlide(slideIndex += n);
-}
-
-function showSlide(index) {
-    const slides = document.getElementsByClassName('netslide');
-    const slidestitle = document.getElementsByClassName('netslidestitle');
-    const slideslink = document.getElementsByClassName('netslideslink');
-    if (index < 0) {
-        slideIndex = slides.length - 1;
+function regiondropdownchange() {
+    
+    const regionid = document.getElementById('selectBox').value;
+    if(regionid == "notselected"){
+        var allelements = document.getElementsByClassName('allgroups');
+        for (var i = 0; i < allelements.length; i++) {
+            allelements[i].style.display = "";
+        }
+        return;
     }
-    if (index >= slides.length) {
-        slideIndex = 0;
+    var allelements = document.getElementsByClassName('allgroups');
+    for (var i = 0; i < allelements.length; i++) {
+        allelements[i].style.display = "none";
     }
-    for (let i = 0; i < slides.length; i++) {
-        slides[i].style.display = 'none';
-        slidestitle[i].style.display = 'none';
-        slideslink[i].style.display = 'none';
+    var elementsToShow = document.getElementsByClassName(regionid);
+    for (var i = 0; i < elementsToShow.length; i++) {
+        elementsToShow[i].style.display = "";
     }
-    slides[slideIndex].style.display = 'block';
-    slidestitle[slideIndex].style.display = 'block';
-    slideslink[slideIndex].style.display = 'block';
 }

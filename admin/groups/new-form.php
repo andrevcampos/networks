@@ -112,6 +112,7 @@ echo '<div style="display:block" id="networkersbox" class="networkersbox">';
         echo '<input id="lcompany" type="text" name="lcompany"></div><br>';
         echo '<div><label style="margin-top:10px">Street Address:</label><br>';
         echo '<input id="laddress" type="text" name="laddress"></div><br>';
+        echo '<input id="laddress2" type="text" name="laddress2"></div><br>';
         echo '<div><label style="margin-bottom:5px">Suburb:</label><br>';
         echo '<input id="lsuburb" type="text" name="lsuburb"></div><br>';
         echo '<div><label style="margin-bottom:5px">City:</label><br>';

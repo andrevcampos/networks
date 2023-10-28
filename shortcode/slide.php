@@ -1,18 +1,11 @@
-
 <?php
 
 function slideshow_shortcode() {
 
-    ob_start(); // Start output buffering
+    ob_start();
 
     wp_enqueue_style( 'shortcodecss', plugins_url() . '/thenetworks/public/css/shortcode.css');
-    wp_enqueue_script( 'shortcodejs', plugins_url() . '/thenetworks/public/js/shortcode.js' );
-
-    // $api_url = "https://netdev.breeze.marketing/wp-json/networkers/v1/group-list";
-    // $ch = curl_init($api_url);
-    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    // $response = curl_exec($ch);
-    // $data = json_decode($response, true);
+    wp_enqueue_script( 'groupslidejs', plugins_url() . '/thenetworks/public/js/groupslide.js' );
 
     $args = array('post_type' => 'network-group','posts_per_page' => -1);
     $groupss = get_posts($args);
@@ -36,6 +29,7 @@ function slideshow_shortcode() {
             array_push($imagePaths, $newObject);
         }
     }
+    
     ?>
     <div id="slideshow-container">
         <?php
@@ -43,7 +37,6 @@ function slideshow_shortcode() {
             $pieces = explode(":", $path->start);
             $title = $path->weekday . " " . $pieces[0] . ":" . $pieces[1] . "" . $pieces[2] . " - " . $path->post_title;
             echo '<div class="netslide"><div class="netdivimg" style="background-image: url(' . esc_url($path->url) . ');background-size: cover;"></div></div>';
-            //echo '<div class="netslide"><div class="netdivimg" style="background-color:brown;"></div></div>';
             echo '<div class="netslidestitle">'. $title .'</div>';
             echo '<div class="netslideslink"><a>Visit this group</div></a>';
         }
@@ -52,7 +45,7 @@ function slideshow_shortcode() {
         <a class="next" onclick="changeSlide(1)">&#10095;</a>
     </div>
     <?php
-    return ob_get_clean(); // Return and flush the buffered content
+    return ob_get_clean();
 }
 
 add_shortcode('networkersslideshow', 'slideshow_shortcode');

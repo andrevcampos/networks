@@ -71,15 +71,15 @@
     if($country)
         add_post_meta( $post_id, 'country', $country, true );
     if($streetaddress1)
-        add_post_meta( $post_id, 'streetaddress1', $streetaddress1, true );
+        add_post_meta( $post_id, 'address1', $streetaddress1, true );
     if($streetaddress2)
-        add_post_meta( $post_id, 'streetaddress2', $streetaddress2, true );
+        add_post_meta( $post_id, 'address2', $streetaddress2, true );
     if($suburb)
         add_post_meta( $post_id, 'suburb', $suburb, true );
     if($city)
         add_post_meta( $post_id, 'city', $city, true );
     if($postalcode)
-        add_post_meta( $post_id, 'postalcode', $postalcode, true );
+        add_post_meta( $post_id, 'postcode', $postalcode, true );
     add_post_meta( $post_id, 'payment', $payment, true );
 
     Add_User_Image($post_id);

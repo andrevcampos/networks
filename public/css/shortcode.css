@@ -52,3 +52,98 @@
 .next {
     right: 0;
 }
+
+
+/* Group List Box */
+
+.group-list-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next row */
+    width: 100%;
+    justify-content:left /* Distribute items evenly */
+}
+
+.group-list-single-box {
+    width: calc(31.33% - 10px); /* Set the width of each box */
+    margin-bottom: 20px; /* Add some spacing between boxes */
+    flex: 0 0 calc(31.33% - 5px); /* Prevent items from growing or shrinking */
+    box-sizing: border-box; /* Include padding and borders in the width calculation */
+    text-align: center;
+    padding: 5px;
+    border-color: #e7ebed;
+    border-style: solid;
+    border-width: 1px;
+    margin-right: 2%;
+    padding-bottom:10px;
+    padding-top: 30px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+.group-list-single-box:hover {
+    background-color: #e7ebed;
+    border-color: #bfc3c5;
+}
+
+.group-list-single-box-image {
+    width: 85%;
+    height: 150px;
+    margin-left: 7.5%;
+    border-radius: 5px;
+    filter: brightness(0.8);
+    transition: all 0.3s ease-in-out; /* Add a CSS transition for all properties with a duration of 0.3 seconds and ease-in-out timing function */
+}
+
+.group-list-single-box-image:hover {
+    width: 90%; /* Increase the width to 100% on hover */
+    margin-left: 5%;
+    filter: brightness(1);
+    height: 150px; /* Increase the height on hover */
+}
+
+.group-list-single-box-text {
+    width: 90%;
+    margin-left: 5%;
+}
+
+
+.group-hero {
+    width: 100%;
+    height: 300px; /* Adjust the height as needed */
+    position: relative; /* Ensure proper stacking of overlay and content */
+}
+.group-hero-box {
+    position: absolute;
+    top: 50%; /* Move the top edge to the vertical center */
+    left: 50%; /* Move the left edge to the horizontal center */
+    transform: translate(-50%, -50%); /* Center the child div */
+    width: 1140px;
+}
+.group-hero-text {
+    color: white;
+    text-align: center;
+    width: 90%;
+    margin-left: 5%;
+}
+
+.group-info-left {
+    display: flex; /* Use flexbox to arrange items in a row */
+    align-items: center; /* Vertically center items */
+    width: 100%;
+    position: relative;
+}
+.group-info-left-icon{
+    width:30px;
+    padding-top:5px;
+    display: inline; /* Ensure the icon is displayed inline */
+}
+.group-info-left-text-title {
+    color: black;
+    text-align: left;
+    font-size: 24px;
+}
+.group-info-left-text {
+    color: black;
+    text-align: left;
+    margin-left: 10px;
+    font-size: 18px;
+}

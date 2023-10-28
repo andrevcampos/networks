@@ -24,6 +24,7 @@
     $description = $_POST["description"];
     $lcompany = $_POST["lcompany"];
     $laddress = $_POST["laddress"];
+    $laddress2 = $_POST["laddress2"];
     $lsuburb = $_POST["lsuburb"];
     $lcity = $_POST["lcity"];
     $lpostcode = $_POST["lpostcode"];
@@ -81,11 +82,40 @@
     update_post_meta( $post_id, 'start', $start);
     update_post_meta( $post_id, 'finsh', $finsh);
     update_post_meta( $post_id, 'description', $encodedContent);
-    update_post_meta( $post_id, 'lcompany', $lcompany);
-    update_post_meta( $post_id, 'laddress', $laddress);
-    update_post_meta( $post_id, 'lsuburb', $lsuburb);
-    update_post_meta( $post_id, 'lcity', $lcity);
-    update_post_meta( $post_id, 'lpostcode', $lpostcode);
+    if (metadata_exists('post', $post_id, 'company')) {
+        update_post_meta( $post_id, 'company', $lcompany);
+    }else{
+        add_post_meta( $post_id, 'company', $lcompany, true );
+    }
+
+    if (metadata_exists('post', $post_id, 'address1')) {
+        update_post_meta( $post_id, 'address1', $laddress);
+    }else{
+        add_post_meta( $post_id, 'address1', $laddress, true );
+    }
+
+    if (metadata_exists('post', $post_id, 'address2')) {
+        update_post_meta( $post_id, 'address2', $laddress2);
+    }else{
+        add_post_meta( $post_id, 'address2', $laddress2, true );
+    }
+
+    if (metadata_exists('post', $post_id, 'suburb')) {
+        update_post_meta( $post_id, 'suburb', $lsuburb);
+    }else{
+        add_post_meta( $post_id, 'suburb', $lsuburb, true );
+    }
+
+    if (metadata_exists('post', $post_id, 'city')) {
+        update_post_meta( $post_id, 'city', $lcity);
+    }else{
+        add_post_meta( $post_id, 'city', $lcity, true );
+    }
+    if (metadata_exists('post', $post_id, 'postcode')) {
+        update_post_meta( $post_id, 'postcode', $lpostcode);
+    }else{
+        add_post_meta( $post_id, 'postcode', $lpostcode, true );
+    }
 
     if($regions[0]){
         update_post_meta( $post_id, 'regions', $regions[0]);

@@ -61,11 +61,6 @@ function networkers_superadmin() {
         echo '<button id="addGroupButton">Add Groups</button><br><br>';
         echo '<button id="updateidGroupButton">Update Groups ID</button>';
         
-
-        
-
-        
-
     echo '</div>';
     
 }

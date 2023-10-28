@@ -23,11 +23,12 @@ function networkers_group_update() {
     $start = get_post_meta( $groupid, 'start', true );
     $finish = get_post_meta( $groupid, 'finish', true );
     $description = base64_decode(get_post_meta( $groupid, 'description', true ));
-    $lcompany = get_post_meta( $groupid, 'lcompany', true );
-    $laddress = get_post_meta( $groupid, 'laddress', true );
-    $lsuburb = get_post_meta( $groupid, 'lsuburb', true );
-    $lcity = get_post_meta( $groupid, 'lcity', true );
-    $lpostcode = get_post_meta( $groupid, 'lpostcode', true );
+    $lcompany = get_post_meta( $groupid, 'company', true );
+    $address1 = get_post_meta( $groupid, 'address1', true );
+    $address2 = get_post_meta( $groupid, 'address2', true );
+    $lsuburb = get_post_meta( $groupid, 'suburb', true );
+    $lcity = get_post_meta( $groupid, 'city', true );
+    $lpostcode = get_post_meta( $groupid, 'postcode', true );
     $imageid = get_post_meta( $groupid, 'imageid', true );
     $facilitator = get_post_meta( $groupid, 'facilitator', true );
 
@@ -232,7 +233,8 @@ function networkers_group_update() {
             echo '<div><label>Company:</label><br>';
             echo '<input id="lcompany" type="text" name="lcompany" value="'.$lcompany.'"></div><br>';
             echo '<div><label>Street Address:</label><br>';
-            echo '<input id="laddress" type="text" name="laddress" value="'.$laddress.'"></div><br>';
+            echo '<input id="laddress" type="text" name="laddress" value="'.$address1.'"></div><br>';
+            echo '<input id="laddress2" type="text" name="laddress2" value="'.$address2.'"></div><br>';
             echo '<div><label>Suburb:</label><br>';
             echo '<input id="lsuburb" type="text" name="lsuburb" value="'.$lsuburb.'"></div><br>';
             echo '<div><label>City:</label><br>';

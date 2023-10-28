@@ -12,10 +12,11 @@ function Get_Group($id) {
     $obj->finsh = get_post_meta( $group->ID, 'finsh', true );
     $obj->description = get_post_meta( $group->ID, 'description', true );
     $obj->company = get_post_meta( $group->ID, 'lcompany', true );
-    $obj->address = get_post_meta( $group->ID, 'laddress', true );
-    $obj->suburb = get_post_meta( $group->ID, 'lsuburb', true );
-    $obj->city = get_post_meta( $group->ID, 'lcity', true );
-    $obj->postcode = get_post_meta( $group->ID, 'lpostcode', true );
+    $obj->address1 = get_post_meta( $group->ID, 'address1', true );
+    $obj->address2 = get_post_meta( $group->ID, 'address2', true );
+    $obj->suburb = get_post_meta( $group->ID, 'suburb', true );
+    $obj->city = get_post_meta( $group->ID, 'city', true );
+    $obj->postcode = get_post_meta( $group->ID, 'postcode', true );
     $obj->regions = get_post_meta( $group->ID, 'regions', true );
     
     $imageid = get_post_meta( $group->ID, 'imageid', true );

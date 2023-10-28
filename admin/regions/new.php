@@ -8,7 +8,7 @@
     $query = $wpdb->prepare(
         'SELECT ID FROM ' . $wpdb->posts . '
         WHERE post_title = %s
-        AND post_type = \'network-industry\'',
+        AND post_type = \'network-region\'',
         $name
     );
     $wpdb->query( $query );

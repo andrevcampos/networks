@@ -16,6 +16,7 @@
     $description = $_POST["description"];
     $lcompany = $_POST["lcompany"];
     $laddress = $_POST["laddress"];
+    $laddress2 = $_POST["laddress2"];
     $lsuburb = $_POST["lsuburb"];
     $lcity = $_POST["lcity"];
     $lpostcode = $_POST["lpostcode"];
@@ -73,7 +74,7 @@
     add_post_meta( $post_id, 'description', $encodedContent, true );
     add_post_meta( $post_id, 'company', $lcompany, true );
     add_post_meta( $post_id, 'address1', $laddress, true );
-    add_post_meta( $post_id, 'address2', $laddress, true );
+    add_post_meta( $post_id, 'address2', $laddress2, true );
     add_post_meta( $post_id, 'suburb', $lsuburb, true );
     add_post_meta( $post_id, 'city', $lcity, true );
     add_post_meta( $post_id, 'postcode', $lpostcode, true );

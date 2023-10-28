@@ -21,9 +21,17 @@ function Get_Member($id) {
     $obj->payment = get_post_meta( $member->ID, 'payment', true );
     $obj->industry = get_post_meta( $member->ID, 'industry', false );
     $obj->group = get_post_meta( $member->ID, 'group', false );
+
     $imageid = get_post_meta( $member->ID, 'imageid', true );
-    $imageurl = get_site_url()."wp-content/uploads/".get_post_meta( $imageid, '_wp_attached_file', true );
+    $obj->imageid = $imageid;
+    $imageurl = get_site_url()."/wp-content/uploads/".get_post_meta( $imageid, '_wp_attached_file', true );
     $obj->imageurl = $imageurl;
+
+    $logoid = get_post_meta( $member->ID, 'logoid', true );
+    $obj->logoid = $logoid;
+    $logourl = get_site_url()."/wp-content/uploads/".get_post_meta( $logoid, '_wp_attached_file', true );
+    $obj->logourl = $logourl;
+    
     return $obj;
 }
 ?>
