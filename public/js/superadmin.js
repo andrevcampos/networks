@@ -355,3 +355,66 @@ jQuery(document).ready(function($) {
         });
     });
 });
+
+jQuery(document).ready(function($) {
+    $('#statusMemberChanges').click(function() {
+        // Send an AJAX request to execute the PHP function
+        $.ajax({
+            url: ajaxurl, // WordPress AJAX URL
+            type: 'POST',
+            data: {
+                action: 'statusMemberChanges2' // Action name to execute in PHP
+            },
+            success: function(response) {
+                // Handle the success response here, if needed
+                alert('Status successfully update.');
+            },
+            error: function() {
+                // Handle any errors here, if needed
+                alert('Error updating the status.');
+            }
+        });
+    });
+});
+
+jQuery(document).ready(function($) {
+    $('#facilitatorAdd').click(function() {
+        // Send an AJAX request to execute the PHP function
+        $.ajax({
+            url: ajaxurl, // WordPress AJAX URL
+            type: 'POST',
+            data: {
+                action: 'updateFacilitator' // Action name to execute in PHP
+            },
+            success: function(response) {
+                // Handle the success response here, if needed
+                alert('Facilitators successfully update.');
+            },
+            error: function() {
+                // Handle any errors here, if needed
+                alert('Error updating facilitators.');
+            }
+        });
+    });
+});
+
+jQuery(document).ready(function($) {
+    $('#facilitatorRemove').click(function() {
+        // Send an AJAX request to execute the PHP function
+        $.ajax({
+            url: ajaxurl, // WordPress AJAX URL
+            type: 'POST',
+            data: {
+                action: 'deleteFacilitator' // Action name to execute in PHP
+            },
+            success: function(response) {
+                // Handle the success response here, if needed
+                alert('Facilitators successfully deleted.');
+            },
+            error: function() {
+                // Handle any errors here, if needed
+                alert('Error deleting facilitators.');
+            }
+        });
+    });
+});

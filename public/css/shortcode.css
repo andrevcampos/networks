@@ -1,47 +1,59 @@
 #slideshow-container {
-    max-width: 500px;
     height: 100%;
-    min-height: 250px;
+    width: 100%;
     position: relative;
     margin: auto;
+    min-width: 550px;
 }
 
 .netslide {
     display: none;
     width: 100%;
-    height: calc(100% - 60px);
-    min-height: 200px;
+    min-width: 550px;
+
+}
+
+.netdivimg {
+  height: 100%;
+  min-height: 300px;
+  min-width: 550px;
 }
 
 .netslidestitle{
+    display: none;
     width: 100%;
     height: 30px;
+    padding-top: 5px;
     color: white;
-    font-size: 17px;
+    font-size: 18px;
     text-align: center;
 }
 .netslideslink{
+    display: none;
     width: 100%;
     height: 30px;
     color: white;
     font-size: 15px;
     text-align: center;
+    margin-top:25px;
 }
-
-
-.netdivimg {
-    width: 100%;
-    height: 100%;
-    min-height: 200px;
+.netslideslink a{
+   
+    padding: 10px;
+    background: linear-gradient(90deg, rgba(241, 97, 41, 0.6), rgba(99, 38, 155, 0.6));
+    font-size: 17px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    color: white;
 }
 
 .prev, .next {
     position: absolute;
-    top: 50%;
+    top: 40%;
     transform: translateY(-50%);
     padding: 10px;
-    background-color: #333;
-    color: #fff;
+    background-color: #d7d7d7;
+    color: #bfc3c5;
+    font-size: 18px;
     cursor: pointer;
 }
 
@@ -68,6 +80,7 @@
     margin-bottom: 20px; /* Add some spacing between boxes */
     flex: 0 0 calc(31.33% - 5px); /* Prevent items from growing or shrinking */
     box-sizing: border-box; /* Include padding and borders in the width calculation */
+    min-width: 350px;
     text-align: center;
     padding: 5px;
     border-color: #e7ebed;
@@ -79,6 +92,9 @@
     border-radius: 10px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 }
+
+
+
 .group-list-single-box:hover {
     background-color: #e7ebed;
     border-color: #bfc3c5;
@@ -116,7 +132,7 @@
     top: 50%; /* Move the top edge to the vertical center */
     left: 50%; /* Move the left edge to the horizontal center */
     transform: translate(-50%, -50%); /* Center the child div */
-    width: 1140px;
+    width: 100%;
 }
 .group-hero-text {
     color: white;
@@ -147,3 +163,158 @@
     margin-left: 10px;
     font-size: 18px;
 }
+
+.profile-picture {
+    width: 150px; /* Set the width and height as desired */
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%; /* Use 50% to create a circular shape */
+    border: 2px solid #fff; /* Optional: Add a border to the image */
+}
+
+.profile-logo {
+    height: 250px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left;
+    padding: 10px;
+}
+.image-container {
+    position: relative;
+    width: 700px; /* Set the width and height as per your image dimensions */
+    height: 700px;
+  }
+  
+  .hotspot {
+    width: 24px; /* Adjust the size to fit your icon */
+    height: 24px;
+    position: absolute;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent; /* Remove the background color */
+  }
+  
+  i.material-symbols-outlined {
+    font-size: 34px; /* Adjust the size of the icon */
+    color: red; /* Set the color of the icon */
+  }
+  
+  .info-box {
+    display: none;
+    position: absolute;
+    width: 200px;
+    background-color: #f0f0f0;
+    border: 1px solid #000;
+    padding: 10px;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  /* .hotspot:hover + .info-box {
+    display: block;
+    opacity: 1;
+  } */
+  
+  /* Add hover effect for the hotspot */
+  .hotspot:hover {
+    transform: scale(1.2);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .hotspoticon1 {
+    left: 350px; 
+    top: 500px;
+  }
+  .hotspotbox1 {
+    left: 380px; 
+    top: 500px;
+  }
+  .hotspoticon2 {
+    left: 350px; 
+    top: 360px;
+  }
+  .hotspotbox2 {
+    left: 160px; 
+    top: 220px;
+  }
+  .hotspoticon3 {
+    left: 410px; 
+    top: 360px;
+  }
+  .hotspotbox3 {
+    left: 450px; 
+    top: 380px;
+  }
+
+  .info-box-left {
+    width: 200px;
+    background-color: #f0f0f0;
+    border: 1px solid #000;
+    padding: 10px;
+  }
+
+  .regiondropdown {
+    width:auto;
+  }
+
+  /* Members */
+  .social-icons-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line if they don't fit */
+    gap: 10px; /* Adjust the gap between items as needed */
+}
+
+
+  @media screen and (max-width: 1150px) {
+
+    .group-list-single-box {
+      width: calc(48% - 10px);
+      flex: 0 0 calc(48% - 5px); /* Prevent items from growing or shrinking */
+    }
+
+    #slideshow-container {
+      min-width: 450px;
+    }
+
+    .netslide {
+      min-width: 450px;
+    }
+    
+    .netdivimg {
+      min-width: 450px;
+    }
+
+  }
+
+
+  @media screen and (max-width: 780px) {
+    
+    .group-list-single-box {
+      width: calc(98% - 10px);
+      flex: 0 0 calc(98% - 5px); /* Prevent items from growing or shrinking */
+    }
+    .regiondropdown {
+      width:95%;
+    }
+
+    .netslideslink{
+      margin-top:45px;
+    }
+
+    #slideshow-container {
+      min-width:100%;
+    }
+
+    .netslide {
+      min-width: 100%;
+    }
+    
+    .netdivimg {
+      min-width: 100%;
+    }
+  
+  }

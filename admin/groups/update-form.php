@@ -22,7 +22,8 @@ function networkers_group_update() {
     $weekday = get_post_meta( $groupid, 'weekday', true );
     $start = get_post_meta( $groupid, 'start', true );
     $finish = get_post_meta( $groupid, 'finish', true );
-    $description = base64_decode(get_post_meta( $groupid, 'description', true ));
+    $description2 = get_post_meta( $group->ID, 'description', true );
+    $description = base64_decode($description2);
     $lcompany = get_post_meta( $groupid, 'company', true );
     $address1 = get_post_meta( $groupid, 'address1', true );
     $address2 = get_post_meta( $groupid, 'address2', true );
@@ -220,13 +221,25 @@ function networkers_group_update() {
 
             echo '<label>Description:</label>';
             echo '<div style="max-width:100%">';
-                wp_editor( $description , 'my_option', array(
-                    'wpautop'       => true,
+                $escaped_description = html_entity_decode($description);
+                $settings =   array(
+                    'wpautop' => true, // use wpautop?
                     'media_buttons' => false,
-                    'textarea_name' => 'my_option',
-                    'editor_class'  => 'my_custom_class',
-                    'textarea_rows' => 10
-                ) );
+                    'textarea_name' => 'groupdescription',
+                    'textarea_rows' => get_option('default_post_edit_rows', 10),
+                    'editor_css' => '',
+                    'editor_class' => '', 
+                );
+                wp_editor( $description, 'groupdescription', $settings );
+
+
+                // wp_editor( $escaped_description, 'groupdescription', array(
+                //     'wpautop'       => true,
+                //     'media_buttons' => false,
+                //     'textarea_name' => 'groupdescription',
+                //     'editor_class'  => 'my_custom_class',
+                //     'textarea_rows' => 10
+                // ) );
             echo '</div">';
             
             echo '<h3>Location:</h3>';

@@ -21,7 +21,7 @@
     $finishhour = $_POST["finishhour"];
     $finishmin = $_POST["finishmin"];
     $finishtime = $_POST["finishtime"];
-    $description = $_POST["description"];
+    $description = $_POST["groupdescription"];
     $lcompany = $_POST["lcompany"];
     $laddress = $_POST["laddress"];
     $laddress2 = $_POST["laddress2"];
@@ -32,7 +32,7 @@
     $facilitator = $_POST["facilitatorid"];
 
     //Get Decription and encode
-    $my_option = $_POST["my_option"];
+    $my_option = $_POST["groupdescription"];
     $my_option = stripslashes($my_option);
     $encodedContent = base64_encode($my_option);
 

@@ -13,9 +13,23 @@ function group_info_right_shortcode() {
     $suburb = $obj->suburb;
     $city = $obj->city;
     $postcode = $obj->postcode;
+    $region = $obj->regions;
+    $robj = Get_Region($region);
+    $region = $robj->post_title;
+    $postname = get_post_field('post_name', $robj->ID);
     $description2 = $obj->description;
     $description = base64_decode($description2);
     
+    echo '<div class="group-info-left">';
+        echo '<div class="group-info-left-icon">
+            <span class="material-symbols-outlined">share_location</span>
+        </div>';
+        echo "<div class='group-info-left-text-title'><strong>Region</strong></div>";
+    echo '</div>';
+    echo "<a href='/networking-groups/$postname'><div class='group-info-left-text' style='color:red;'>$region</div></a>";
+
+    echo "<br>";
+
     echo '<div class="group-info-left">';
         echo '<div class="group-info-left-icon">
             <span class="material-symbols-outlined">Description</span>

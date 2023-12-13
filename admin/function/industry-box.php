@@ -1,11 +1,11 @@
 <?php
 
-function Industry_Box($industryselectedd = [], $multiple = true) {
+function Industry_Box($industryselectedd = [], $multiple = true) {$industrys = Get_Industrys();
 
     if(!$industryselectedd)
         $industryselectedd = [];
 
-    $industrys = Get_Industrys();
+    
 
     echo '<h3>Industry</h3>';
 
@@ -73,5 +73,4 @@ function Update_Industry($id) {
         add_post_meta( $id, 'industry', $industry, false );
     }
 }
-
 ?>

@@ -60,6 +60,13 @@ function networkers_superadmin() {
         echo '<button id="deleteGroupButton">Delete Groups</button><br><br>';
         echo '<button id="addGroupButton">Add Groups</button><br><br>';
         echo '<button id="updateidGroupButton">Update Groups ID</button>';
+
+        echo '<h3>Facilitator</h3>';
+        echo '<button id="facilitatorRemove">Delete Facilitators</button><br><br>';
+        echo '<button id="facilitatorAdd">Add Facilitators</button><br><br>';
+
+        echo '<h3>Status</h3>';
+        echo '<button id="statusMemberChanges">Change Members</button><br><br>';
         
     echo '</div>';
     
@@ -79,6 +86,7 @@ function GetMemberInformation() {
     $dbname = "thenetw_networkers";
     
     $conn = mysqli_connect($servername, $username, $password, $dbname);
+    mysqli_set_charset($conn,"utf8");
     
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
@@ -118,7 +126,7 @@ function GetMemberInformation() {
                 //replace space with -
                 $slug = str_replace(' ', '-', $post_name2);
                 //add region to slug
-                $regionslug = "member-".$slug;
+                $regionslug = $slug;
     
                 //Create Post
                 $my_post = array(
@@ -126,6 +134,8 @@ function GetMemberInformation() {
                 'post_status'   => 'publish',
                 'post_author'   => 1,
                 'post_type'     => 'network-member',
+                //'post_mime_type'     => 'member',
+                //'post_parent'     => 96851, //Member page
                 'post_name'     => $regionslug,
                 );
                 $post_id = wp_insert_post( $my_post );
@@ -244,18 +254,19 @@ function GetMemberInformation() {
                 }
 
                 //Status
-                $sql1 = "SELECT * FROM node_field_data WHERE nid='$nid'";
-                $result1 = mysqli_query($conn, $sql1);
-                if ($result1 && mysqli_num_rows($result1) > 0) {
-                    while($row = $result1->fetch_assoc()) {
-                        $status = $row['status'];
-                        if($status == 0){
-                            add_post_meta( $post_id, 'status', 'Active Member', true);
-                        }else{
-                            add_post_meta( $post_id, 'status', 'Past Member', true);
-                        }
-                    }
-                }
+                add_post_meta( $post_id, 'status', 'Past Member', true);
+                // $sql1 = "SELECT * FROM node_field_data WHERE nid='$nid'";
+                // $result1 = mysqli_query($conn, $sql1);
+                // if ($result1 && mysqli_num_rows($result1) > 0) {
+                //     while($row = $result1->fetch_assoc()) {
+                //         $status = $row['status'];
+                //         if($status == 0){
+                //             add_post_meta( $post_id, 'status', 'Active Member', true);
+                //         }else{
+                //             add_post_meta( $post_id, 'status', 'Past Member', true);
+                //         }
+                //     }
+                // }
 
                 //User Image
                 $sql7 = "SELECT * FROM node__field_member_image WHERE entity_id='$nid'";
@@ -647,6 +658,7 @@ $password = "Andre@123!";
 $dbname = "thenetw_networkers";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
+mysqli_set_charset($conn,"utf8");
 
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
@@ -684,7 +696,7 @@ if (mysqli_num_rows($result) > 0) {
             //replace space with -
             $slug = str_replace(' ', '-', $post_name2);
             //add region to slug
-            $regionslug = "group-".$slug;
+            $regionslug = $slug;
 
             //Create Post
             $my_post = array(
@@ -700,6 +712,9 @@ if (mysqli_num_rows($result) > 0) {
 
             //NID
             add_post_meta( $post_id, 'groupoldid', $nid, true );
+
+            //status
+            add_post_meta( $post_id, 'status', 'inactive', true);
    
 
             //Region
@@ -827,6 +842,7 @@ if (mysqli_num_rows($result) > 0) {
             //description
             $sql6 = "SELECT * FROM node__body WHERE entity_id='$nid'";
             $result6 = mysqli_query($conn, $sql6);
+            
             
             if ($result6 && mysqli_num_rows($result6) > 0) {
 
@@ -1168,5 +1184,213 @@ function GetRegionformation() {
     mysqli_close($conn);
     
 }
+
+add_action('wp_ajax_statusMemberChanges2', 'statusMemberChanges2');
+function statusMemberChanges2() {
+
+    $query = new WP_Query(array(
+        'post_type' => 'network-member',
+        'posts_per_page' => -1,
+    ));
+    
+    while ($query->have_posts()) {
+        $query->the_post();
+        $post_id = get_the_ID();
+        update_post_meta($post_id, 'status', 'Past Member');
+    }
+    
+    wp_reset_postdata();
+    
+    $query = new WP_Query(array(
+        'post_type' => 'network-group',
+        'posts_per_page' => -1,
+        'meta_query' => array(
+            array(
+                'key' => 'status',
+                'value' => 'active', 
+                'compare' => '=',
+            ),
+        ),
+    ));
+    
+    while ($query->have_posts()) {
+        $query->the_post();
+        $post_id = get_the_ID();
+    
+        $query2 = new WP_Query(array(
+            'post_type' => 'network-member',
+            'posts_per_page' => -1,
+            'meta_query' => array(
+                array(
+                    'key' => 'group',
+                    'value' => $post_id, 
+                    'compare' => 'IN',
+                ),
+            ),
+        ));
+    
+        while ($query2->have_posts()) {
+            $query2->the_post();
+            $post_id2 = get_the_ID();
+            update_post_meta($post_id2, 'status', 'Active Member');
+        }
+    
+        wp_reset_postdata(); // Reset post data for the outer loop
+    }
+    
+}
+
+
+add_action('wp_ajax_updateFacilitator', 'updateFacilitator');
+function updateFacilitator() {
+
+
+    $servername = "thenetworkers.co.nz";
+    $username = "thenetw_andre";
+    $password = "Andre@123!";
+    $dbname = "thenetw_networkers";
+    
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+    mysqli_set_charset($conn,"utf8");
+
+    $sql = "SELECT * FROM user__roles WHERE roles_target_id='group_facilitator'";
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $entity_id = $row['entity_id'];
+    
+             //NAME
+             $sql1 = "SELECT * FROM user__field_user_real_name WHERE entity_id='$entity_id'";
+             $result1 = mysqli_query($conn, $sql1);
+             if ($result1 && mysqli_num_rows($result1) > 0) {
+                 $row = mysqli_fetch_assoc($result1);
+                 $name = $row['field_user_real_name_value'];
+             } 
+
+
+             //Check if already have Group Name
+            global $user_ID, $wpdb;
+            $query = $wpdb->prepare(
+                'SELECT ID FROM ' . $wpdb->posts . '
+                WHERE post_title = %s
+                AND post_type = \'network-facilitator\'',
+                $name
+            );
+            $wpdb->query( $query );
+            if ( !$wpdb->num_rows ) {
+
+                //lowercap
+                $post_name = strtolower($name);
+                //remove white space
+                $post_name2 = trim($post_name);
+                //replace space with -
+                $slug = str_replace(' ', '-', $post_name2);
+                //add region to slug
+                $regionslug = $slug;
+
+                //Create Post
+                $my_post = array(
+                'post_title'    => $name,
+                'post_status'   => 'publish',
+                'post_author'   => 1,
+                'post_type'     => 'network-facilitator',
+                'post_name'     => $regionslug,
+                );
+
+                $post_id = wp_insert_post( $my_post );
+
+                //PHONE
+                $sql2 = "SELECT * FROM user__field_user_contact_number WHERE entity_id='$entity_id'";
+                $result2 = mysqli_query($conn, $sql2);
+                if ($result2 && mysqli_num_rows($result2) > 0) {
+                    $row = mysqli_fetch_assoc($result2);
+                    $phone = $row['field_user_contact_number_value'];
+                    add_post_meta( $post_id, 'phone', $phone, true );
+                }
+
+                //DESCRIPTION
+                $sql3 = "SELECT * FROM user__field_user_about WHERE entity_id='$entity_id'";
+                $result3 = mysqli_query($conn, $sql3);
+                if ($result3 && mysqli_num_rows($result3) > 0) {
+                    $row = mysqli_fetch_assoc($result3);
+                    $description = $row['field_user_about_value'];
+                    $encodedContent = base64_encode($description);
+                    add_post_meta( $post_id, 'description', $encodedContent, true );
+                } 
+
+                //EMAIL
+                $sql4 = "SELECT * FROM users_field_data WHERE uid='$entity_id'";
+                $result4 = mysqli_query($conn, $sql4);
+                if ($result4 && mysqli_num_rows($result4) > 0) {
+                    $row = mysqli_fetch_assoc($result4);
+                    $email = $row['mail'];
+                    add_post_meta( $post_id, 'email', $email, true );
+                } 
+
+                //IMAGE
+                $sql5 = "SELECT * FROM user__user_picture WHERE entity_id='$entity_id'";
+                $result5 = mysqli_query($conn, $sql5);
+                if ($result5 && mysqli_num_rows($result5) > 0) {
+                $row = mysqli_fetch_assoc($result5);
+                $fid = $row['user_picture_target_id'];
+                $sql8 = "SELECT * FROM file_managed WHERE fid='$fid'";
+                $result8 = mysqli_query($conn, $sql8);
+                $row8 = mysqli_fetch_assoc($result8);
+                $photourl2 = $row8['uri'];
+                $photourl = str_replace('public://', "https://networkers.breeze.marketing/web/sites/default/files/", $photourl2);
+                echo $photourl;
+                echo "<br>";
+                $encoded_url = str_replace(' ', '%20', $photourl);
+
+                //Upload image to WP Media
+                $upload_dir = wp_upload_dir();
+                $image_data = file_get_contents( $encoded_url );
+                if(!$image_data){
+                    $image_data = file_get_contents( $photourl );
+                }
+                $filename = basename( $photourl );
+                if ( wp_mkdir_p( $upload_dir['path'] ) ) {
+                $file = $upload_dir['path'] . '/' . $filename;
+                }
+                else {
+                $file = $upload_dir['basedir'] . '/' . $filename;
+                }
+                file_put_contents( $file, $image_data );
+                $wp_filetype = wp_check_filetype( $filename, null );
+                $attachment = array(
+                'post_mime_type' => $wp_filetype['type'],
+                'post_title' => sanitize_file_name( $filename ),
+                'post_content' => '',
+                'post_status' => 'inherit'
+                );
+                $attach_id = wp_insert_attachment( $attachment, $file );
+                add_post_meta( $post_id, 'imageid', $attach_id, true );
+                require_once( ABSPATH . 'wp-admin/includes/image.php' );
+                $attach_data = wp_generate_attachment_metadata( $attach_id, $file );
+                wp_update_attachment_metadata( $attach_id, $attach_data );
+                } 
+            }
+        }
+    }
+    mysqli_close($conn);
+}
+
+add_action('wp_ajax_deleteFacilitator', 'deleteFacilitator');
+function deleteFacilitator() {
+    $query = new WP_Query(array(
+        'post_type' => 'network-facilitator',
+        'posts_per_page' => -1,
+    ));
+    while ($query->have_posts()) {
+        $query->the_post();
+        $post_id = get_the_ID();
+        $imageid = get_post_meta( $post_id, 'imageid', true );
+        wp_delete_attachment( $imageid );
+        wp_delete_post( $post_id, false );
+    }
+    wp_reset_query();
+}
+
 
 ?>

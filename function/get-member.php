@@ -4,7 +4,7 @@ function Get_Member($id) {
     $obj = new member();
     $obj->ID = $member->ID;
     $obj->businessname = $member->post_title;
-    $obj->businessdescription = get_post_meta( $member->ID, 'businessdescription', true );
+    $obj->businessdescription = get_post_meta( $member->ID, 'description', true );
     $obj->status = get_post_meta( $member->ID, 'status', true );
     $obj->facilitator = get_post_meta( $member->ID, 'facilitator', true );
     $obj->firstname = get_post_meta( $member->ID, 'firstName', true );
@@ -21,13 +21,13 @@ function Get_Member($id) {
     $obj->payment = get_post_meta( $member->ID, 'payment', true );
     $obj->industry = get_post_meta( $member->ID, 'industry', false );
     $obj->group = get_post_meta( $member->ID, 'group', false );
-
-    $imageid = get_post_meta( $member->ID, 'imageid', true );
-    $obj->imageid = $imageid;
+    $obj->socialmedia = get_post_meta( $member->ID, 'socialmedia', false );
+    $imageid = get_post_meta( $member->ID, 'userimageid', true );
+    $obj->imageid = get_post_meta( $member->ID, 'userimageid', true );
     $imageurl = get_site_url()."/wp-content/uploads/".get_post_meta( $imageid, '_wp_attached_file', true );
     $obj->imageurl = $imageurl;
 
-    $logoid = get_post_meta( $member->ID, 'logoid', true );
+    $logoid = get_post_meta( $member->ID, 'logoimageid', true );
     $obj->logoid = $logoid;
     $logourl = get_site_url()."/wp-content/uploads/".get_post_meta( $logoid, '_wp_attached_file', true );
     $obj->logourl = $logourl;

@@ -381,6 +381,18 @@ function updatemember(url) {
     
 }
 
+function updateliststatus() {
+
+    var memberstatus = document.getElementById('memberstatus').value;
+    if(memberstatus == "All Members"){
+        window.location.href = '/wp-admin/admin.php?page=networkers-members';
+    }else{
+        window.location.href = '/wp-admin/admin.php?page=networkers-members&s='+memberstatus;
+    }
+    
+    
+}
+
 
 // GROUPS -------------------------------------------------------------------------
 
@@ -477,13 +489,13 @@ function newgroup() {
         window.scrollTo(0, 0);
         return;
     }
-    if(!laddress || !lsuburb || !lcity || !lpostcode){
-        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration"
-        document.getElementById('message').innerHTML = "Group required addrress (street, suburb, city and postcode)."
-        document.getElementById('popupbox').style = "display:block"
-        window.scrollTo(0, 0);
-        return;
-    }
+    // if(!laddress || !lsuburb || !lcity || !lpostcode){
+    //     document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration"
+    //     document.getElementById('message').innerHTML = "Group required addrress (street, suburb, city and postcode)."
+    //     document.getElementById('popupbox').style = "display:block"
+    //     window.scrollTo(0, 0);
+    //     return;
+    // }
     if(allregion.length == 0){
         document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration"
         document.getElementById('message').innerHTML = "You must add a region to this group"
@@ -495,6 +507,34 @@ function newgroup() {
     document.getElementById("myForm").submit();
     return;
 }
+
+
+// FACILITATOR -------------------------------------------------------------------------
+
+function newfacilitator() {
+
+    var name = document.getElementById('Name').value;
+    var email = document.getElementById('email').value;
+
+    if(!name || name.length < 3){
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration"
+        document.getElementById('message').innerHTML = "Name must have 3 characters long."
+        document.getElementById('popupbox').style = "display:block"
+        window.scrollTo(0, 0);
+        return;
+    }
+    if(email == ""){
+        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration"
+        document.getElementById('message').innerHTML = "Facilitator must have a email."
+        document.getElementById('popupbox').style = "display:block"
+        window.scrollTo(0, 0);
+        return;
+    }
+
+    document.getElementById("myForm").submit();
+    return;
+}
+
 
 
 

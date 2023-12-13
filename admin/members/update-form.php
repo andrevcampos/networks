@@ -118,7 +118,7 @@ function networkers_members_update() {
             <div class="memberlogobox">
                 <?php
                 // Multiple selection and nothing selected.
-                if($user_role == "administrator" || $user_role == "networkadmin"){
+                if($user_role == "administrator" || $user_role == "networkadmin" || $user_role == "franchise"){
                     Group_Box($groups, true);
                 }else{
                     Group_Box($groups, false);

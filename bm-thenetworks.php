@@ -27,6 +27,9 @@ include ABSPATH . '/wp-content/plugins/thenetworks/admin/members/update-form.php
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/franchise/franchise.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/franchise/new-form.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/franchise/update-form.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/facilitator/facilitator.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/facilitator/new-form.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/facilitator/update-form.php';
 
 //ADMIN FUNCTION
 include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/user-image-box.php';
@@ -41,6 +44,7 @@ include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/region.ph
 include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/get-members.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/referedby-box.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/facilitator-box.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/get-facilitators.php';
 
 //FUNCTION
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-group.php';
@@ -49,21 +53,34 @@ include_once ABSPATH . '/wp-content/plugins/thenetworks/function/member-logo.php
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/member-social-media.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-industry.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-member.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-facilitator.php';
 
 //CLASS
 include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-region.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-group.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-industry.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-member.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-facilitator.php';
 
 //SHORTCODE
 include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/slide.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/pinpoint.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/pinpoint-left.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/region-dropdown-menu.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/group-list-box.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/group-hero.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/group-info-left.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/group-info-right.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/group-members.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/member-list.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/member-search.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/member-hero.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/member-info-left.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/member-info-right.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/group-select-form.php';
+
+
+
 
 //API
 include_once ABSPATH . '/wp-content/plugins/thenetworks/API/group_list.php';
@@ -125,6 +142,12 @@ function my_menu_networkers(){
             add_submenu_page( 'networkers-franchise',  'New Franchise', 'New Franchise', 'the_networkers', 'network-franchise-new', 'networkers_franchise_new' );
             add_submenu_page( null,  'Update Franchise', 'Update Franchise', 'the_networkers', 'networkers-franchise-update', 'networkers_franchise_update' );
       }
+      //Facilitator
+      if ($user_role == 'administrator' || $user_role == 'network-admin'){
+            add_menu_page('Facilitator', 'Facilitator', 'the_networkers', 'networkers-facilitator', 'networkers_facilitator', '/wp-content/uploads/2023/07/menu-icon.png', 7 );
+            add_submenu_page( 'networkers-facilitator',  'New Facilitator', 'New Facilitator', 'the_networkers', 'network-facilitator-new', 'networkers_facilitator_new' );
+            add_submenu_page( null,  'Update Facilitator', 'Update Facilitator', 'the_networkers', 'networkers-facilitator-update', 'networkers_facilitator_update' );
+      }
 
       //Super Admin
       if ($user_role == 'administrator'){
@@ -153,6 +176,111 @@ add_action( 'load-profile.php', function() {
       if( ! current_user_can( 'manage_options' ) )
           exit( wp_safe_redirect( admin_url('admin.php?page=networkers-profile') ) );
 } );
+
+
+function register_member_post_type() {
+      $labels = array(
+          'name'               => _x('Members', 'post type general name'),
+          'singular_name'      => _x('Member', 'post type singular name'),
+          'add_new'            => _x('Add New', 'Member'),
+          'add_new_item'       => __('Add New Member'),
+          'edit_item'          => __('Edit Member'),
+          'new_item'           => __('New Member'),
+          'all_items'          => __('All Members'),
+          'view_item'          => __('View Member'),
+          'search_items'       => __('Search Members'),
+          'not_found'          => __('No members found'),
+          'not_found_in_trash' => __('No members found in Trash'),
+          'parent_item_colon'  => '',
+          'menu_name'          => 'Members'
+      );
+  
+      $args = array(
+          'labels'        => $labels,
+          'public'        => true,
+          'menu_icon'     => 'dashicons-businessman', // You can choose a different icon
+          'menu_position' => 5,
+          'supports'      => array('title', 'editor', 'thumbnail', 'page-attributes'),
+          'has_archive'   => false,  // If you want to disable archives
+          'rewrite'       => array('slug' => 'members'),
+          'hierarchical'  => true,  // Enables page attributes like parent and child
+          'show_in_menu'  => false,
+      );
+  
+      register_post_type('network-member', $args);
+  }
+  
+  add_action('init', 'register_member_post_type');
+
+  function register_group_post_type() {
+      $labels = array(
+          'name'               => _x('Groups', 'post type general name'),
+          'singular_name'      => _x('Group', 'post type singular name'),
+          'add_new'            => _x('Add New', 'Group'),
+          'add_new_item'       => __('Add New Group'),
+          'edit_item'          => __('Edit Group'),
+          'new_item'           => __('New Group'),
+          'all_items'          => __('All Groups'),
+          'view_item'          => __('View Group'),
+          'search_items'       => __('Search Groups'),
+          'not_found'          => __('No Groups found'),
+          'not_found_in_trash' => __('No Groups found in Trash'),
+          'parent_item_colon'  => '',
+          'menu_name'          => 'Groups'
+      );
+  
+      $args = array(
+          'labels'        => $labels,
+          'public'        => true,
+          'menu_icon'     => 'dashicons-businessman', // You can choose a different icon
+          'menu_position' => 5,
+          'supports'      => array('title', 'editor', 'thumbnail', 'page-attributes'),
+          'has_archive'   => false,  // If you want to disable archives
+          'rewrite'       => array('slug' => 'groups'),
+          'hierarchical'  => true,  // Enables page attributes like parent and child
+          'show_in_menu'  => false,
+      );
+  
+      register_post_type('network-group', $args);
+  }
+  
+  add_action('init', 'register_group_post_type');
+
+  //Regions
+  function register_region_post_type() {
+      $labels = array(
+          'name'               => _x('Regions', 'post type general name'),
+          'singular_name'      => _x('Region', 'post type singular name'),
+          'add_new'            => _x('Add New', 'Region'),
+          'add_new_item'       => __('Add New Region'),
+          'edit_item'          => __('Edit Region'),
+          'new_item'           => __('New Region'),
+          'all_items'          => __('All Regions'),
+          'view_item'          => __('View Region'),
+          'search_items'       => __('Search Regions'),
+          'not_found'          => __('No Region found'),
+          'not_found_in_trash' => __('No regions found in Trash'),
+          'parent_item_colon'  => '',
+          'menu_name'          => 'Regions'
+      );
+  
+      $args = array(
+          'labels'        => $labels,
+          'public'        => true,
+          'menu_icon'     => 'dashicons-businessman', // You can choose a different icon
+          'menu_position' => 5,
+          'supports'      => array('title', 'editor', 'thumbnail', 'page-attributes'),
+          'has_archive'   => false,  // If you want to disable archives
+          'rewrite'       => array('slug' => 'networking-groups'),
+          'hierarchical'  => true,  // Enables page attributes like parent and child
+          'show_in_menu'  => false,
+      );
+  
+      register_post_type('network-region', $args);
+  }
+  
+  add_action('init', 'register_region_post_type');
+
 
 
 ?>

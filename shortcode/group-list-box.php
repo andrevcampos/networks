@@ -6,13 +6,52 @@ function group_list_box_shortcode() {
 
     wp_enqueue_style( 'shortcodecss', plugins_url() . '/thenetworks/public/css/shortcode.css');
 
-    $args = array('post_type' => 'network-group','posts_per_page' => -1);
+    // Get the ID of the current post
+    $post_id = get_the_ID();
+    // Check if a valid post ID is obtained
+    if ($post_id) {
+        // Get post title
+        $posttitle = get_the_title($post_id);
+    }
+
+    if($posttitle == "Groups"){
+        $args = array(
+            'post_type' => 'network-group',
+            'posts_per_page' => -1,
+            'meta_query' => array(
+                array(
+                    'key' => 'status',
+                    'value' => 'active', 
+                    'compare' => '=',
+                ),
+            ),
+        ); 
+    }else{
+        $args = array(
+            'post_type' => 'network-group',
+            'posts_per_page' => -1,
+            'meta_query' => array(
+                array(
+                    'key' => 'status',
+                    'value' => 'active', 
+                    'compare' => '=',
+                ),
+                array(
+                    'key' => 'regions',
+                    'value' => $post_id, 
+                    'compare' => '=',
+                ),
+            ),
+        );
+    }
+
     $groups = get_posts($args);
     $grouparray = [];
     foreach($groups as $group) {
         //group info
         $groupid = $group->ID;
         $grouptitle = $group->post_title;
+        $slug = $group->post_name;
         $obj = Get_Group($group->ID);
         $weekday = ucfirst($obj->weekday);
         $start = $obj->start;
@@ -28,6 +67,7 @@ function group_list_box_shortcode() {
             'id' => $groupid,
             'title' => $grouptitle,
             'url' => $image_info[0],
+            'slug' => $slug,
             'weekday' => $weekday,
             'start' => $start,
             'regionid' => $region_id,
@@ -44,32 +84,52 @@ function group_list_box_shortcode() {
     // Sort the array by regiontitle
     usort($grouparray, 'sortByRegionTitle');
 
+    if($posttitle == "Groups"){
+        $regionn = "";
+        foreach ($grouparray as $group) {
+            if($regionn != $group->regiontitle){
 
-    $regionn = "";
-    foreach ($grouparray as $group) {
-        if($regionn != $group->regiontitle){
-
-            if($regionn != ""){ echo "</div>";}
-            $regionn = $group->regiontitle;
+                if($regionn != ""){ echo "</div>";}
+                $regionn = $group->regiontitle;
+                
+                echo "<h3 class='$group->regionid allgroups' style='margin-top:40px;margin-left:10px'> $group->regiontitle </h3>";
+                echo "<div class='group-list-container $group->regionid allgroups'>";
+            }
+            $pieces = explode(":", $group->start);
+            $time = $group->weekday . " " . $pieces[0] . ":" . $pieces[1] . "" . $pieces[2];
             
-            echo "<h3 class='$group->regionid allgroups' style='margin-top:40px;'> $group->regiontitle </h3>";
-            echo "<div class='group-list-container $group->regionid allgroups'>";
+            echo "<div class='group-list-single-box $group->regionid allgroups'>";
+                echo "<a href='/groups/$group->slug' style=''>";
+                    echo '<div class="group-list-single-box-image" style="background-image: url(' . esc_url($group->url) . ');background-size: cover;"></div>';
+                    echo '<div class="group-list-single-box-text">';
+                        echo "<h6 style='color:black'><strong> $group->title </strong></h6>";
+                        echo "<h6 style='color:black'> $time </h6>";
+                    echo '</div>';  
+                echo "</a>";
+            echo "</div>";
+            
         }
-        $pieces = explode(":", $group->start);
-        $time = $group->weekday . " " . $pieces[0] . ":" . $pieces[1] . "" . $pieces[2];
-        
-        echo "<div class='group-list-single-box $group->regionid allgroups'>";
-            echo "<a href='/group/?id=$group->id' style=''>";
-                echo '<div class="group-list-single-box-image" style="background-image: url(' . esc_url($group->url) . ');background-size: cover;"></div>';
-                echo '<div class="group-list-single-box-text">';
-                    echo "<h6 style='color:black'><strong> $group->title </strong></h6>";
-                    echo "<h6 style='color:black'> $time </h6>";
-                echo '</div>';  
-            echo "</a>";
         echo "</div>";
-        
+    }else{
+        echo "<div class='group-list-container $group->regionid allgroups'>";
+        foreach ($grouparray as $group) {
+            $pieces = explode(":", $group->start);
+            $time = $group->weekday . " " . $pieces[0] . ":" . $pieces[1] . "" . $pieces[2];
+            echo "<div class='group-list-single-box $group->regionid allgroups'>";
+                echo "<a href='/groups/$group->slug' style=''>";
+                    echo '<div class="group-list-single-box-image" style="background-image: url(' . esc_url($group->url) . ');background-size: cover;"></div>';
+                    echo '<div class="group-list-single-box-text">';
+                        echo "<h6 style='color:black'><strong> $group->title </strong></h6>";
+                        echo "<h6 style='color:black'> $time </h6>";
+                    echo '</div>';  
+                echo "</a>";
+            echo "</div>";
+        }
+        echo "</div>";
     }
-    echo "</div>";
+
+
+    
 
     return ob_get_clean();
 }

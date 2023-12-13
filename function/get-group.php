@@ -18,6 +18,7 @@ function Get_Group($id) {
     $obj->city = get_post_meta( $group->ID, 'city', true );
     $obj->postcode = get_post_meta( $group->ID, 'postcode', true );
     $obj->regions = get_post_meta( $group->ID, 'regions', true );
+    $obj->facilitator = get_post_meta( $group->ID, 'facilitator', true );
     
     $imageid = get_post_meta( $group->ID, 'imageid', true );
     $obj->imageid = $imageid;

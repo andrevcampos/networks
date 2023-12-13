@@ -1,39 +1,25 @@
 <?php
 
-function networkers_members() {
-
+function networkers_facilitator() {
+    
     include ABSPATH . '/wp-content/plugins/thenetworks/admin/function/popup.php';
     wp_enqueue_style( 'admincss', plugins_url() . '/thenetworks/public/css/admin.css');
     wp_enqueue_script( 'mainjs', plugins_url() . '/thenetworks/public/js/js.js' );
     wp_enqueue_script( 'functionjs', plugins_url() . '/thenetworks/public/js/functions.js' );
 
-    $searchstatus = $_GET["s"];
-    
-
-    $exampleListTable = new Member_List_Table();
+    $exampleListTable = new Facilitator_List_Table();
     $exampleListTable->prepare_items();
     echo '<div id="networkersbox" class="wrap">';
         echo '<h1>The Networkers</h1><br>';
         echo '<div id="icon-users" class="icon32"></div>';
-        echo '<h2>Member List</h2>';
-
-        echo '<div style="margin-bottom:-50px;margin-top:20px;">';
-            echo "<label>Status:</label><br>";
-            echo '<select name="memberstatus" id="memberstatus" style="margin-top:5px" onchange="updateliststatus()">';
-            $possibleStatus = array("All Members", "Potential Member", "Scheduled Visitor", "Active Visitor", "Active Member", "Past Member");
-            foreach ($possibleStatus as $status) {
-                $selected = ($status == $searchstatus) ? "selected" : "";
-                echo "<option value='" . $status . "' $selected>$status</option>";
-            }
-            echo '</select><br><br><br>';
-        echo "</div>";
-
+        echo '<h2>Facilitator List</h2>';
         $exampleListTable->search_box('Search', 'search_id');
         $exampleListTable->display();
     echo '</div>';
+    
 }
 
-
+//Table List
 if( ! class_exists( 'WP_List_Table' ) ) {
     require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
@@ -41,7 +27,7 @@ if( ! class_exists( 'WP_List_Table' ) ) {
 /**
  * Create a new table class that will extend the WP_List_Table
  */
-class Member_List_Table extends WP_List_Table
+class Facilitator_List_Table extends WP_List_Table
 {
 
     public function prepare_items()
@@ -89,10 +75,9 @@ class Member_List_Table extends WP_List_Table
     {
         $columns = array(
             'id' => 'ID',
-            'business' => 'Business',
             'name' => 'Name',
             'email' => 'Email',
-            'memberstatus' => 'Status',
+            'phone' => 'Phone',
         );
         return $columns;
     }
@@ -107,12 +92,12 @@ class Member_List_Table extends WP_List_Table
 
         if($user_role == 'administrator' || $user_role == 'network-admin'){
             $actions = array(
-                'edit' => sprintf('<a href="?page=networkers-members-update&id=%s">%s</a>', $item['id'], __('Edit', 'cltd_example')),
-                'delete' => sprintf('<div style="display: inline-block;color:red;cursor: pointer;" onclick="PopupRemoveBox(\'Remove Member\',%s,\'%s\',\'%s\')">Remove</div>',  $item['id'], $item['business'], $removeurl),
+                'edit' => sprintf('<a href="?page=networkers-facilitator-update&id=%s">%s</a>', $item['id'], __('Edit', 'cltd_example')),
+                'delete' => sprintf('<div style="display: inline-block;color:red;cursor: pointer;" onclick="PopupRemoveBox(\'Remove Facilitator\',%s,\'%s\',\'%s\')">Remove</div>',  $item['id'], $item['name'], $removeurl),
             );
         }else{
             $actions = array(
-                'edit' => sprintf('<a href="?page=networkers-members-update&id=%s">%s</a>', $item['id'], __('Edit', 'cltd_example')),
+                'edit' => sprintf('<a href="?page=networkers-facilitator-update&id=%s">%s</a>', $item['id'], __('Edit', 'cltd_example')),
             );
         }
 
@@ -132,31 +117,33 @@ class Member_List_Table extends WP_List_Table
 
     public function get_sortable_columns()
     {
-        return array('business' => array('business', false),'name' => array('name', false));
+        return array('name' => array('name', false));
     }
 
   
     private function table_data()
     {
+        //check user role
+        $user = wp_get_current_user();
+        $roles = ( array ) $user->roles;
+        $user_role = $roles[0];
+
         $args = array(
-            'post_type' => "network-member",
+            'post_type' => "network-facilitator",
             'posts_per_page' => -1
           );
         $latest_posts = get_posts( $args );
         $data = array();
         if(count($latest_posts) > 0 ){
             foreach($latest_posts as $post) {
-                $memberstatus = get_post_meta( $post->ID, 'status', true );
+                
                 $email = get_post_meta( $post->ID, 'email', true );
-                $first = get_post_meta( $post->ID, 'firstName', true );
-                $last = get_post_meta( $post->ID, 'lastName', true );
-                $name = $first . " " . $last;
+                $phone = get_post_meta( $post->ID, 'phone', true );
                 $data2 = array(
                     'id' => $post->ID,
-                    'business' => $post->post_title,
-                    'name' => $name,
+                    'name' => $post->post_title,
                     'email' => $email,
-                    'memberstatus' => $memberstatus,
+                    'phone' => $phone,
                     );
                 array_push($data, $data2);
             }
@@ -168,10 +155,9 @@ class Member_List_Table extends WP_List_Table
     {
         switch( $column_name ) {
             case 'id':
-            case 'business':
             case 'name':
             case 'email':
-            case 'memberstatus':
+            case 'phone':
                 return $item[ $column_name ];
 
             default:
@@ -182,7 +168,7 @@ class Member_List_Table extends WP_List_Table
     private function sort_data( $a, $b )
     {
         // Set defaults
-        $orderby = 'id';
+        $orderby = 'name';
         $order = 'desc';
 
         // If orderby is set, use this as the sort column
@@ -229,7 +215,7 @@ class Member_List_Table extends WP_List_Table
         }
         ?>
         <form method="get" action="<?php echo esc_url(admin_url('admin.php')); ?>">
-            <input type="hidden" name="page" value="networkers-members" />
+            <input type="hidden" name="page" value="networkers-facilitator" />
             <p class="search-box">
                 <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php echo $text; ?>:</label>
                 <input type="search" id="<?php echo esc_attr($input_id); ?>" name="s" value="<?php echo esc_attr(isset($_REQUEST['s']) ? $_REQUEST['s'] : ''); ?>" />

@@ -4,8 +4,9 @@ function group_info_left_shortcode() {
     ob_start();
     wp_enqueue_style( 'shortcodecss', plugins_url() . '/thenetworks/public/css/shortcode.css');
 
-    $groupid = $_GET['id'];
+
     $obj = Get_Group($groupid);
+    $groupid = $obj->ID;
     $pieces = explode(":", $obj->start);
     $time = ucfirst($obj->weekday) . " " . $pieces[0] . ":" . $pieces[1] . "" . $pieces[2];
     $address1 = $obj->address1;
@@ -13,7 +14,10 @@ function group_info_left_shortcode() {
     $suburb = $obj->suburb;
     $city = $obj->city;
     $postcode = $obj->postcode;
-    
+    $facilitatorid = $obj->facilitator;
+    $objfacilitator = Get_Facilitator($facilitatorid);
+    $imageid = $objfacilitator->imageid;
+    $pimage_info = wp_get_attachment_image_src($imageid, 'full');
 
     echo '<div class="group-info-left">';
         echo '<div class="group-info-left-icon">
@@ -49,12 +53,21 @@ function group_info_left_shortcode() {
 
     echo "<br>";
 
+    $cleaned_number = str_replace(' ', '', $objfacilitator->phone);
+    $number = 'tel:+64'.ltrim($cleaned_number, '0');
+    
+
     echo '<div class="group-info-left">';
         echo '<div class="group-info-left-icon">
             <span class="material-symbols-outlined">manage_accounts</span>
         </div>';
         echo "<div class='group-info-left-text-title'><strong>Facilitator</strong></div>";
     echo '</div>';
+    echo '<div class="profile-picture" style="background-image: url(' . esc_url($pimage_info[0]) . ')"></div>';
+    echo "<div class='group-info-left-text'>$objfacilitator->name</div>";
+    echo "<a href='$number'><div class='group-info-left-text' style='color:red;'>$objfacilitator->phone</div></a>";
+    echo "<a href='mailto:$objfacilitator->email'><div class='group-info-left-text' style='color:red;'>$objfacilitator->email</div></a>";
+    echo "<br>";
 
     return ob_get_clean();
 }
