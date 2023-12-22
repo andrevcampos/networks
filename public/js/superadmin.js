@@ -180,9 +180,9 @@ jQuery(document).ready(function($) {
                 // Handle the success response here, if needed
                 alert('Members added successfully.');
             },
-            error: function() {
+            error: function(response) {
                 // Handle any errors here, if needed
-                alert('Error adding members.');
+                alert('Error adding members.' + response);
             }
         });
     });

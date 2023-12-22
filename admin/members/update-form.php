@@ -40,6 +40,15 @@ function networkers_members_update() {
     $logoimageid = get_post_meta( $id, 'logoimageid', true );
     $userimageid = get_post_meta( $id, 'userimageid', true );
 
+    $paymentcheckbox = get_post_meta( $id, 'paymentcheckbox', true );
+    if (empty($paymentcheckbox)) {$paymentcheckbox = 'true';}
+    $newslettercheckbox = get_post_meta( $id, 'newslettercheckbox', true );
+    if (empty($newslettercheckbox)) {$newslettercheckbox = 'true';}
+    $businessinformationcheckbox = get_post_meta( $id, 'businessinformationcheckbox', true );
+    if (empty($businessinformationcheckbox)) {$businessinformationcheckbox = 'true';}
+    $agreecheckbox = get_post_meta( $id, 'agreecheckbox', true );
+    if (empty($agreecheckbox)) {$agreecheckbox = 'true';}
+
     ?>
 
     <div style="display:block" id="networkersbox" class="networkersbox">
@@ -118,7 +127,7 @@ function networkers_members_update() {
             <div class="memberlogobox">
                 <?php
                 // Multiple selection and nothing selected.
-                if($user_role == "administrator" || $user_role == "networkadmin" || $user_role == "franchise"){
+                if($user_role == "administrator" || $user_role == "network-admin" || $user_role == "franchise"){
                     Group_Box($groups, true);
                 }else{
                     Group_Box($groups, false);
@@ -136,7 +145,7 @@ function networkers_members_update() {
 
                 <?php
 
-                Industry_Box($industry, false);
+                Industry_Box($industry, true);
                 echo "<br>";
                 $logoHtml = member_logo($logoimageid);
                 echo $logoHtml;
@@ -219,24 +228,24 @@ function networkers_members_update() {
 
             <div class="memberlogobox">
 
-                <h2 style="font-size:22px"><b>Permitions<spam style="color:red"> *</spam></b></h2>
+                <h2 style="font-size:22px"><b>Permissions</b></h2>
                 <div class="d-flex">
-                    <div><input style="width:10px" type="checkbox" id="paymentcheckbox" name="paymentcheckbox" checked></div>
+                    <div><input style="width:10px" type="checkbox" id="paymentcheckbox" name="paymentcheckbox" <?php echo ($paymentcheckbox == 'true') ? 'checked' : ''; ?>></div>
                     <div style="margin-top:3px"><spam >By joining as a member I give "The Networkers" permission to generate an invoice which is billed in advance for the period I select.</spam></div>
                 </div>
                 <br>
                 <div class="d-flex">
-                    <div><input style="width:10px" type="checkbox" id="newslettercheckbox" name="newslettercheckbox" checked></div>
+                    <div><input style="width:10px" type="checkbox" id="newslettercheckbox" name="newslettercheckbox" <?php echo ($newslettercheckbox == 'true') ? 'checked' : ''; ?>></div>
                     <div style="margin-top:3px"><spam>I give permission for The Networkers to send me 'Networkers' email updates (approx 1-2 monthly).</spam></div>
                 </div>
                 <br>
                 <div class="d-flex">
-                    <div><input style="width:10px" type="checkbox" id="businessinformationcheckbox" name="businessinformationcheckbox" checked></div>
+                    <div><input style="width:10px" type="checkbox" id="businessinformationcheckbox" name="businessinformationcheckbox" <?php echo ($businessinformationcheckbox == 'true') ? 'checked' : ''; ?>></div>
                     <div style="margin-top:3px"><spam>By joining as a member I give "The Networkers" permission to use my business information for a website profile & in soclal media etc.</spam></div>
                 </div>
                 <br>
                 <div class="d-flex">
-                    <div><input style="width:10px" type="checkbox" id="agreecheckbox" name="agreecheckbox" checked></div>
+                    <div><input style="width:10px" type="checkbox" id="agreecheckbox" name="agreecheckbox" <?php echo ($agreecheckbox == 'true') ? 'checked' : ''; ?>></div>
                     <div style="margin-top:3px"><spam>I agree that my details are correct and I have been given an introduction brochure.</spam></div>
                 </div>
 

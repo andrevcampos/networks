@@ -49,9 +49,9 @@ function slideshow_shortcode() {
         foreach ($imagePaths as $path) {
             $pieces = explode(":", $path->start);
             $title = $path->weekday . " " . $pieces[0] . ":" . $pieces[1] . "" . $pieces[2] . " - " . $path->post_title;
-            echo '<div class="netslide"><div class="netdivimg" style="background-image: url(' . esc_url($path->url) . ');background-size: cover;border-radius:10px;width:100%"></div></div>';
-            echo '<div class="netslidestitle">'. $title .'</div>';
-            echo "<div class='netslideslink'><a href='https://netdev.breeze.marketing/group/$path->slug'>Visit this group</a></div>";
+            echo "<div class='netslide'><a href='https://netdev.breeze.marketing/group/$path->slug'><div class='netdivimg' style='background-image: url(" . esc_url($path->url) . ");background-size: cover;border-radius:10px;width:100%'></div></div>";
+            echo "<div class='netslidestitle'><a href='https://netdev.breeze.marketing/group/$path->slug' style='color:white'>". $title .'</a></div>';
+            //echo "<div class='netslideslink'><a href='https://netdev.breeze.marketing/group/$path->slug'>Visit this group</a></div>";
         }
         ?>
         <a class="prev" onclick="changeSlide(-1)">&#10094;</a>

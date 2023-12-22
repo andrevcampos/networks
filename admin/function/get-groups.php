@@ -1,7 +1,7 @@
 <?php
 function Get_Groups() {
     $user_role = Get_User_Role();
-    if($user_role == "administrator" || $user_role == "networkadmin" || $user_role == "franchise"){
+    if($user_role == "administrator" || $user_role == "network-admin" || $user_role == "franchise"){
         $args = array('post_type' => 'network-group','posts_per_page' => -1);
         $groupss = get_posts($args);
         $groups = [];

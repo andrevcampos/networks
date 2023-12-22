@@ -11,10 +11,10 @@ function member_image_list_callback() {
 
     include '../../../../wp-load.php';
 
-    $servername = "thenetworkers.co.nz";
-    $username = "thenetw_andre";
-    $password = "Andre@123!";
-    $dbname = "thenetw_networkers";
+    $servername = "thenetworkers.co.nz:3306";
+    $username = "thenetwo_andre";
+    $password = "zxezsu0MCXGR";
+    $dbname = "thenetwo_db";
 
     $conn = mysqli_connect($servername, $username, $password, $dbname);
 

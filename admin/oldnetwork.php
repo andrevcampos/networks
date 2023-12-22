@@ -10,7 +10,7 @@ function networkers_superadmin() {
         echo '<h3>Members</h3>';
         echo '<button id="deleteImagesButton">Delete Images</button><br><br>';
         echo '<button id="deleteMembersButton">Delete Members</button><br><br>';
-        echo '<button id="addMembersButton">Add Members</button><br><br>';
+        echo '<button id="addMembersButton">Add Memberss</button><br><br>';
 
         $query = new WP_Query(array(
             'post_type' => 'network-member',
@@ -69,6 +69,29 @@ function networkers_superadmin() {
         echo '<button id="statusMemberChanges">Change Members</button><br><br>';
         
     echo '</div>';
+
+    $servername = "thenetworkers.co.nz:3306";
+    $username = "thenetwo_andre";
+    $password = "zxezsu0MCXGR";
+    $dbname = "thenetwo_db";
+
+    // Create connection
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+    // Check connection
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    // Set the character set to UTF-8
+    mysqli_set_charset($conn, "utf8");
+
+    // Additional error handling for queries
+    function handle_query_error($query, $conn) {
+        if (!$query_result) {
+            die("Query failed: " . mysqli_error($conn));
+        }
+    }
     
 }
 
@@ -78,15 +101,18 @@ function GetMemberInformation() {
     wp_enqueue_script( 'functionjs', plugins_url() . '/thenetworks/public/js/functions.js' );
     $membercheckurl = plugins_url() . '/thenetworks/admin/memberlist.php';
     $memberaddurl = plugins_url() . '/thenetworks/admin/memberadd.php';
-    
 
-    $servername = "thenetworkers.co.nz";
-    $username = "thenetw_andre";
-    $password = "Andre@123!";
-    $dbname = "thenetw_networkers";
+    
+    
+    $servername = "thenetworkers.co.nz:3306";
+    $username = "thenetwo_andre";
+    $password = "zxezsu0MCXGR";
+    $dbname = "thenetwo_db";
     
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     mysqli_set_charset($conn,"utf8");
+
+    
     
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
@@ -94,6 +120,7 @@ function GetMemberInformation() {
     
     $sql = "SELECT * FROM node WHERE type='member'";
     $result = mysqli_query($conn, $sql);
+    
 
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
@@ -109,24 +136,24 @@ function GetMemberInformation() {
              } 
     
             //Check if already have Group Name
-            global $user_ID, $wpdb;
-            $query = $wpdb->prepare(
-                'SELECT ID FROM ' . $wpdb->posts . '
-                WHERE post_title = %s
-                AND post_type = \'network-member\'',
-                $businessName
-            );
-            $wpdb->query( $query );
-            if ( !$wpdb->num_rows ) {
+             global $user_ID, $wpdb;
+            // $query = $wpdb->prepare(
+            //     'SELECT ID FROM ' . $wpdb->posts . '
+            //     WHERE post_title = %s
+            //     AND post_type = \'network-member\'',
+            //     $businessName
+            // );
+            // $wpdb->query( $query );
+            //if ( !$wpdb->num_rows ) {
     
                 //lowercap
-                $post_name = strtolower($businessName);
-                //remove white space
-                $post_name2 = trim($post_name);
-                //replace space with -
-                $slug = str_replace(' ', '-', $post_name2);
-                //add region to slug
-                $regionslug = $slug;
+                // $post_name = strtolower($businessName);
+                // //remove white space
+                // $post_name2 = trim($post_name);
+                // //replace space with -
+                // $slug = str_replace(' ', '-', $post_name2);
+                // //add region to slug
+                // $regionslug = $slug;
     
                 //Create Post
                 $my_post = array(
@@ -136,7 +163,7 @@ function GetMemberInformation() {
                 'post_type'     => 'network-member',
                 //'post_mime_type'     => 'member',
                 //'post_parent'     => 96851, //Member page
-                'post_name'     => $regionslug,
+                // 'post_name'     => $regionslug,
                 );
                 $post_id = wp_insert_post( $my_post );
 
@@ -340,7 +367,7 @@ function GetMemberInformation() {
                 //     }
                 // }
 
-            }
+            //}
         }
     }
     mysqli_close($conn);
@@ -349,10 +376,10 @@ function GetMemberInformation() {
 add_action('wp_ajax_update_member_images', 'GetMemberImage');
 function GetMemberImage() {
 
-    $servername = "thenetworkers.co.nz";
-    $username = "thenetw_andre";
-    $password = "Andre@123!";
-    $dbname = "thenetw_networkers";
+    $servername = "thenetworkers.co.nz:3306";
+    $username = "thenetwo_andre";
+    $password = "zxezsu0MCXGR";
+    $dbname = "thenetwo_db";
 
     $conn = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -444,10 +471,10 @@ function GetMemberImage() {
 add_action('wp_ajax_update_member_logo', 'GetMemberLogo');
 function GetMemberLogo() {
 
-    $servername = "thenetworkers.co.nz";
-    $username = "thenetw_andre";
-    $password = "Andre@123!";
-    $dbname = "thenetw_networkers";
+    $servername = "thenetworkers.co.nz:3306";
+    $username = "thenetwo_andre";
+    $password = "zxezsu0MCXGR";
+    $dbname = "thenetwo_db";
 
     $conn = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -652,10 +679,10 @@ function get_post_id_by_meta_key_and_value($key, $value) {
 add_action('wp_ajax_GroupAdd', 'GroupAdd');
 function GroupAdd() {
 
-$servername = "thenetworkers.co.nz";
-$username = "thenetw_andre";
-$password = "Andre@123!";
-$dbname = "thenetw_networkers";
+$servername = "thenetworkers.co.nz:3306";
+$username = "thenetwo_andre";
+$password = "zxezsu0MCXGR";
+$dbname = "thenetwo_db";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 mysqli_set_charset($conn,"utf8");
@@ -680,23 +707,23 @@ if (mysqli_num_rows($result) > 0) {
 
         //Check if already have Group Name
         global $user_ID, $wpdb;
-        $query = $wpdb->prepare(
-            'SELECT ID FROM ' . $wpdb->posts . '
-            WHERE post_title = %s
-            AND post_type = \'network-group\'',
-            $name
-        );
-        $wpdb->query( $query );
-        if ( !$wpdb->num_rows ) {
+        // $query = $wpdb->prepare(
+        //     'SELECT ID FROM ' . $wpdb->posts . '
+        //     WHERE post_title = %s
+        //     AND post_type = \'network-group\'',
+        //     $name
+        // );
+        // $wpdb->query( $query );
+        // if ( !$wpdb->num_rows ) {
 
             //lowercap
-            $post_name = strtolower($name);
-            //remove white space
-            $post_name2 = trim($post_name);
-            //replace space with -
-            $slug = str_replace(' ', '-', $post_name2);
-            //add region to slug
-            $regionslug = $slug;
+            // $post_name = strtolower($name);
+            // //remove white space
+            // $post_name2 = trim($post_name);
+            // //replace space with -
+            // $slug = str_replace(' ', '-', $post_name2);
+            // //add region to slug
+            // $regionslug = $slug;
 
             //Create Post
             $my_post = array(
@@ -705,7 +732,7 @@ if (mysqli_num_rows($result) > 0) {
             'post_status'   => 'publish',
             'post_author'   => 1,
             'post_type'     => 'network-group',
-            'post_name'     => $regionslug,
+            //'post_name'     => $regionslug,
             );
 
             $post_id = wp_insert_post( $my_post );
@@ -714,7 +741,7 @@ if (mysqli_num_rows($result) > 0) {
             add_post_meta( $post_id, 'groupoldid', $nid, true );
 
             //status
-            add_post_meta( $post_id, 'status', 'inactive', true);
+            add_post_meta( $post_id, 'status', 'active', true);
    
 
             //Region
@@ -959,7 +986,7 @@ if (mysqli_num_rows($result) > 0) {
                 // echo "Image uploaded successfully!";
 
             }
-        }
+        //}
     }
 }
 
@@ -1040,10 +1067,10 @@ function IndustryRemove() {
 add_action('wp_ajax_IndustryAdd', 'IndustryAdd');
 function IndustryAdd() {
 
-    $servername = "thenetworkers.co.nz";
-    $username = "thenetw_andre";
-    $password = "Andre@123!";
-    $dbname = "thenetw_networkers";
+    $servername = "thenetworkers.co.nz:3306";
+    $username = "thenetwo_andre";
+    $password = "zxezsu0MCXGR";
+    $dbname = "thenetwo_db";
     
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     
@@ -1136,10 +1163,10 @@ function IndustryUpdateID() {
 
 function GetRegionformation() {
 
-    $servername = "thenetworkers.co.nz";
-    $username = "thenetw_andre";
-    $password = "Andre@123!";
-    $dbname = "thenetw_networkers";
+    $servername = "thenetworkers.co.nz:3306";
+    $username = "thenetwo_andre";
+    $password = "zxezsu0MCXGR";
+    $dbname = "thenetwo_db";
     
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     
@@ -1245,10 +1272,10 @@ add_action('wp_ajax_updateFacilitator', 'updateFacilitator');
 function updateFacilitator() {
 
 
-    $servername = "thenetworkers.co.nz";
-    $username = "thenetw_andre";
-    $password = "Andre@123!";
-    $dbname = "thenetw_networkers";
+    $servername = "thenetworkers.co.nz:3306";
+    $username = "thenetwo_andre";
+    $password = "zxezsu0MCXGR";
+    $dbname = "thenetwo_db";
     
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     mysqli_set_charset($conn,"utf8");

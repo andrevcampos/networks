@@ -13,7 +13,7 @@ function changeSlide(n) {
 function showSlide(index) {
     const slides = document.getElementsByClassName('netslide');
     const slidestitle = document.getElementsByClassName('netslidestitle');
-    const slideslink = document.getElementsByClassName('netslideslink');
+    //const slideslink = document.getElementsByClassName('netslideslink');
     if (index < 0) {
         slideIndex = slides.length - 1;
     }
@@ -23,9 +23,9 @@ function showSlide(index) {
     for (let i = 0; i < slides.length; i++) {
         slides[i].style.display = 'none';
         slidestitle[i].style.display = 'none';
-        slideslink[i].style.display = 'none';
+        //slideslink[i].style.display = 'none';
     }
     slides[slideIndex].style.display = 'block';
     slidestitle[slideIndex].style.display = 'block';
-    slideslink[slideIndex].style.display = 'block';
+    //slideslink[slideIndex].style.display = 'block';
 }

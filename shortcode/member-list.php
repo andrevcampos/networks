@@ -84,12 +84,12 @@ function members_list_shortcode() {
 
     
     foreach ($memberarray as $member) {
-        echo "<div class='group-list-single-box allindustrys $member->industry'>";
+        echo "<div class='group-list-single-box allindustrys $member->industry hoverorange'>";
             echo "<a href='/members/$member->slug' style=''>";
                 echo '<div class="group-list-single-box-image" style="background-image: url(' . esc_url($member->logourl) . ');background-size: contain;background-position: center center;background-position: center center;background-repeat: no-repeat;"></div>';
                 echo '<div class="group-list-single-box-text">';
-                    echo "<h6 style='color:black'><strong> $member->title</strong></h6>";
-                    echo "<h6 style='color:black'> $member->firstname $member->lastname</h6>";
+                    echo "<h6 style=''>$member->title</h6>";
+                    // echo "<h6 style='color:black'> $member->firstname $member->lastname</h6>";
                 echo '</div>';
             echo '</a>';
         echo "</div>";

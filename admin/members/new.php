@@ -11,6 +11,14 @@
     $email = $_POST["email"];
     $phones = $_POST["phone"];
     $businessname = $_POST["businessname"];
+
+
+    //Permitions
+    $paymentcheckbox = $_POST["paymentcheckbox"];
+    $newslettercheckbox = $_POST["newslettercheckbox"];
+    $businessinformationcheckbox = $_POST["businessinformationcheckbox"];
+    $agreecheckbox = $_POST["agreecheckbox"];
+   
     
     //Get Decription and encode
     $businessDescription = $_POST["businessDescription"];
@@ -58,6 +66,28 @@
     $post_id = wp_insert_post( $my_post );
 
     //------------------------------------------------------------
+
+    if($paymentcheckbox == true){
+        add_post_meta( $post_id, 'paymentcheckbox', 'true', true );
+    }else{
+        add_post_meta( $post_id, 'paymentcheckbox', 'false', true );
+    }
+    if($newslettercheckbox == true){
+        add_post_meta( $post_id, 'newslettercheckbox', 'true', true );
+    }else{
+        add_post_meta( $post_id, 'newslettercheckbox', 'false', true );
+    }
+    if($businessinformationcheckbox == true){
+        add_post_meta( $post_id, 'businessinformationcheckbox', 'true', true );
+    }else{
+        add_post_meta( $post_id, 'businessinformationcheckbox', 'false', true );
+    }
+    if($agreecheckbox == true){
+        add_post_meta( $post_id, 'agreecheckbox', 'true', true );
+    }else{
+        add_post_meta( $post_id, 'agreecheckbox', 'false', true );
+    }
+        
 
     add_post_meta( $post_id, 'status', $status, true );
     if($firstvisit)

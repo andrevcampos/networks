@@ -4,6 +4,10 @@
 
     $name = $_POST["name"];
 
+    //Get Decription and encode
+    $regionDescription = $_POST["regionDescription"];
+    $description = base64_encode($regionDescription);
+
     global $user_ID, $wpdb;
     $query = $wpdb->prepare(
         'SELECT ID FROM ' . $wpdb->posts . '
@@ -36,7 +40,12 @@
     'post_name'   => $regionslug,
     );
 
-    wp_insert_post( $my_post );
+    $post_id = wp_insert_post( $my_post );
+
+    if($description)
+        add_post_meta( $post_id, 'description', $description, true );
+
+    Add_Region_Image($post_id);
 
     $url = admin_url('admin.php?page=networkers-region');
     header("Location: $url"); 

@@ -57,8 +57,9 @@ class Member_List_Table extends WP_List_Table
         $currentPage = $this->get_pagenum();
         $totalItems = count($data);
 
+        
         // Process search query if set
-        $search = isset($_REQUEST['s']) ? sanitize_text_field($_REQUEST['s']) : '';
+        $search = isset($_REQUEST['s']) ? stripslashes($_REQUEST['s']) : '';
 
         if (!empty($search)) {
             $data = array_filter($data, function ($item) use ($search) {
@@ -104,11 +105,12 @@ class Member_List_Table extends WP_List_Table
         $user = wp_get_current_user();
         $roles = ( array ) $user->roles;
         $user_role = $roles[0];
+        $itembusiness = isset($item['business']) ? str_replace(array("'", "-", "#"), "", $item['business']) : '';
 
         if($user_role == 'administrator' || $user_role == 'network-admin'){
             $actions = array(
                 'edit' => sprintf('<a href="?page=networkers-members-update&id=%s">%s</a>', $item['id'], __('Edit', 'cltd_example')),
-                'delete' => sprintf('<div style="display: inline-block;color:red;cursor: pointer;" onclick="PopupRemoveBox(\'Remove Member\',%s,\'%s\',\'%s\')">Remove</div>',  $item['id'], $item['business'], $removeurl),
+                'delete' => sprintf('<div style="display: inline-block;color:red;cursor: pointer;" onclick="PopupRemoveBox(\'Remove Member\',%s,\'%s\',\'%s\')">Remove</div>',  $item['id'], $itembusiness, $removeurl),
             );
         }else{
             $actions = array(
@@ -228,11 +230,25 @@ class Member_List_Table extends WP_List_Table
             echo '<input type="hidden" name="detached" value="' . esc_attr($_REQUEST['detached']) . '" />';
         }
         ?>
-        <form method="get" action="<?php echo esc_url(admin_url('admin.php')); ?>">
+        <!-- <form method="get" action="<?php echo esc_url(admin_url('admin.php')); ?>">
             <input type="hidden" name="page" value="networkers-members" />
             <p class="search-box">
                 <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php echo $text; ?>:</label>
                 <input type="search" id="<?php echo esc_attr($input_id); ?>" name="s" value="<?php echo esc_attr(isset($_REQUEST['s']) ? $_REQUEST['s'] : ''); ?>" />
+                <?php submit_button($text, '', '', false, array('id' => 'search-submit')); ?>
+            </p>
+        </form> -->
+
+        <form method="get" action="<?php echo esc_url(admin_url('admin.php')); ?>">
+            <input type="hidden" name="page" value="networkers-members" />
+            <p class="search-box">
+                <label class="screen-reader-text" for="<?php echo esc_attr($input_id); ?>"><?php echo $text; ?>:</label>
+                <?php
+                // Get the search query and remove slashes
+                $search_value = isset($_REQUEST['s']) ? stripslashes($_REQUEST['s']) : '';
+                // Output the input field with the properly escaped value
+                ?>
+                <input type="search" id="<?php echo esc_attr($input_id); ?>" name="s" value="<?php echo esc_attr($search_value); ?>" />
                 <?php submit_button($text, '', '', false, array('id' => 'search-submit')); ?>
             </p>
         </form>

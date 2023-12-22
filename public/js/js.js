@@ -231,7 +231,7 @@ function newregion() {
 
     if(name.length < 5){
         document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
-        document.getElementById('message').innerHTML = "Name must have 3 characters long.";
+        document.getElementById('message').innerHTML = "Name must have 5 characters long.";
         document.getElementById('popupbox').style = "display:block";
         window.scrollTo(0, 0);
         return;
@@ -323,13 +323,13 @@ function newmember() {
         window.scrollTo(0, 0);
         return;
     }
-    if(!paymentcheckbox || !newslettercheckbox || !businessinformationcheckbox || !agreecheckbox){
-        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
-        document.getElementById('message').innerHTML = "You must accept all terms and coditions";
-        document.getElementById('popupbox').style = "display:block";
-        window.scrollTo(0, 0);
-        return;
-    }
+    // if(!paymentcheckbox || !newslettercheckbox || !businessinformationcheckbox || !agreecheckbox){
+    //     document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
+    //     document.getElementById('message').innerHTML = "You must accept all terms and coditions";
+    //     document.getElementById('popupbox').style = "display:block";
+    //     window.scrollTo(0, 0);
+    //     return;
+    // }
 
     document.getElementById("myForm").submit();
     return;
@@ -496,13 +496,13 @@ function newgroup() {
     //     window.scrollTo(0, 0);
     //     return;
     // }
-    if(allregion.length == 0){
-        document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration"
-        document.getElementById('message').innerHTML = "You must add a region to this group"
-        document.getElementById('popupbox').style = "display:block"
-        window.scrollTo(0, 0);
-        return;
-    }
+    // if(allregion.length == 0){
+    //     document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration"
+    //     document.getElementById('message').innerHTML = "You must add a region to this group"
+    //     document.getElementById('popupbox').style = "display:block"
+    //     window.scrollTo(0, 0);
+    //     return;
+    // }
 
     document.getElementById("myForm").submit();
     return;
@@ -1137,4 +1137,52 @@ function removeuserimage() {
     document.getElementById('userimage_url').value="";
     document.getElementById('userimageremovebutton').style = "display:none";
     document.getElementById('originaluserimage').value = "";
+}
+
+
+// REGION IMAGE ----------
+function checkregionimage(input) {
+
+    var imagedisplay = document.getElementById('regionimg');
+    var imagebox = document.getElementById('regionimagebox');
+    var imageremovebutton = document.getElementById('regionimageremovebutton');
+    var imagecomment = document.getElementById('regionimagecomment');
+    imagedisplay.src = "";
+    imagebox.style = "width:100%;display:none;margin-top:20px";
+    imagecomment.style = "font-size:16px;display:none;color:red;";
+    imagecomment.innerHTML = "";
+
+    var file = input.files[0];
+    var filename = file.name.toLowerCase();
+    if (!filename.match(/\.(jpg|jpeg|png|gif)$/i)){
+        imagebox.style = "width:100%;display:none;margin-top:20px";
+        imagedisplay.src = "";
+        imagecomment.innerHTML = "Please choose an image in the following formats: JPG, JPEG, PNG, or GIF.";
+        imagecomment.style = "font-size:16px;display:block;color:red;";
+        document.getElementById('regionimage_url').value='';
+        return;
+    }
+
+    console.log(Math.ceil(file.size / 1000) + "kbs")
+
+    if (file) {
+        var image = new Image();
+
+        image.onload = function() {
+            console.log("image Dimention: " + this.width + "x" +this.height)
+        };
+        image.src = URL.createObjectURL(file);
+        imagedisplay.src = URL.createObjectURL(file);
+        imagebox.style = "width:100%;display:block;margin-top:20px";
+        imageremovebutton.style = "display:block";
+        document.getElementById('originalregionimage').value = "";
+    }
+
+}
+function removeregionimage() {
+    document.getElementById('regionimagebox').style = "display:none";
+    document.getElementById('regionimg').src = "";
+    document.getElementById('regionimage_url').value="";
+    document.getElementById('regionimageremovebutton').style = "display:none";
+    document.getElementById('originalregionimage').value = "";
 }

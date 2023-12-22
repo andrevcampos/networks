@@ -1,7 +1,7 @@
 <?php
 function Get_Regions() {
     $user_role = Get_User_Role();
-    if($user_role == "administrator" || $user_role == "networkadmin"){
+    if($user_role == "administrator" || $user_role == "network-admin"){
         $args = array('post_type' => 'network-region','posts_per_page' => -1);
         $regions = get_posts($args);
         return $regions;

@@ -84,7 +84,7 @@ function network_members_new() {
 
                 <?php
 
-                Industry_Box($groups, false);
+                Industry_Box($groups, true);
 
                 $logoHtml = member_logo();
                 echo $logoHtml;
@@ -170,7 +170,7 @@ function network_members_new() {
 
             <div class="memberlogobox">
 
-                <h2 style="font-size:22px"><b>Permitions<spam style="color:red"> *</spam></b></h2>
+                <h2 style="font-size:22px"><b>Permissions</b></h2>
                 <div class="d-flex">
                     <div><input style="width:10px" type="checkbox" id="paymentcheckbox" name="paymentcheckbox"></div>
                     <div style="margin-top:3px"><spam >By joining as a member I give "The Networkers" permission to generate an invoice which is billed in advance for the period I select.</spam></div>

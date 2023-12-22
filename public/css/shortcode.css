@@ -6,6 +6,14 @@
     min-width: 550px;
 }
 
+.hoverorange a{
+  color:black;
+}
+
+.hoverorange a:hover {
+  color:#ff671f;
+}
+
 .netslide {
     display: none;
     width: 100%;
@@ -76,45 +84,46 @@
 }
 
 .group-list-single-box {
-    width: calc(31.33% - 10px); /* Set the width of each box */
+    width: calc(18% - 10px); /* Set the width of each box */
     margin-bottom: 20px; /* Add some spacing between boxes */
-    flex: 0 0 calc(31.33% - 5px); /* Prevent items from growing or shrinking */
+    flex: 0 0 calc(18% - 5px); /* Prevent items from growing or shrinking */
     box-sizing: border-box; /* Include padding and borders in the width calculation */
-    min-width: 350px;
+    max-width: 350px;
     text-align: center;
     padding: 5px;
-    border-color: #e7ebed;
+    /* border-color: #e7ebed;
     border-style: solid;
-    border-width: 1px;
+    border-width: 1px; */
     margin-right: 2%;
     padding-bottom:10px;
     padding-top: 30px;
-    border-radius: 10px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    /* border-radius: 10px; */
+    /* box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); */
 }
 
 
 
-.group-list-single-box:hover {
+/* .group-list-single-box:hover {
     background-color: #e7ebed;
     border-color: #bfc3c5;
-}
+} */
 
 .group-list-single-box-image {
-    width: 85%;
-    height: 150px;
-    margin-left: 7.5%;
-    border-radius: 5px;
-    filter: brightness(0.8);
-    transition: all 0.3s ease-in-out; /* Add a CSS transition for all properties with a duration of 0.3 seconds and ease-in-out timing function */
+    width: 100%;
+    height: 120px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    /* margin-left: 7.5%; */
+    /* border-radius: 5px; */
+    /* filter: brightness(0.8); */
+    /* transition: all 0.3s ease-in-out; Add a CSS transition for all properties with a duration of 0.3 seconds and ease-in-out timing function */
 }
 
-.group-list-single-box-image:hover {
-    width: 90%; /* Increase the width to 100% on hover */
+/* .group-list-single-box-image:hover {
+    width: 100%;
     margin-left: 5%;
     filter: brightness(1);
-    height: 150px; /* Increase the height on hover */
-}
+    height: 100px; 
+} */
 
 .group-list-single-box-text {
     width: 90%;
@@ -199,25 +208,25 @@
   
   i.material-symbols-outlined {
     font-size: 34px; /* Adjust the size of the icon */
-    color: red; /* Set the color of the icon */
+    color: #53565a; /* Set the color of the icon */
   }
   
   .info-box {
     display: none;
     position: absolute;
     width: 200px;
-    background-color: #f0f0f0;
-    border: 1px solid #000;
+    background-color: #ffffff;
+    border: 1px solid #53565a;
     padding: 10px;
     z-index: 1;
     opacity: 0;
     transition: opacity 0.3s;
   }
   
-  /* .hotspot:hover + .info-box {
+  .hotspot:hover + .info-box {
     display: block;
     opacity: 1;
-  } */
+  }
   
   /* Add hover effect for the hotspot */
   .hotspot:hover {
@@ -239,13 +248,21 @@
   }
   .hotspotbox2 {
     left: 160px; 
-    top: 220px;
+    top: 250px;
   }
   .hotspoticon3 {
     left: 410px; 
     top: 360px;
   }
   .hotspotbox3 {
+    left: 450px; 
+    top: 380px;
+  }
+  .hotspoticon4 {
+    left: 410px; 
+    top: 360px;
+  }
+  .hotspotbox4 {
     left: 450px; 
     top: 380px;
   }
@@ -272,8 +289,8 @@
   @media screen and (max-width: 1150px) {
 
     .group-list-single-box {
-      width: calc(48% - 10px);
-      flex: 0 0 calc(48% - 5px); /* Prevent items from growing or shrinking */
+      width: calc(31% - 10px);
+      flex: 0 0 calc(31% - 5px); /* Prevent items from growing or shrinking */
     }
 
     #slideshow-container {
@@ -294,8 +311,9 @@
   @media screen and (max-width: 780px) {
     
     .group-list-single-box {
-      width: calc(98% - 10px);
-      flex: 0 0 calc(98% - 5px); /* Prevent items from growing or shrinking */
+      width: calc(48% - 10px);
+      flex: 0 0 calc(48% - 5px); /* Prevent items from growing or shrinking */
+      max-width: 100%;
     }
     .regiondropdown {
       width:95%;

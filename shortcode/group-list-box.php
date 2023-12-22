@@ -93,17 +93,17 @@ function group_list_box_shortcode() {
                 $regionn = $group->regiontitle;
                 
                 echo "<h3 class='$group->regionid allgroups' style='margin-top:40px;margin-left:10px'> $group->regiontitle </h3>";
-                echo "<div class='group-list-container $group->regionid allgroups'>";
+                echo "<div class='group-list-container $group->regionid allgroups '>";
             }
             $pieces = explode(":", $group->start);
             $time = $group->weekday . " " . $pieces[0] . ":" . $pieces[1] . "" . $pieces[2];
             
-            echo "<div class='group-list-single-box $group->regionid allgroups'>";
+            echo "<div class='group-list-single-box $group->regionid allgroups hoverorange'>";
                 echo "<a href='/groups/$group->slug' style=''>";
                     echo '<div class="group-list-single-box-image" style="background-image: url(' . esc_url($group->url) . ');background-size: cover;"></div>';
                     echo '<div class="group-list-single-box-text">';
-                        echo "<h6 style='color:black'><strong> $group->title </strong></h6>";
-                        echo "<h6 style='color:black'> $time </h6>";
+                        echo "<h5 style='color:black;font-size:17px'><strong> $time </strong></h5>";
+                        echo "<h6 style='margin-top:-10px;font-size:16px'> $group->title </h6>"; 
                     echo '</div>';  
                 echo "</a>";
             echo "</div>";
@@ -115,12 +115,12 @@ function group_list_box_shortcode() {
         foreach ($grouparray as $group) {
             $pieces = explode(":", $group->start);
             $time = $group->weekday . " " . $pieces[0] . ":" . $pieces[1] . "" . $pieces[2];
-            echo "<div class='group-list-single-box $group->regionid allgroups'>";
+            echo "<div class='group-list-single-box $group->regionid allgroups hoverorange'>";
                 echo "<a href='/groups/$group->slug' style=''>";
                     echo '<div class="group-list-single-box-image" style="background-image: url(' . esc_url($group->url) . ');background-size: cover;"></div>';
                     echo '<div class="group-list-single-box-text">';
-                        echo "<h6 style='color:black'><strong> $group->title </strong></h6>";
-                        echo "<h6 style='color:black'> $time </h6>";
+                        echo "<h5 style='color:black;font-size:17px'><strong> $time </strong></h5>";
+                        echo "<h6 style='margin-top:-10px;font-size:16px'> $group->title </h6>"; 
                     echo '</div>';  
                 echo "</a>";
             echo "</div>";

@@ -8,7 +8,7 @@ function regioninput($regionsselected = [], $multiple = true) {
     $user_role = $roles[0];
 
     //Region Availables
-    if($user_role == "administrator" || $user_role == "networkadmin"){
+    if($user_role == "administrator" || $user_role == "network-admin"){
         $args = array('post_type' => 'network-region','posts_per_page' => -1);
         $regions = get_posts($args);
     }else{

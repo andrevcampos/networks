@@ -45,6 +45,7 @@ include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/get-membe
 include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/referedby-box.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/facilitator-box.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/get-facilitators.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/region-image.php';
 
 //FUNCTION
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-group.php';

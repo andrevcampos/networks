@@ -11,6 +11,12 @@
     $phones = $_POST["phone"];
     $businessname = $_POST["businessname"];
     $orginalname = $_POST["orginalname"];
+
+    //Permitions
+    $paymentcheckbox = $_POST["paymentcheckbox"];
+    $newslettercheckbox = $_POST["newslettercheckbox"];
+    $businessinformationcheckbox = $_POST["businessinformationcheckbox"];
+    $agreecheckbox = $_POST["agreecheckbox"];
     
     //Get Decription and encode
     $businessDescription = $_POST["businessDescription"];
@@ -41,6 +47,63 @@
         );
         wp_update_post( $my_post );
 
+    }
+
+    $paymentcheckboxvalue = get_post_meta($post_id, 'paymentcheckbox', true);
+    if (!empty($paymentcheckboxvalue)) {
+        if($paymentcheckbox == true){
+            update_post_meta( $post_id, 'paymentcheckbox', 'true');
+        }else{
+            update_post_meta( $post_id, 'paymentcheckbox', 'false');
+        }
+    } else {
+        if($paymentcheckbox == true){
+            add_post_meta( $post_id, 'paymentcheckbox', 'true', true );
+        }else{
+            add_post_meta( $post_id, 'paymentcheckbox', 'false', true );
+        }
+    }
+    $newslettercheckboxvalue = get_post_meta($post_id, 'newslettercheckbox', true);
+    if (!empty($newslettercheckboxvalue)) {
+        if($newslettercheckbox == true){
+            update_post_meta( $post_id, 'newslettercheckbox', 'true');
+        }else{
+            update_post_meta( $post_id, 'newslettercheckbox', 'false');
+        }
+    } else {
+        if($newslettercheckbox == true){
+            add_post_meta( $post_id, 'newslettercheckbox', 'true', true );
+        }else{
+            add_post_meta( $post_id, 'newslettercheckbox', 'false', true );
+        }
+    }
+    $businessinformationcheckboxvalue = get_post_meta($post_id, 'businessinformationcheckbox', true);
+    if (!empty($businessinformationcheckboxvalue)) {
+        if($businessinformationcheckbox == true){
+            update_post_meta( $post_id, 'businessinformationcheckbox', 'true');
+        }else{
+            update_post_meta( $post_id, 'businessinformationcheckbox', 'false');
+        }
+    } else {
+        if($businessinformationcheckbox == true){
+            add_post_meta( $post_id, 'businessinformationcheckbox', 'true', true );
+        }else{
+            add_post_meta( $post_id, 'businessinformationcheckbox', 'false', true );
+        }
+    }
+    $agreecheckboxvalue = get_post_meta($post_id, 'agreecheckbox', true);
+    if (!empty($agreecheckboxvalue)) {
+        if($agreecheckbox == true){
+            update_post_meta( $post_id, 'agreecheckbox', 'true');
+        }else{
+            update_post_meta( $post_id, 'agreecheckbox', 'false');
+        }
+    } else {
+        if($agreecheckbox == true){
+            add_post_meta( $post_id, 'agreecheckbox', 'true', true );
+        }else{
+            add_post_meta( $post_id, 'agreecheckbox', 'false', true );
+        }
     }
 
     update_post_meta( $post_id, 'status', $memberstatus );
