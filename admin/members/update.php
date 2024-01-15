@@ -142,6 +142,8 @@
     Update_Group($post_id);
     Update_Social_Media($post_id);
 
+    Update_Referedby($post_id);
+
     $url = admin_url('admin.php?page=networkers-members');
     header("Location: $url"); 
     exit();

@@ -12,24 +12,16 @@
     $phones = $_POST["phone"];
     $businessname = $_POST["businessname"];
 
-    if($phones ){
-        foreach($phones as $phone) {
-            if($phone)
-                echo "phone" . $phone;
-        }
-    }
-return;
-
     //Permitions
     $paymentcheckbox = $_POST["paymentcheckbox"];
     $newslettercheckbox = $_POST["newslettercheckbox"];
     $businessinformationcheckbox = $_POST["businessinformationcheckbox"];
     $agreecheckbox = $_POST["agreecheckbox"];
    
-    
     //Get Decription and encode
     $businessDescription = $_POST["businessDescription"];
     $description = base64_encode($businessDescription);
+
     $country = $_POST["country"];
     $streetaddress1 = $_POST["streetaddress1"];
     $streetaddress2 = $_POST["streetaddress2"];
@@ -61,9 +53,7 @@ return;
     
     if($firstName){
         $post_fname = strtolower($firstName);
-        //remove white space
         $post_fname2 = trim($post_fname);
-        //replace space with -
         $fslug = str_replace(' ', '-', $post_fname2);
         $slug = $slug . "-" . $fslug;
     }
@@ -127,22 +117,19 @@ return;
     if($country)
         add_post_meta( $post_id, 'country', $country, true );
     if($streetaddress1)
-        add_post_meta( $post_id, 'address1', $streetaddress1, true );
+        add_post_meta( $post_id, 'streetaddress1', $streetaddress1, true );
     if($streetaddress2)
-        add_post_meta( $post_id, 'address2', $streetaddress2, true );
+        add_post_meta( $post_id, 'streetaddress2', $streetaddress2, true );
     if($suburb)
         add_post_meta( $post_id, 'suburb', $suburb, true );
     if($city)
         add_post_meta( $post_id, 'city', $city, true );
     if($postalcode)
-        add_post_meta( $post_id, 'postcode', $postalcode, true );
+        add_post_meta( $post_id, 'postalcode', $postalcode, true );
     add_post_meta( $post_id, 'payment', $payment, true );
 
-    Add_User_Image($post_id);
-    Add_User_Logo($post_id);
-
     Add_Industry($post_id);
-    Add_Referedby($post_id);
+    
 
     if($phones ){
         foreach($phones as $phone) {
@@ -151,7 +138,11 @@ return;
         }
     }
     Add_Group($post_id);
+
     Add_Social_Media($post_id);
+    Add_Referedby($post_id);
+    Add_User_Image($post_id);
+    Add_User_Logo($post_id);
 
     $url = admin_url('admin.php?page=networkers-members');
     header("Location: $url"); 

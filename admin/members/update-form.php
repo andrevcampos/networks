@@ -33,7 +33,7 @@ function networkers_members_update() {
     $postalcode = get_post_meta( $id, 'postalcode', true );
     $payment = get_post_meta( $id, 'payment', true );
     $industry = get_post_meta( $id, 'industry', false );
-    $referedby = get_post_meta( $id, 'referedby', true );
+    $referedby = get_post_meta( $id, 'referedby', false );
     $group = get_post_meta( $id, 'group', false );
     $socialmedia = get_post_meta( $id, 'socialmedia', false );
 

@@ -23,7 +23,7 @@ function member_info_left_shortcode() {
         if ($phones == ""){
             $phones = "<a href='$number'><div class='group-info-left-text' style='color:#5F259F;'>$phone</div></a>";
         }else{
-            $phones = $phones . "<br>" . "<a href='$number'><div class='group-info-left-text' style='color:red;'>$phone</div></a>";
+            $phones = $phones . "<a href='$number'><div class='group-info-left-text' style='color:#5F259F;'>$phone</div></a>";
         }
     }
     // Groups
