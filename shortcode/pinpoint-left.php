@@ -35,7 +35,7 @@ function pinpoint_left_shortcode() {
 
     $args2 = array('post_type' => 'network-region', 'posts_per_page' => -1);
     $regions = get_posts($args2);
-    $totalregions = Count(get_posts($args2));
+    $totalregions = Count(get_posts($args2))-1;
 
     echo "<div class='info-box-left' style='border-radius:10px;display: block;'>";
         echo '<div class="group-info-left" style="padding-left:10px">';
@@ -98,12 +98,12 @@ function pinpoint_left_shortcode2() {
 
     $args2 = array('post_type' => 'network-region', 'posts_per_page' => -1);
     $regions = get_posts($args2);
-    $totalregions = Count(get_posts($args2));
+    $totalregions = Count(get_posts($args2))-1;
 
     echo "<div style='font-size:18px'>";
-        echo "<span><strong>$totalgroups</strong></span><span style='margin-left:5px'>Groups</span>";
-        echo "<span style='margin-left:20px'><strong>$totalmembers</strong></span><span style='margin-left:5px'>Members</span>";
-        echo "<span style='margin-left:20px'><strong>$totalregions</strong></span><span style='margin-left:5px'>Regions</span>";
+        echo "<span style='color:#5F259F'><strong>$totalgroups</strong></span><span style='margin-left:5px'>Groups</span>";
+        echo "<span style='margin-left:30px;color:#5F259F'><strong>$totalmembers</strong></span><span style='margin-left:5px'>Members</span>";
+        echo "<span style='margin-left:30px;color:#5F259F'><strong>$totalregions</strong></span><span style='margin-left:5px'>Regions</span>";
     echo "</div>";
     return ob_get_clean();
 }

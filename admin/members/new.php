@@ -12,6 +12,13 @@
     $phones = $_POST["phone"];
     $businessname = $_POST["businessname"];
 
+    if($phones ){
+        foreach($phones as $phone) {
+            if($phone)
+                echo "phone" . $phone;
+        }
+    }
+return;
 
     //Permitions
     $paymentcheckbox = $_POST["paymentcheckbox"];
@@ -46,12 +53,31 @@
         exit();
     }
     //lowercap
-    $post_name = strtolower($businessname);
+    $post_bname = strtolower($businessname);
     //remove white space
-    $post_name2 = trim($post_name);
+    $post_bname2 = trim($post_bname);
     //replace space with -
-    $slug = str_replace(' ', '-', $post_name2);
-    //add region to slug
+    $slug = str_replace(' ', '-', $post_bname2);
+    
+    if($firstName){
+        $post_fname = strtolower($firstName);
+        //remove white space
+        $post_fname2 = trim($post_fname);
+        //replace space with -
+        $fslug = str_replace(' ', '-', $post_fname2);
+        $slug = $slug . "-" . $fslug;
+    }
+    
+    if($lastName){
+        $post_lname = strtolower($lastName);
+        //remove white space
+        $post_lname2 = trim($post_lname);
+        //replace space with -
+        $lslug = str_replace(' ', '-', $post_lname2);
+        $slug = $slug . "-" . $lslug;
+    }
+    
+   
     $regionslug = $slug;
 
     //Create Post

@@ -26,7 +26,7 @@
     //replace space with -
     $slug = str_replace(' ', '-', $post_name2);
     //add region to slug
-    $regionslug = $slug;
+    $regionslug = "industry-".$slug;
 
     $my_post = array(
     'post_title'    => $name,

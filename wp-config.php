@@ -27,7 +27,7 @@ define( 'DB_NAME', 'netdev_wp_gopo4' );
 define( 'DB_USER', 'netdev_wp_uoqcp' );
 
 /** Database password */
-define( 'DB_PASSWORD', '8PtI^#r2Y70Zwln@' );
+define( 'DB_PASSWORD', 'yFhfcDX75_If' );
 
 /** Database hostname */
 define( 'DB_HOST', 'localhost:3306' );
@@ -102,3 +102,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';
+
+define('ALLOW_UNFILTERED_UPLOADS', true);

@@ -11,7 +11,7 @@
 }
 
 .hoverorange a:hover {
-  color:#ff671f;
+  color:#5F259F;
 }
 
 .netslide {
@@ -80,7 +80,9 @@
     display: flex;
     flex-wrap: wrap; /* Allow items to wrap to the next row */
     width: 100%;
-    justify-content:left /* Distribute items evenly */
+    justify-content:left; /* Distribute items evenly */
+    min-width:1150px;
+    /* justify-content:center; */
 }
 
 .group-list-single-box {
@@ -164,21 +166,21 @@
 .group-info-left-text-title {
     color: black;
     text-align: left;
-    font-size: 24px;
+    font-size: 20px;
 }
 .group-info-left-text {
     color: black;
     text-align: left;
-    margin-left: 10px;
-    font-size: 18px;
+    margin-left: 5px;
+    font-size: 17px;
 }
 
 .profile-picture {
-    width: 150px; /* Set the width and height as desired */
-    height: 150px;
+    width: 250px; /* Set the width and height as desired */
+    height: 250px;
     background-size: cover;
     background-position: center;
-    border-radius: 50%; /* Use 50% to create a circular shape */
+    border-radius: 50%;
     border: 2px solid #fff; /* Optional: Add a border to the image */
 }
 
@@ -210,6 +212,10 @@
     font-size: 34px; /* Adjust the size of the icon */
     color: #53565a; /* Set the color of the icon */
   }
+  i.material-symbols-outlined2 {
+    font-size: 34px; /* Adjust the size of the icon */
+    color: #ffffff; /* Set the color of the icon */
+  }
   
   .info-box {
     display: none;
@@ -235,12 +241,12 @@
   }
 
   .hotspoticon1 {
-    left: 350px; 
-    top: 500px;
+    left: 335px;
+    top: 505px;
   }
   .hotspotbox1 {
-    left: 380px; 
-    top: 500px;
+    left: 365px; 
+    top: 505px;
   }
   .hotspoticon2 {
     left: 350px; 
@@ -259,12 +265,36 @@
     top: 380px;
   }
   .hotspoticon4 {
-    left: 410px; 
-    top: 360px;
+    left: 360px; 
+    top: 410px;
   }
   .hotspotbox4 {
-    left: 450px; 
-    top: 380px;
+    left: 390px; 
+    top: 420px;
+  }
+  .hotspoticon5 {
+    left: 310px;
+    top: 480px;
+  }
+  .hotspotbox5 {
+    left: 340px; 
+    top: 480px;
+  }
+  .hotspoticon6 {
+    left: 290px;
+    top: 510px;
+  }
+  .hotspotbox6 {
+    left: 320px; 
+    top: 510px;
+  }
+  .hotspoticon7 {
+    left: 250px;
+    top: 530px;
+  }
+  .hotspotbox7 {
+    left: 280px; 
+    top: 530px;
   }
 
   .info-box-left {
@@ -285,8 +315,91 @@
     gap: 10px; /* Adjust the gap between items as needed */
 }
 
+/* Search Bar */
+
+/* Hover and focus styles for search form elements */
+.search-form label:hover,
+.search-form label:focus-within {
+    border-color: #5F259F !important;
+}
+
+.search-submit:hover,
+.search-submit:focus {
+    border-color: #5F259F !important;
+}
+
+.search-submit i:hover,
+.search-submit i:focus {
+    color: #5F259F !important;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+}
+
+.search-form label {
+  margin-right: 10px;
+}
+
+.search-submit {
+  background-color: #f1f2f3;
+  border: none;
+}
+
+/* Search Bar */
+
+.search-box {
+  min-width: 770px;
+  width:70%;
+  min-height: 340px;
+  border-color: #5F259F;
+  border-style: solid;
+  border-width: 2px;
+  text-align: center;
+}
+
+.search-category {
+  display: flex;
+  width:100%;
+  min-height: 41px;
+  border-bottom: #5F259F;
+  border-bottom-style: solid;
+  border-bottom-width:1px;
+  
+}
+
+.search-category-button {
+  width:auto;
+  min-height: 41px;
+  padding:15px;
+  cursor: pointer;
+  border-right: #5F259F;
+  border-right-style: solid;
+  border-right-width:1px;
+  
+}
+
+.search-submit:hover {
+  background-color: #5F259F !important;
+}
+
+.search-box-submit {
+  color: #000;
+  background-color: #f1f2f3;
+  border: none;
+}
+
+.search-box-submit:hover {
+  background-color: #5F259F !important;
+}
+
 
   @media screen and (max-width: 1150px) {
+
+    .group-list-container {
+      min-width:780px;
+    }
 
     .group-list-single-box {
       width: calc(31% - 10px);
@@ -309,6 +422,10 @@
 
 
   @media screen and (max-width: 780px) {
+
+    .group-list-container {
+      min-width:320px;
+    }
     
     .group-list-single-box {
       width: calc(48% - 10px);
@@ -333,6 +450,11 @@
     
     .netdivimg {
       min-width: 100%;
+    }
+
+    .search-box {
+      min-width: 380px;
+      width:95%;
     }
   
   }

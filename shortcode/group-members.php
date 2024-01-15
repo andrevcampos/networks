@@ -109,21 +109,21 @@ function group_members_shortcode() {
     usort($memberarray, 'sortByMemberTitle');
 
     echo '<div class="group-info-left" style="margin-left:10px">';
-        echo '<div class="group-info-left-icon">
-            <span class="material-symbols-outlined">collections_bookmark</span>
-        </div>';
+        // echo '<div class="group-info-left-icon">
+        //     <span class="material-symbols-outlined">collections_bookmark</span>
+        // </div>';
         echo "<div class='group-info-left-text-title'><strong>Members</strong></div>";
     echo '</div>';
     echo "<br>";
 
     echo "<div class='group-list-container'>";
     foreach ($memberarray as $member) {
-        echo "<div class='group-list-single-box'>";
+        echo "<div class='group-list-single-box hoverorange'>";
             echo "<a href='/members/$member->slug' style=''>";
                 echo '<div class="group-list-single-box-image" style="background-image: url(' . esc_url($member->logourl) . ');background-size: contain;background-position: center center;background-position: center center;background-repeat: no-repeat;"></div>';
                 echo '<div class="group-list-single-box-text">';
                     echo "<h6 style='color:black'><strong> $member->title</strong></h6>";
-                    echo "<h6 style='color:black'> $member->firstname $member->lastname</h6>";
+                    //echo "<h6 style='color:black'> $member->firstname $member->lastname</h6>";
                 echo '</div>';  
             echo "</a>";
         echo "</div>";
@@ -182,10 +182,10 @@ function group_members_shortcode() {
         usort($visitormemberarray, 'sortByMemberTitle2');
 
         echo '<div class="group-info-left" style="margin-left:10px;margin-top:50px">';
-            echo '<div class="group-info-left-icon">
-                <span class="material-symbols-outlined">collections_bookmark</span>
-            </div>';
-            echo "<div class='group-info-left-text-title'><strong>Visitor Members</strong></div>";
+            // echo '<div class="group-info-left-icon">
+            //     <span class="material-symbols-outlined">collections_bookmark</span>
+            // </div>';
+            echo "<div class='group-info-left-text-title'><strong>Active Visitor</strong></div>";
         echo '</div>';
         echo "<br>";
 
@@ -196,7 +196,7 @@ function group_members_shortcode() {
                     echo '<div class="group-list-single-box-image" style="background-image: url(' . esc_url($member->logourl) . ');background-size: contain;background-position: center center;background-position: center center;background-repeat: no-repeat;"></div>';
                     echo '<div class="group-list-single-box-text">';
                         echo "<h6 style='color:black'><strong> $member->title</strong></h6>";
-                        echo "<h6 style='color:black'> $member->firstname $member->lastname</h6>";
+                        //echo "<h6 style='color:black'> $member->firstname $member->lastname</h6>";
                     echo '</div>';  
                 echo "</a>";
             echo "</div>";
@@ -259,10 +259,10 @@ function group_members_shortcode() {
         usort($scheduledmemberarray, 'sortByMemberTitle3');
 
         echo '<div class="group-info-left" style="margin-left:10px;margin-top:50px">';
-            echo '<div class="group-info-left-icon">
-                <span class="material-symbols-outlined">collections_bookmark</span>
-            </div>';
-            echo "<div class='group-info-left-text-title'><strong>Scheduled Members</strong></div>";
+            // echo '<div class="group-info-left-icon">
+            //     <span class="material-symbols-outlined">collections_bookmark</span>
+            // </div>';
+            echo "<div class='group-info-left-text-title'><strong>Scheduled Visitor</strong></div>";
         echo '</div>';
         echo "<br>";
 
@@ -273,7 +273,7 @@ function group_members_shortcode() {
                     echo '<div class="group-list-single-box-image" style="background-image: url(' . esc_url($member->logourl) . ');background-size: contain;background-position: center center;background-position: center center;background-repeat: no-repeat;"></div>';
                     echo '<div class="group-list-single-box-text">';
                         echo "<h6 style='color:black'><strong> $member->title</strong></h6>";
-                        echo "<h6 style='color:black'> $member->firstname $member->lastname</h6>";
+                        //echo "<h6 style='color:black'> $member->firstname $member->lastname</h6>";
                     echo '</div>';  
                 echo "</a>";
             echo "</div>";

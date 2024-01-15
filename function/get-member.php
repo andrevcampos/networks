@@ -29,9 +29,24 @@ function Get_Member($id) {
 
     $logoid = get_post_meta( $member->ID, 'logoimageid', true );
     $obj->logoid = $logoid;
-    $logourl = get_site_url()."/wp-content/uploads/".get_post_meta( $logoid, '_wp_attached_file', true );
+
+    // $logourl = get_site_url()."/wp-content/uploads/".get_post_meta( $logoid, '_wp_attached_file', true );
+    // if($logourl == "https://netdev.breeze.marketing/wp-content/uploads/"){
+    //     $logourl = "https://netdev.breeze.marketing/wp-content/uploads/2023/10/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not.jpg";
+    // }
+    //  $obj->logourl = $logourl;
+
+    $logourl = "https://netdev.breeze.marketing/wp-content/uploads/";
+    if($logoid){
+        $image_info = wp_get_attachment_image_src($logoid, 'large');
+        $logourl = $image_info[0];
+    }
+    if($logourl == "https://netdev.breeze.marketing/wp-content/uploads/"){
+        $logourl = "https://netdev.breeze.marketing/wp-content/uploads/2023/10/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not.jpg";
+    }
     $obj->logourl = $logourl;
     
     return $obj;
+
 }
 ?>

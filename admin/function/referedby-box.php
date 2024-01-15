@@ -44,15 +44,19 @@ function Referedby_Box($referedbyselectedd = "") {
     }
 }
 
-function Add_Referedby($id) {
-    $memberid = $_POST["referedbyid"];
-    add_post_meta( $id, 'referedby', $memberid, true );
-}
+// function Add_Referedby($id) {
+//     $industryid = $_POST["referedbyid"];
+//     foreach($industryid as $industry) {
+//         add_post_meta( $id, 'industry', $industry, false );
+//     }
+// }
 
-function Update_Referedby($id) {
-    $memberid = $_POST["referedbyid"];
-    delete_post_meta( $id, 'referedby' );
-    add_post_meta( $id, 'referedby', $memberid, true );
-}
+// function Update_Referedby($id) {
+//     $industryid = $_POST["referedbyid"];
+//     delete_post_meta( $id, 'referedby' );
+//     foreach($industryid as $industry) {
+//         add_post_meta( $id, 'referedby', $member, false );
+//     }
+// }
 
 ?>

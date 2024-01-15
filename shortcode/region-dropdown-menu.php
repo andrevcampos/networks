@@ -18,7 +18,10 @@ function region_dropdown_menu_shortcode() {
             'id' => $regionid,
             'post_title' => $regiontitle,
         ];
-        array_push($regionsarray, $newObject);
+        if($regionid != 505){
+            array_push($regionsarray, $newObject);
+        }
+        
     }
 
     // Define a custom sorting function

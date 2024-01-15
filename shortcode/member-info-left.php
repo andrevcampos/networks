@@ -21,7 +21,7 @@ function member_info_left_shortcode() {
         $cleaned_number = str_replace(' ', '', $phone);
         $number = 'tel:+64'.ltrim($cleaned_number, '0');
         if ($phones == ""){
-            $phones = "<a href='$number'><div class='group-info-left-text' style='color:red;'>$phone</div></a>";
+            $phones = "<a href='$number'><div class='group-info-left-text' style='color:#5F259F;'>$phone</div></a>";
         }else{
             $phones = $phones . "<br>" . "<a href='$number'><div class='group-info-left-text' style='color:red;'>$phone</div></a>";
         }
@@ -34,7 +34,7 @@ function member_info_left_shortcode() {
         $groupname = get_post_field('post_name', $groupid);
         $grouptitle = $objgroup->post_title;
         if ($groups == ""){
-            $groups = "<a href='/groups/$groupname'><div class='group-info-left-text' style='color:red;'>$grouptitle</div></a>";
+            $groups = "<a href='/groups/$groupname'><div class='group-info-left-text' style='color:#5F259F;'>$grouptitle</div></a>";
         }else{
             $groups = $groups . "<br>" . "<a href='/groups/$groupname'><div class='group-info-left-text' style='color:red;'>$grouptitle</div></a>";
         }
@@ -58,16 +58,16 @@ function member_info_left_shortcode() {
     
     
     echo '<div class="profile-picture" style="background-image: url(' . esc_url($pimage_info[0]) . ')"></div>';
-    echo "<div class='group-info-left-text' style='text-align: center;width:150px;margin-left:0px'><strong>$obj->firstname $obj->lastname</strong></div>";
+    echo "<div class='group-info-left-text' style='text-align: center;width:250px;margin-left:0px'><strong>$obj->firstname $obj->lastname</strong></div>";
     echo "<br>";
 
     $cleaned_number = str_replace(' ', '', $phones);
     $number = 'tel:+64'.ltrim($cleaned_number, '0');
 
     echo '<div class="group-info-left">';
-        echo '<div class="group-info-left-icon">
-            <span class="material-symbols-outlined">phone_iphone</span>
-        </div>';
+        // echo '<div class="group-info-left-icon">
+        //     <span class="material-symbols-outlined">phone_iphone</span>
+        // </div>';
         echo "<div class='group-info-left-text-title'><strong>Phone</strong></div>";
     echo '</div>';
     echo $phones;
@@ -75,19 +75,19 @@ function member_info_left_shortcode() {
     echo "<br>";
 
     echo '<div class="group-info-left">';
-        echo '<div class="group-info-left-icon">
-            <span class="material-symbols-outlined">mail</span>
-        </div>';
+        // echo '<div class="group-info-left-icon">
+        //     <span class="material-symbols-outlined">mail</span>
+        // </div>';
         echo "<div class='group-info-left-text-title'><strong>Email</strong></div>";
     echo '</div>';
-    echo "<a href='mailto:$email'><div class='group-info-left-text' style='color:red;'>$email</div></a>";
+    echo "<a href='mailto:$email'><div class='group-info-left-text' style='color:#5F259F;'>$email</div></a>";
 
     echo "<br>";
 
     echo '<div class="group-info-left">';
-        echo '<div class="group-info-left-icon">
-            <span class="material-symbols-outlined">home_work</span>
-        </div>';
+        // echo '<div class="group-info-left-icon">
+        //     <span class="material-symbols-outlined">home_work</span>
+        // </div>';
         echo "<div class='group-info-left-text-title'><strong>Industry</strong></div>";
     echo '</div>';
     echo "<div class='group-info-left-text'>$industrys</div>";
@@ -96,9 +96,9 @@ function member_info_left_shortcode() {
 
     if(Count($sociallist)>0){
         echo '<div class="group-info-left">';
-            echo '<div class="group-info-left-icon">
-                <span class="material-symbols-outlined">captive_portal</span>
-            </div>';
+            // echo '<div class="group-info-left-icon">
+            //     <span class="material-symbols-outlined">captive_portal</span>
+            // </div>';
             echo "<div class='group-info-left-text-title'><strong>Social Media</strong></div>";
         echo '</div>';
 
@@ -126,7 +126,7 @@ function member_info_left_shortcode() {
             $socialdecode = json_decode($social);
             $social = strtolower(str_replace(' ', '', $socialdecode[0]));
             if ($social != "website" && $social != "facebook" && $social != "instagram" && $social != "linkedin" && $social != "youtube" && $social != "whatsapp") {
-                echo "<a href='$socialdecode[1]'><div class='group-info-left-text' style='color:red;'>$socialdecode[0]</div></a>";
+                echo "<a href='$socialdecode[1]'><div class='group-info-left-text' style='color:#5F259F;'>$socialdecode[0]</div></a>";
             }
         }
  
@@ -135,9 +135,9 @@ function member_info_left_shortcode() {
     echo "<br>";
 
     echo '<div class="group-info-left">';
-        echo '<div class="group-info-left-icon">
-            <span class="material-symbols-outlined">home_work</span>
-        </div>';
+        // echo '<div class="group-info-left-icon">
+        //     <span class="material-symbols-outlined">home_work</span>
+        // </div>';
         echo "<div class='group-info-left-text-title'><strong>Groups</strong></div>";
     echo '</div>';
     echo "<div class='group-info-left-text'>$groups</div>";

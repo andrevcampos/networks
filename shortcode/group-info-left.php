@@ -20,9 +20,9 @@ function group_info_left_shortcode() {
     $pimage_info = wp_get_attachment_image_src($imageid, 'full');
 
     echo '<div class="group-info-left">';
-        echo '<div class="group-info-left-icon">
-            <span class="material-symbols-outlined">event_upcoming</span>
-        </div>';
+        // echo '<div class="group-info-left-icon">
+        //     <span class="material-symbols-outlined">event_upcoming</span>
+        // </div>';
         echo "<div class='group-info-left-text-title'><strong>Meeting day & time</strong></div>";
     echo '</div>';
     echo "<div class='group-info-left-text'>$time</div>";
@@ -30,9 +30,9 @@ function group_info_left_shortcode() {
     echo "<br>";
 
     echo '<div class="group-info-left">';
-        echo '<div class="group-info-left-icon">
-            <span class="material-symbols-outlined">where_to_vote</span>
-        </div>';
+        // echo '<div class="group-info-left-icon">
+        //     <span class="material-symbols-outlined">where_to_vote</span>
+        // </div>';
         echo "<div class='group-info-left-text-title'><strong>Location</strong></div>";
     echo '</div>';
     if($address1){
@@ -58,15 +58,15 @@ function group_info_left_shortcode() {
     
 
     echo '<div class="group-info-left">';
-        echo '<div class="group-info-left-icon">
-            <span class="material-symbols-outlined">manage_accounts</span>
-        </div>';
+        // echo '<div class="group-info-left-icon">
+        //     <span class="material-symbols-outlined">manage_accounts</span>
+        // </div>';
         echo "<div class='group-info-left-text-title'><strong>Facilitator</strong></div>";
     echo '</div>';
     echo '<div class="profile-picture" style="background-image: url(' . esc_url($pimage_info[0]) . ')"></div>';
     echo "<div class='group-info-left-text'>$objfacilitator->name</div>";
-    echo "<a href='$number'><div class='group-info-left-text' style='color:red;'>$objfacilitator->phone</div></a>";
-    echo "<a href='mailto:$objfacilitator->email'><div class='group-info-left-text' style='color:red;'>$objfacilitator->email</div></a>";
+    echo "<a href='$number'><div class='group-info-left-text' style='color:#5F259F;'>$objfacilitator->phone</div></a>";
+    echo "<a href='mailto:$objfacilitator->email'><div class='group-info-left-text' style='color:#5F259F;'>$objfacilitator->email</div></a>";
     echo "<br>";
 
     return ob_get_clean();

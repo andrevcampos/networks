@@ -418,3 +418,23 @@ jQuery(document).ready(function($) {
         });
     });
 });
+jQuery(document).ready(function($) {
+    $('#extraCode').click(function() {
+        // Send an AJAX request to execute the PHP function
+        $.ajax({
+            url: ajaxurl, // WordPress AJAX URL
+            type: 'POST',
+            data: {
+                action: 'extraCode' // Action name to execute in PHP
+            },
+            success: function(response) {
+                // Handle the success response here, if needed
+                alert('Extra Code done!');
+            },
+            error: function() {
+                // Handle any errors here, if needed
+                alert('Error executing code.');
+            }
+        });
+    });
+});

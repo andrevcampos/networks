@@ -55,6 +55,8 @@ include_once ABSPATH . '/wp-content/plugins/thenetworks/function/member-social-m
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-industry.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-member.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-facilitator.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/function/order-region.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-member-list.php';
 
 //CLASS
 include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-region.php';
@@ -79,9 +81,9 @@ include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/member-hero.ph
 include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/member-info-left.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/member-info-right.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/group-select-form.php';
-
-
-
+include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/searchform.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/searchlist.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/shortcode/searchbox.php';
 
 //API
 include_once ABSPATH . '/wp-content/plugins/thenetworks/API/group_list.php';

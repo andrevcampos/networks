@@ -24,4 +24,14 @@ function member_hero_shortcode() {
 }
 
 add_shortcode('memberhero', 'member_hero_shortcode');
+
+function member_hero_shortcode2() {
+    ob_start();
+    $memberid = $_GET['id'];
+    $obj = Get_Member($memberid);
+    echo "<h3 style='color:white'> $obj->businessname - $obj->firstname $obj->lastname </h3>";
+    return ob_get_clean();
+}
+
+add_shortcode('memberhero2', 'member_hero_shortcode2');
 ?>

@@ -21,22 +21,22 @@ function group_info_right_shortcode() {
     $description = base64_decode($description2);
     
     echo '<div class="group-info-left">';
-        echo '<div class="group-info-left-icon">
-            <span class="material-symbols-outlined">share_location</span>
-        </div>';
-        echo "<div class='group-info-left-text-title'><strong>Region</strong></div>";
-    echo '</div>';
-    echo "<a href='/networking-groups/$postname'><div class='group-info-left-text' style='color:red;'>$region</div></a>";
-
-    echo "<br>";
-
-    echo '<div class="group-info-left">';
-        echo '<div class="group-info-left-icon">
-            <span class="material-symbols-outlined">Description</span>
-        </div>';
+        // echo '<div class="group-info-left-icon">
+        //     <span class="material-symbols-outlined">Description</span>
+        // </div>';
         echo "<div class='group-info-left-text-title'><strong>Description</strong></div>";
     echo '</div>';
     echo "$description";
+
+    echo "<br><br>";
+
+    echo '<div class="group-info-left">';
+        // echo '<div class="group-info-left-icon">
+        //     <span class="material-symbols-outlined">share_location</span>
+        // </div>';
+        echo "<div class='group-info-left-text-title'><strong>Region</strong></div>";
+    echo '</div>';
+    echo "<a href='/networking-groups/$postname'><div class='group-info-left-text' style='color:#5F259F;'>$region</div></a>";
 
     return ob_get_clean();
 }
