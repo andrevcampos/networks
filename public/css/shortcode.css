@@ -6,8 +6,16 @@
     min-width: 550px;
 }
 
+.fontroboto{
+  font-family:'Roboto', sans-serif !important;
+  font-weight: 400 !important;
+}
+
 .hoverorange a{
   color:black;
+}
+.hoverwhite :hover{
+  color:white !important;
 }
 
 .hoverorange a:hover {
@@ -87,7 +95,7 @@
 
 .group-list-single-box {
     width: calc(18% - 10px); /* Set the width of each box */
-    margin-bottom: 20px; /* Add some spacing between boxes */
+    margin-bottom: 5px; /* Add some spacing between boxes */
     flex: 0 0 calc(18% - 5px); /* Prevent items from growing or shrinking */
     box-sizing: border-box; /* Include padding and borders in the width calculation */
     max-width: 350px;
@@ -113,7 +121,7 @@
 .group-list-single-box-image {
     width: 100%;
     height: 120px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    /* box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); */
     /* margin-left: 7.5%; */
     /* border-radius: 5px; */
     /* filter: brightness(0.8); */
@@ -196,7 +204,7 @@
     width: 700px; /* Set the width and height as per your image dimensions */
     height: 700px;
   }
-  
+
   .hotspot {
     width: 24px; /* Adjust the size to fit your icon */
     height: 24px;
@@ -208,6 +216,7 @@
     background-color: transparent; /* Remove the background color */
   }
   
+  
   i.material-symbols-outlined {
     font-size: 34px; /* Adjust the size of the icon */
     color: #53565a; /* Set the color of the icon */
@@ -215,6 +224,17 @@
   i.material-symbols-outlined2 {
     font-size: 34px; /* Adjust the size of the icon */
     color: #ffffff; /* Set the color of the icon */
+  }
+
+  .info-box2 {
+
+    width: 200px;
+    background-color: #ffffff;
+    border: 1px solid #53565a;
+    padding: 10px;
+    left:0;
+    top:0;
+    z-index: 1;
   }
   
   .info-box {
@@ -230,6 +250,11 @@
   }
   
   .hotspot:hover + .info-box {
+    display: block;
+    opacity: 1;
+  }
+
+  .info-box:hover {
     display: block;
     opacity: 1;
   }
@@ -261,7 +286,7 @@
     top: 360px;
   }
   .hotspotbox3 {
-    left: 450px; 
+    left: 440px; 
     top: 380px;
   }
   .hotspoticon4 {
@@ -317,20 +342,15 @@
 
 /* Search Bar */
 
-/* Hover and focus styles for search form elements */
-.search-form label:hover,
-.search-form label:focus-within {
-    border-color: #5F259F !important;
+.search-submit{
+    color: #8d9093;
 }
 
 .search-submit:hover,
 .search-submit:focus {
+    color: white;
     border-color: #5F259F !important;
-}
-
-.search-submit i:hover,
-.search-submit i:focus {
-    color: #5F259F !important;
+    background-color: #5F259F !important;
 }
 
 .search-form {
@@ -352,7 +372,7 @@
 .search-box {
   min-width: 770px;
   width:70%;
-  min-height: 340px;
+  min-height: 300px;
   border-color: #5F259F;
   border-style: solid;
   border-width: 2px;
@@ -385,15 +405,18 @@
 }
 
 .search-box-submit {
-  color: #000;
+  color: #8d9093;
   background-color: #f1f2f3;
   border: none;
 }
 
 .search-box-submit:hover {
-  background-color: #5F259F !important;
+  background-color: #5F259F;
 }
 
+.search-box-submit:active {
+  background-color: #5F259F;
+}
 
   @media screen and (max-width: 1150px) {
 

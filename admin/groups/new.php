@@ -29,7 +29,7 @@
 
     //Change Time Formation
     $start = $starthour . ":" . $startmin . ":" . $starttime;
-    $finsh = $finishhour . ":" . $finishmin . ":" . $finishtime;
+    $finish = $finishhour . ":" . $finishmin . ":" . $finishtime;
     
     //Check if already have Group Name
     global $user_ID, $wpdb;
@@ -70,7 +70,7 @@
     add_post_meta( $post_id, 'status', $status, true );
     add_post_meta( $post_id, 'weekday', $weekday, true );
     add_post_meta( $post_id, 'start', $start, true );
-    add_post_meta( $post_id, 'finsh', $finsh, true );
+    add_post_meta( $post_id, 'finish', $finish, true );
     add_post_meta( $post_id, 'description', $encodedContent, true );
     add_post_meta( $post_id, 'company', $lcompany, true );
     add_post_meta( $post_id, 'address1', $laddress, true );

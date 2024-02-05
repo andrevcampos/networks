@@ -222,6 +222,7 @@ function networkers_group_update() {
             echo '<label>Description:</label>';
             echo '<div style="max-width:100%">';
                 $escaped_description = html_entity_decode($description);
+                $escaped_description = stripslashes($escaped_description);
                 $settings =   array(
                     'wpautop' => true, // use wpautop?
                     'media_buttons' => false,
@@ -230,7 +231,7 @@ function networkers_group_update() {
                     'editor_css' => '',
                     'editor_class' => '', 
                 );
-                wp_editor( $description, 'groupdescription', $settings );
+                wp_editor( $escaped_description, 'groupdescription', $settings );
 
 
                 // wp_editor( $escaped_description, 'groupdescription', array(

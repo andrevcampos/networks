@@ -64,13 +64,13 @@ function networkers_members_update() {
 
                 <label>Status:</label><br>
                 <?php 
-                    echo '<select name="memberstatus" id="memberstatus" style="margin-top:5px">';
-                    $possibleStatus = array("Potential Member", "Scheduled Visitor", "Active Visitor", "Active Member", "Past Member");
+                    echo '<select name="memberstatus" id="memberstatus" style="margin-top:5px;margin-right:10px" disabled>';
+                    $possibleStatus = array("Potential Member", "Scheduled Visitor", "Active Visitor", "End Trial Visitor", "Active Member", "Past Member");
                     foreach ($possibleStatus as $status) {
                         $selected = ($status == $memberstatus) ? "selected" : "";
                         echo "<option value='" . $status . "' $selected>$status</option>";
                     }
-                    echo '</select><br><br><br>';
+                    echo "</select><a href='/wp-admin/admin.php?page=networkers-members-update-status&id=$id'><spam>Change Status</spam></a><br><br><br>";
                     
                 ?>
 
@@ -162,13 +162,25 @@ function networkers_members_update() {
                 <br><br>
                 <label><b>Business Description</b></label>
                 <div style="max-width:100%;margin-top:-20px">
-                <?php wp_editor( $businessDescription , 'businessDescription', array(
-                        'wpautop'       => true,
-                        'media_buttons' => false,
-                        'textarea_name' => 'businessDescription',
-                        'editor_class'  => 'my_custom_class',
-                        'textarea_rows' => 10
-                    ) ); ?>
+
+                
+
+
+                <?php 
+
+                $escaped_description = html_entity_decode($businessDescription);
+                $escaped_description = stripslashes($escaped_description);
+                $settings =   array(
+                    'wpautop' => true, // use wpautop?
+                    'media_buttons' => false,
+                    'textarea_name' => 'businessDescription',
+                    'textarea_rows' => get_option('default_post_edit_rows', 10),
+                    'editor_css' => '',
+                    'editor_class' => '', 
+                );
+                wp_editor( $escaped_description, 'businessDescription', $settings );
+                    
+                ?>
                 </div>
 
                 <br><br>
@@ -257,6 +269,99 @@ function networkers_members_update() {
     </div>
 
     <div class='networkersbuttom' onclick='updatemember("<?php echo $membercheckurl; ?>")' >Update</div>
+
+<?php
+}
+
+function networkers_members_update_status() {
+
+
+    $plugin_url = plugin_dir_url( __FILE__ );
+    $url = $plugin_url . 'updatestatus.php';
+    include ABSPATH . '/wp-content/plugins/thenetworks/admin/function/popup.php';
+    wp_enqueue_style( 'admincss', plugins_url() . '/thenetworks/public/css/admin.css');
+    wp_enqueue_script( 'mainjs', plugins_url() . '/thenetworks/public/js/js.js' );
+    wp_enqueue_script( 'functionjs', plugins_url() . '/thenetworks/public/js/functions.js' );
+
+    $user_role = Get_User_Role();
+
+    $id = $_GET['id'];
+    $member = get_post($id);
+    $businessname = $member->post_title;
+    $memberstatus = get_post_meta( $id, 'status', true );
+    $firstName = get_post_meta( $id, 'firstName', true );
+    $lastName = get_post_meta( $id, 'lastName', true );
+    $email = get_post_meta( $id, 'email', true );
+    
+    ?>
+
+    <div style="display:block" id="networkersbox" class="networkersbox">
+        <form id='myForm' action='<?php echo $url; ?>' method='post' enctype='multipart/form-data'>
+           <div class="wrap">
+                <h2>Update Member Status</h2>
+            </div><br><br>
+
+            <input style='display:none' id='post_id' type='text' name='post_id' value='<?php echo $id;?>'>
+            <input style='display:none' id='oldstatus' type='text' name='oldstatus' value='<?php echo $memberstatus;?>'>
+
+            <div class="memberlogobox">
+
+                <label>Status:</label><br>
+                <?php 
+                    echo '<select name="memberstatus" id="memberstatus" style="margin-top:5px">';
+                    $possibleStatus = array("Potential Member", "Scheduled Visitor", "Active Visitor", "End Trial Visitor", "Active Member", "Past Member");
+                    foreach ($possibleStatus as $status) {
+                        $selected = ($status == $memberstatus) ? "selected" : "";
+                        echo "<option value='" . $status . "' $selected>$status</option>";
+                    }
+                    echo '</select><br><br>';
+                    
+                    
+                ?>
+
+                <div class="d-flex">
+                    <div><input style="width:10px" type="checkbox" id="emailbox" name="emailbox" checked></div>
+                    <div style="margin-top:3px"><spam>Notify member on status change</spam></div>
+                </div>
+
+                <br><br>
+
+                <div style="display:flex">
+                    <button style="margin-right: 10px; margin-top: 0px;border-width:0px" class='networkersbuttom' type="submit">Update Status</button>
+                    <a style='text-decoration: none;' href='/wp-admin/admin.php?page=networkers-members-update&id=<?php echo $id; ?>'><div style="background-color:red;margin-top:0px;" class='networkersbuttom'>Go Back</div></a>
+                </div>
+                
+                <br>
+            </div>
+
+            <br><br>
+
+            <div class="memberlogobox">
+
+                <h2 style="font-size:22px"><b>Profile Information</b></h2><br>
+
+                <label>Business Name:<spam style="color:red"> *</spam></label><br>
+                <input id="firstName" name="firstName" type="text" value="<?php echo $businessname;?>" readonly><br><br>
+
+                <label>First Name:<spam style="color:red"> *</spam></label><br>
+                <input id="firstName" name="firstName" type="text" value="<?php echo $firstName;?>" readonly><br><br>
+
+                <label>Last Name:<spam style="color:red"> *</spam></label><br>
+                <input id="lastName" name="lastName" type="text" value="<?php echo $lastName;?>" readonly><br><br>
+
+                <label>Email:</label><br>
+                <input id="email" name="email" type="text" value="<?php echo $email;?>" readonly><br><br>
+
+                <br>
+            </div>
+
+            <br><br>
+
+        </form>
+        <br><br>
+    </div>
+
+    
 
 <?php
 }

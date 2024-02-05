@@ -54,14 +54,6 @@ function newsocialmediainput() {
     smsection.className = "socialmediaseciton";
     smbox.appendChild(smsection);
 
-    var titleinput = document.createElement('input');
-    titleinput.className = "d-block socialmediatitle";
-    titleinput.type = "text";
-    titleinput.name = "socialmediatitle[]";
-    titleinput.placeholder = "Title: Ex: Website, Facebook, Instagram";
-    titleinput.style = "width:calc(100% - 50px);margin-top:5px";
-    smsection.appendChild(titleinput);
-
     var linkinput = document.createElement('input');
     linkinput.className = "d-block socialmedialink";
     linkinput.type = "text";
@@ -69,6 +61,14 @@ function newsocialmediainput() {
     linkinput.placeholder = "Link: Ex: https://your-website-here";
     linkinput.style = "width:calc(100% - 50px);margin-top:5px";
     smsection.appendChild(linkinput);
+
+    var titleinput = document.createElement('input');
+    titleinput.className = "d-block socialmediatitle";
+    titleinput.type = "text";
+    titleinput.name = "socialmediatitle[]";
+    titleinput.placeholder = "Title: Ex: Website, Facebook, Instagram";
+    titleinput.style = "width:calc(100% - 50px);margin-top:5px";
+    smsection.appendChild(titleinput);
 
     var closebutton = document.createElement('div');
     closebutton.className = "smremovebutton";
@@ -195,4 +195,19 @@ function addmemberlist(url2, result, index){
         }
     };
     xhr.send();
+}
+
+function paginationmember(page, search, industry, region) {
+    var url = '/members/?pg=' + page;
+
+    if (search) {
+        url += "&search=" + search;
+    }
+    if (industry) {
+        url += "&industry=" + industry;
+    }
+    if (region) {
+        url += "&region=" + region;
+    }
+    window.location.href = url;
 }

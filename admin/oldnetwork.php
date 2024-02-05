@@ -1424,6 +1424,46 @@ function deleteFacilitator() {
 
 add_action('wp_ajax_extraCode', 'extraCode');
 function extraCode() {
+    // $query = new WP_Query(array(
+    //     'post_type' => 'network-member',
+    //     'posts_per_page' => -1,
+    // ));
+    // while ($query->have_posts()) {
+    //     $query->the_post();
+    //     $post_id = get_the_ID();
+    //     $obj = Get_Member($post_id);
+    //     $businessname = $obj->businessname;
+    //     $firstName = $obj->firstname;
+    //     $lastName = $obj->lastname;
+
+    //     $post_bname = strtolower($businessname);
+    //     $post_bname2 = trim($post_bname);
+    //     $slug = str_replace(' ', '-', $post_bname2);
+
+    //     if($firstName){
+    //         $post_fname = strtolower($firstName);
+    //         $post_fname2 = trim($post_fname);
+    //         $fslug = str_replace(' ', '-', $post_fname2);
+    //         $slug = $slug . "-" . $fslug;
+    //     }
+    //     if($lastName){
+    //         $post_lname = strtolower($lastName);
+    //         $post_lname2 = trim($post_lname);
+    //         $lslug = str_replace(' ', '-', $post_lname2);
+    //         $slug = $slug . "-" . $lslug;
+    //     }
+    //     $newlug = $slug;
+
+    //     $my_post = array(
+    //         'ID'           => $post_id,
+    //         'post_title'   => $businessname,
+    //         'post_name' => $newlug,
+    //     );
+    //     wp_update_post( $my_post );
+
+    // }
+    // wp_reset_query();
+
     $query = new WP_Query(array(
         'post_type' => 'network-member',
         'posts_per_page' => -1,
@@ -1431,9 +1471,53 @@ function extraCode() {
     while ($query->have_posts()) {
         $query->the_post();
         $post_id = get_the_ID();
-        $imageid = get_post_meta( $post_id, 'imageid', true );
+        $groupids = get_post_meta($post_id, 'group', false );
+        foreach ($groupids as $group_id) {
+            if($group_id == "122802"){update_post_meta($post_id, 'group', '129594', $group_id);}
+            if($group_id == "122827"){update_post_meta($post_id, 'group', '129616', $group_id);}
+            if($group_id == "122806"){update_post_meta($post_id, 'group', '129618', $group_id);}
+            if($group_id == "122773"){update_post_meta($post_id, 'group', '129624', $group_id);}
+            if($group_id == "122823"){update_post_meta($post_id, 'group', '129626', $group_id);}
+            if($group_id == "122783"){update_post_meta($post_id, 'group', '129628', $group_id);}
+            if($group_id == "122779"){update_post_meta($post_id, 'group', '129630', $group_id);}
+            if($group_id == "122777"){update_post_meta($post_id, 'group', '129632', $group_id);}
+
+            if($group_id == "122800"){update_post_meta($post_id, 'group', '129635', $group_id);}
+            if($group_id == "122790"){update_post_meta($post_id, 'group', '129637', $group_id);}
+            if($group_id == "122847"){update_post_meta($post_id, 'group', '129640', $group_id);}
+            if($group_id == "122794"){update_post_meta($post_id, 'group', '129642', $group_id);}
+            if($group_id == "122771"){update_post_meta($post_id, 'group', '129644', $group_id);}
+
+            if($group_id == "122804"){update_post_meta($post_id, 'group', '129646', $group_id);}
+            if($group_id == "122775"){update_post_meta($post_id, 'group', '129648', $group_id);}
+            if($group_id == "122798"){update_post_meta($post_id, 'group', '129650', $group_id);}
+            if($group_id == "122837"){update_post_meta($post_id, 'group', '129653', $group_id);}
+            if($group_id == "122849"){update_post_meta($post_id, 'group', '129658', $group_id);}
+
+            if($group_id == "122831"){update_post_meta($post_id, 'group', '129668', $group_id);}
+            if($group_id == "122781"){update_post_meta($post_id, 'group', '129670', $group_id);}
+            if($group_id == "122843"){update_post_meta($post_id, 'group', '129672', $group_id);}
+
+            if($group_id == "122808"){update_post_meta($post_id, 'group', '129674', $group_id);}
+            if($group_id == "122851"){update_post_meta($post_id, 'group', '129676', $group_id);}
+            if($group_id == "122821"){update_post_meta($post_id, 'group', '129678', $group_id);}
+            if($group_id == "122819"){update_post_meta($post_id, 'group', '129680', $group_id);}
+
+            if($group_id == "122810"){update_post_meta($post_id, 'group', '129682', $group_id);}
+            if($group_id == "122812"){update_post_meta($post_id, 'group', '129684', $group_id);}
+            if($group_id == "122814"){update_post_meta($post_id, 'group', '129686', $group_id);}
+            if($group_id == "122845"){update_post_meta($post_id, 'group', '129688', $group_id);}
+            if($group_id == "122829"){update_post_meta($post_id, 'group', '129690', $group_id);}
+
+            if($group_id == "122841"){update_post_meta($post_id, 'group', '129692', $group_id);}
+            if($group_id == "122825"){update_post_meta($post_id, 'group', '129694', $group_id);}
+            if($group_id == "122835"){update_post_meta($post_id, 'group', '129696', $group_id);}
+            if($group_id == "122833"){update_post_meta($post_id, 'group', '129698', $group_id);}
+            if($group_id == "122785"){update_post_meta($post_id, 'group', '129700', $group_id);}
+
+        }
+
     }
-    wp_reset_query();
 }
 
 

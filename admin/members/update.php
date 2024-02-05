@@ -106,7 +106,7 @@
         }
     }
 
-    update_post_meta( $post_id, 'status', $memberstatus );
+    //update_post_meta( $post_id, 'status', $memberstatus );
     update_post_meta( $post_id, 'firstName', $firstName );
     update_post_meta( $post_id, 'lastName', $lastName );
     if($email)

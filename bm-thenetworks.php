@@ -30,6 +30,8 @@ include ABSPATH . '/wp-content/plugins/thenetworks/admin/franchise/update-form.p
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/facilitator/facilitator.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/facilitator/new-form.php';
 include ABSPATH . '/wp-content/plugins/thenetworks/admin/facilitator/update-form.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/email/email.php';
+include ABSPATH . '/wp-content/plugins/thenetworks/admin/email/email-model.php';
 
 //ADMIN FUNCTION
 include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/function/user-image-box.php';
@@ -99,6 +101,8 @@ include_once ABSPATH . '/wp-content/plugins/thenetworks/admin/oldnetwork.php';
 
 
 
+
+
 // Add button to wordpress admin menu.
 add_action('admin_menu', 'my_menu_networkers');
 function my_menu_networkers(){
@@ -138,6 +142,7 @@ function my_menu_networkers(){
             add_menu_page('Members', 'Members', 'the_networkers', 'networkers-members', 'networkers_members', '/wp-content/uploads/2023/07/menu-icon.png', 7 );
             add_submenu_page( 'networkers-members',  'New Member', 'New Member', 'the_networkers', 'network-members-new', 'network_members_new' );
             add_submenu_page( null,  'Update Member', 'Update Member', 'the_networkers', 'networkers-members-update', 'networkers_members_update' );
+            add_submenu_page( null,  'Update Member Status', 'Update Member Status', 'the_networkers', 'networkers-members-update-status', 'networkers_members_update_status' );
       }
       //Franchisees
       if ($user_role == 'administrator' || $user_role == 'network-admin'){
@@ -150,6 +155,15 @@ function my_menu_networkers(){
             add_menu_page('Facilitator', 'Facilitator', 'the_networkers', 'networkers-facilitator', 'networkers_facilitator', '/wp-content/uploads/2023/07/menu-icon.png', 7 );
             add_submenu_page( 'networkers-facilitator',  'New Facilitator', 'New Facilitator', 'the_networkers', 'network-facilitator-new', 'networkers_facilitator_new' );
             add_submenu_page( null,  'Update Facilitator', 'Update Facilitator', 'the_networkers', 'networkers-facilitator-update', 'networkers_facilitator_update' );
+      }
+      //Email
+      if ($user_role == 'administrator' || $user_role == 'network-admin'){
+            add_menu_page('Email', 'Email', 'the_networkers', 'networkers-email', 'networkers_email', '/wp-content/uploads/2023/07/menu-icon.png', 7 );
+            add_submenu_page( 'networkers-email',  'Stastus Scheduled', 'Stastus Scheduled', 'the_networkers', 'network-email-status-scheduled', 'networkers_email_status_scheduled' );
+            add_submenu_page( 'networkers-email',  'Stastus Active Visitor', 'Stastus Active Visitor', 'the_networkers', 'network-email-status-active-visitor', 'networkers_email_status_active_visitor' );
+            add_submenu_page( 'networkers-email',  'Stastus End Trial Visitor', 'Stastus End Trial Visitor', 'the_networkers', 'network-email-status-end-trial-visitor', 'networkers_email_status_end_trial_visitor' );
+            add_submenu_page( 'networkers-email',  'Stastus Active Member', 'Stastus Active Member', 'the_networkers', 'network-email-status-active-member', 'networkers_email_status_active_member' );
+            add_submenu_page( 'networkers-email',  'Stastus Past Member', 'Stastus Past Member', 'the_networkers', 'network-email-status-past-member', 'networkers_email_status_past_member' );
       }
 
       //Super Admin
@@ -284,6 +298,60 @@ function register_member_post_type() {
   
   add_action('init', 'register_region_post_type');
 
+  function my_custom_webhook_endpoint() {
+      add_rewrite_rule('^webhook$', 'index.php?webhook=1', 'top');
+      add_rewrite_tag('%webhook%', '([^&]+)');
+  }
+  add_action('init', 'my_custom_webhook_endpoint');
+  
+
+  function handle_webhook_request() {
+      global $wp;
+      if (isset($wp->query_vars['webhook'])) {
+            // Process the incoming data
+            //$data = json_decode(file_get_contents('php://input'), true);
+            $data = $_POST;
+            $serialized = serialize($data);
+            $decodedData = unserialize($serialized);
+            
+            $email = isset($decodedData['Email_address']) ? $decodedData['Email_address'] : null;
+            $businessname = isset($decodedData['Business_name']) ? $decodedData['Business_name'] : null;
+            $firstname = isset($decodedData['First_name']) ? $decodedData['First_name'] : null;
+            $lastname = isset($decodedData['Last_name']) ? $decodedData['Last_name'] : null;
+            $phone = isset($decodedData['Your_phone']) ? $decodedData['Your_phone'] : null;
+            $region = isset($decodedData['Region']) ? $decodedData['Region'] : null;
+            $group = isset($decodedData['Preferred_group']) ? $decodedData['Preferred_group'] : null;
+
+            // print_r($data);
+
+            // $to = 'andrevcampos@gmail.com';
+            // $subject = 'Webhook Data Received';
+            // $message = print_r($data, true); // use print_r to convert array to string
+            // $headers = array('Content-Type: text/html; charset=UTF-8');
+
+            // // Send email
+            // wp_mail($to, $subject, $message, $headers);
+          
+            $my_post = array(
+                  'post_title'    => "test webhook",
+                  'post_status'   => 'publish',
+                  'post_author'   => 1,
+                  'post_type'   => 'network-webhook',
+            );
+            $post_id = wp_insert_post( $my_post );
+
+            add_post_meta( $post_id, 'firstname', $firstname, true );
+            add_post_meta( $post_id, 'lastname', $lastname, true );
+            add_post_meta( $post_id, 'businessname', $businessname, true );
+            add_post_meta( $post_id, 'email', $email, true );
+            add_post_meta( $post_id, 'region', $region, true );
+            add_post_meta( $post_id, 'group', $group, true );
+            add_post_meta( $post_id, 'phone', $phone, true );
+
+            wp_send_json_success('Webhook processed successfully.');
+      }
+  }
+  add_action('template_redirect', 'handle_webhook_request');
 
 
 ?>

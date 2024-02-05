@@ -38,7 +38,7 @@
 
     //Change Time Formation
     $start = $starthour . ":" . $startmin . ":" . $starttime;
-    $finsh = $finishhour . ":" . $finishmin . ":" . $finishtime;
+    $finish = $finishhour . ":" . $finishmin . ":" . $finishtime;
 
     if($name != $orginalname){
 
@@ -80,7 +80,7 @@
     update_post_meta( $post_id, 'status', $status);
     update_post_meta( $post_id, 'weekday', $weekday);
     update_post_meta( $post_id, 'start', $start);
-    update_post_meta( $post_id, 'finsh', $finsh);
+    update_post_meta( $post_id, 'finish', $finish);
     update_post_meta( $post_id, 'description', $encodedContent);
     if (metadata_exists('post', $post_id, 'company')) {
         update_post_meta( $post_id, 'company', $lcompany);

@@ -7,7 +7,9 @@ function member_info_right_shortcode() {
     $memberid = $_GET['id'];
     $obj = Get_Member($memberid);
     $description2 = $obj->businessdescription;
-    $description = base64_decode($description2);
+    $decoded_description = base64_decode($description2);
+    $escaped_description = stripslashes(html_entity_decode($decoded_description, ENT_QUOTES, 'UTF-8'));
+    $escaped_description_with_line_breaks = nl2br($escaped_description);
     $logoid = $obj->logoid;
     $image_info = wp_get_attachment_image_src($logoid, 'full');
 
@@ -28,7 +30,7 @@ function member_info_right_shortcode() {
     //     </div>';
     //     echo "<div class='group-info-left-text-title'><strong>Description</strong></div>";
     // echo '</div>';
-    echo "$description";
+    echo "$escaped_description_with_line_breaks";
 
     return ob_get_clean();
 }

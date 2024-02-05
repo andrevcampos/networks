@@ -114,7 +114,6 @@ function group_members_shortcode() {
         // </div>';
         echo "<div class='group-info-left-text-title'><strong>Members</strong></div>";
     echo '</div>';
-    echo "<br>";
 
     echo "<div class='group-list-container'>";
     foreach ($memberarray as $member) {
@@ -122,8 +121,8 @@ function group_members_shortcode() {
             echo "<a href='/members/$member->slug' style=''>";
                 echo '<div class="group-list-single-box-image" style="background-image: url(' . esc_url($member->logourl) . ');background-size: contain;background-position: center center;background-position: center center;background-repeat: no-repeat;"></div>';
                 echo '<div class="group-list-single-box-text">';
-                    echo "<h6 style='color:black'><strong> $member->title</strong></h6>";
-                    //echo "<h6 style='color:black'> $member->firstname $member->lastname</h6>";
+                    echo "<h3 style='margin:0px;padding:0px;padding-top:10px;font-size:18px'>$member->title</h3>";
+                    echo "<h3 class='fontroboto' style='color:black;margin:0px;padding-top:5px;padding:0px;font-size:16px;'>$member->firstname $member->lastname</h3>";
                 echo '</div>';  
             echo "</a>";
         echo "</div>";
@@ -143,7 +142,7 @@ function group_members_shortcode() {
             $firstname = $obj->firstname;
             $lastname = $obj->lastname;
             $logoid = $obj->logoid;
-            $slug = $memberr->post_name;
+            $slug = $visitormemberr->post_name;
             //$image_info = get_site_url()."/wp-content/uploads/".get_post_meta( $logoid, '_wp_attached_file', true );
             $image = "https://netdev.breeze.marketing/wp-content/uploads/";
             if($logoid){
@@ -187,16 +186,15 @@ function group_members_shortcode() {
             // </div>';
             echo "<div class='group-info-left-text-title'><strong>Active Visitor</strong></div>";
         echo '</div>';
-        echo "<br>";
 
         echo "<div class='group-list-container'>";
-        foreach ($visitormemberarray as $member) {
+        foreach ($visitormemberarray as $vmember) {
             echo "<div class='group-list-single-box'>";
-                echo "<a href='/members/$member->slug' style=''>";
-                    echo '<div class="group-list-single-box-image" style="background-image: url(' . esc_url($member->logourl) . ');background-size: contain;background-position: center center;background-position: center center;background-repeat: no-repeat;"></div>';
+                echo "<a href='/members/$vmember->slug' style=''>";
+                    echo '<div class="group-list-single-box-image" style="background-image: url(' . esc_url($vmember->logourl) . ');background-size: contain;background-position: center center;background-position: center center;background-repeat: no-repeat;"></div>';
                     echo '<div class="group-list-single-box-text">';
-                        echo "<h6 style='color:black'><strong> $member->title</strong></h6>";
-                        //echo "<h6 style='color:black'> $member->firstname $member->lastname</h6>";
+                        echo "<h3 style='margin:0px;padding:0px;padding-top:10px;font-size:18px'>$vmember->title</h3>";
+                        echo "<h3 class='fontroboto' style='color:black;margin:0px;padding-top:5px;padding:0px;font-size:16px;'>$vmember->firstname $vmember->lastname</h3>";
                     echo '</div>';  
                 echo "</a>";
             echo "</div>";
@@ -220,7 +218,7 @@ function group_members_shortcode() {
             $firstname = $obj->firstname;
             $lastname = $obj->lastname;
             $logoid = $obj->logoid;
-            $slug = $memberr->post_name;
+            $slug = $scheduledmemberr->post_name;
             //$image_info = get_site_url()."/wp-content/uploads/".get_post_meta( $logoid, '_wp_attached_file', true );
             $image = "https://netdev.breeze.marketing/wp-content/uploads/";
             if($logoid){
@@ -264,16 +262,15 @@ function group_members_shortcode() {
             // </div>';
             echo "<div class='group-info-left-text-title'><strong>Scheduled Visitor</strong></div>";
         echo '</div>';
-        echo "<br>";
 
         echo "<div class='group-list-container'>";
-        foreach ($scheduledmemberarray as $member) {
+        foreach ($scheduledmemberarray as $smember) {
             echo "<div class='group-list-single-box'>";
-                echo "<a href='/members/$member->slug' style=''>";
-                    echo '<div class="group-list-single-box-image" style="background-image: url(' . esc_url($member->logourl) . ');background-size: contain;background-position: center center;background-position: center center;background-repeat: no-repeat;"></div>';
+                echo "<a href='/members/$smember->slug' style=''>";
+                    echo '<div class="group-list-single-box-image" style="background-image: url(' . esc_url($smember->logourl) . ');background-size: contain;background-position: center center;background-position: center center;background-repeat: no-repeat;"></div>';
                     echo '<div class="group-list-single-box-text">';
-                        echo "<h6 style='color:black'><strong> $member->title</strong></h6>";
-                        //echo "<h6 style='color:black'> $member->firstname $member->lastname</h6>";
+                        echo "<h3 style='margin:0px;padding:0px;padding-top:10px;font-size:18px'>$smember->title</h3>";
+                        echo "<h3 class='fontroboto' style='color:black;margin:0px;padding-top:5px;padding:0px;font-size:16px;'>$smember->firstname $smember->lastname</h3>";
                     echo '</div>';  
                 echo "</a>";
             echo "</div>";

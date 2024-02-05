@@ -36,7 +36,7 @@ function member_info_left_shortcode() {
         if ($groups == ""){
             $groups = "<a href='/groups/$groupname'><div class='group-info-left-text' style='color:#5F259F;'>$grouptitle</div></a>";
         }else{
-            $groups = $groups . "<br>" . "<a href='/groups/$groupname'><div class='group-info-left-text' style='color:red;'>$grouptitle</div></a>";
+            $groups = $groups . "<a href='/groups/$groupname'><div class='group-info-left-text' style='color:#5F259F;'>$grouptitle</div></a>";
         }
     }
     //Industry

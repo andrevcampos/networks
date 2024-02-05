@@ -16,8 +16,8 @@ function member_social_media($socialmedias = []) {
                     $socialmedia = json_decode($socialmediaa); 
                     ?>
                     <div class="socialmediaseciton">
-                        <input class='d-block socialmediatitle' placeholder='Title: (Ex: Website, Facebook, Instagram)' value='<?php echo $socialmedia[0];?>' type='text' name='socialmediatitle[]' style='width:calc(100% - 50px);margin-top:5px'>
                         <input class='d-block socialmedialink' placeholder="Link: (Ex: https://your-website-here)" value='<?php echo $socialmedia[1];?>' type='text' name='socialmedialink[]' style='width:calc(100% - 50px);margin-top:5px'>
+                        <input class='d-block socialmediatitle' placeholder='Title: (Ex: Website, Facebook, Instagram)' value='<?php echo $socialmedia[0];?>' type='text' name='socialmediatitle[]' style='width:calc(100% - 50px);margin-top:5px'>
                         <div class="smremovebutton" onclick="socialmediaremove(this)"><spam>X</spam></div>
                     </div>
             <?php }

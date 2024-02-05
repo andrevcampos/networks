@@ -78,6 +78,9 @@ function pinpoint_shortcode() {
                         echo "<div class='group-info-left-text-title' style='font-size:18px;margin-left:5px'>$region[group_count] Groups</div>";
                     echo '</div>';
                     echo '<div class="group-info-left" style="padding-left:10px">';
+                        echo '<a href="/networking-groups/canterbury-christchurch-business-networking-groups/">';
+                            echo '<spam>Visit Group</spam>';
+                        echo '</a>';
                     echo '</div>';
                 echo "</div>";
             }
@@ -97,6 +100,9 @@ function pinpoint_shortcode() {
                         echo "<div class='group-info-left-text-title' style='font-size:18px;margin-left:5px'>$region[group_count] Groups</div>";
                     echo '</div>';
                     echo '<div class="group-info-left" style="padding-left:10px">';
+                        echo '<a href="/networking-groups/nelson-tasman-business-networking-groups/">';
+                            echo '<spam>Visit Group</spam>';
+                        echo '</a>';
                     echo '</div>';
                 echo "</div>";
             }
@@ -116,6 +122,9 @@ function pinpoint_shortcode() {
                         echo "<div class='group-info-left-text-title' style='font-size:18px;margin-left:5px'>$region[group_count] Groups</div>";
                     echo '</div>';
                     echo '<div class="group-info-left" style="padding-left:10px">';
+                        echo '<a href="/networking-groups/wellington-kapiti-coast-business-networking-groups/">';
+                            echo '<spam>Visit Group</spam>';
+                        echo '</a>';
                     echo '</div>';
                 echo "</div>";
             }
@@ -135,6 +144,9 @@ function pinpoint_shortcode() {
                         echo "<div class='group-info-left-text-title' style='font-size:18px;margin-left:5px'>$region[group_count] Groups</div>";
                     echo '</div>';
                     echo '<div class="group-info-left" style="padding-left:10px">';
+                        echo '<a href="/networking-groups/marlborough-blenheim-business-networking-groups/">';
+                            echo '<spam>Visit Group</spam>';
+                        echo '</a>';
                     echo '</div>';
                 echo "</div>";
             }
@@ -154,11 +166,14 @@ function pinpoint_shortcode() {
                         echo "<div class='group-info-left-text-title' style='font-size:18px;margin-left:5px'>$region[group_count] Groups</div>";
                     echo '</div>';
                     echo '<div class="group-info-left" style="padding-left:10px">';
+                        echo '<a href="/networking-groups/canterbury-waimakariri-business-networking-groups/">';
+                            echo '<spam>Visit Group</spam>';
+                        echo '</a>';
                     echo '</div>';
                 echo "</div>";
             }
             if ($region['ID'] == '503') { // Canterbury Selwyn
-                echo '<div class="hotspot hotspoticon6"><a href="networking-groups/canterbury-selwyn-business-networking-groups/"><i class="material-symbols-outlined" style="color:white">person_pin_circle</i></a></div>';
+                echo '<div class="hotspot hotspoticon6"><a href="/networking-groups/canterbury-selwyn-business-networking-groups/"><i class="material-symbols-outlined" style="color:white">person_pin_circle</i></a></div>';
                     echo "<div class='info-box hotspotbox6'>";
                     echo '<div class="group-info-left" style="padding-left:10px">';
                         echo '<div class="group-info-left-icon">
@@ -173,11 +188,14 @@ function pinpoint_shortcode() {
                         echo "<div class='group-info-left-text-title' style='font-size:18px;margin-left:5px'>$region[group_count] Groups</div>";
                     echo '</div>';
                     echo '<div class="group-info-left" style="padding-left:10px">';
+                        echo '<a href="/networking-groups/canterbury-selwyn-business-networking-groups/">';
+                            echo '<spam>Visit Group</spam>';
+                        echo '</a>';
                     echo '</div>';
                 echo "</div>";
             }
             if ($region['ID'] == '504') { // Mid-South Canterbury
-                echo '<div class="hotspot hotspoticon7"><a href="networking-groups/mid-south-canterbury-business-networking-groups/"><i class="material-symbols-outlined" style="color:white">person_pin_circle</i></a></div>';
+                echo '<div class="hotspot hotspoticon7"><a href="/networking-groups/mid-south-canterbury-business-networking-groups/"><i class="material-symbols-outlined" style="color:white">person_pin_circle</i></a></div>';
                     echo "<div class='info-box hotspotbox7'>";
                     echo '<div class="group-info-left" style="padding-left:10px">';
                         echo '<div class="group-info-left-icon">
@@ -192,6 +210,9 @@ function pinpoint_shortcode() {
                         echo "<div class='group-info-left-text-title' style='font-size:18px;margin-left:5px'>$region[group_count] Groups</div>";
                     echo '</div>';
                     echo '<div class="group-info-left" style="padding-left:10px">';
+                        echo '<a href="/networking-groups/mid-south-canterbury-business-networking-groups/">';
+                            echo '<spam>Visit Group</spam>';
+                        echo '</a>';
                     echo '</div>';
                 echo "</div>";
             }

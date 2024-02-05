@@ -32,18 +32,18 @@
 
     //Check if already have Group Name ---------------------
     global $user_ID, $wpdb;
-    $query = $wpdb->prepare(
-        'SELECT ID FROM ' . $wpdb->posts . '
-        WHERE post_title = %s
-        AND post_type = \'network-member\'',
-        $businessname
-    );
-    $wpdb->query( $query );
-    if ( $wpdb->num_rows ) {
-        $url = admin_url('admin.php?page=network-members-new&messagetitle=Duplicate Registration&message=The Group title has already been taken.');
-        header("Location: $url"); 
-        exit();
-    }
+    // $query = $wpdb->prepare(
+    //     'SELECT ID FROM ' . $wpdb->posts . '
+    //     WHERE post_title = %s
+    //     AND post_type = \'network-member\'',
+    //     $businessname
+    // );
+    // $wpdb->query( $query );
+    // if ( $wpdb->num_rows ) {
+    //     $url = admin_url('admin.php?page=network-members-new&messagetitle=Duplicate Registration&message=The Group title has already been taken.');
+    //     header("Location: $url"); 
+    //     exit();
+    // }
     //lowercap
     $post_bname = strtolower($businessname);
     //remove white space

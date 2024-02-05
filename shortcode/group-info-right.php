@@ -18,15 +18,17 @@ function group_info_right_shortcode() {
     $region = $robj->post_title;
     $postname = get_post_field('post_name', $robj->ID);
     $description2 = $obj->description;
-    $description = base64_decode($description2);
+    $decoded_description = base64_decode($description2);
+    $escaped_description = stripslashes(html_entity_decode($decoded_description, ENT_QUOTES, 'UTF-8'));
+    $escaped_description_with_line_breaks = nl2br($escaped_description);
     
-    echo '<div class="group-info-left">';
-        // echo '<div class="group-info-left-icon">
-        //     <span class="material-symbols-outlined">Description</span>
-        // </div>';
-        echo "<div class='group-info-left-text-title'><strong>Description</strong></div>";
-    echo '</div>';
-    echo "$description";
+    // echo '<div class="group-info-left">';
+    //     // echo '<div class="group-info-left-icon">
+    //     //     <span class="material-symbols-outlined">Description</span>
+    //     // </div>';
+    //     echo "<div class='group-info-left-text-title'><strong>Description</strong></div>";
+    // echo '</div>';
+    echo "$escaped_description_with_line_breaks";
 
     echo "<br><br>";
 

@@ -20,7 +20,7 @@ function networkers_members() {
         echo '<div style="margin-bottom:-50px;margin-top:20px;">';
             echo "<label>Status:</label><br>";
             echo '<select name="memberstatus" id="memberstatus" style="margin-top:5px" onchange="updateliststatus()">';
-            $possibleStatus = array("All Members", "Potential Member", "Scheduled Visitor", "Active Visitor", "Active Member", "Past Member");
+            $possibleStatus = array("All Members", "Potential Member", "Scheduled Visitor", "Active Visitor", "End Trial Visitor", "Active Member", "Past Member");
             foreach ($possibleStatus as $status) {
                 $selected = ($status == $searchstatus) ? "selected" : "";
                 echo "<option value='" . $status . "' $selected>$status</option>";

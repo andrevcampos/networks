@@ -25,6 +25,7 @@ function network_members_new() {
                         <option value="Potential Member" selected>Potential Member</option>
                         <option value="Scheduled Visitor">Scheduled Visitor</option>
                         <option value="Active Visitor">Active Visitor</option>
+                        <option value="Active Member">End Trial Visitor</option>
                         <option value="Active Member">Active Member</option>
                         <option value="Past Member">Past Member</option>
                 </select><br><br><br>
@@ -101,13 +102,16 @@ function network_members_new() {
                 <br><br>
                 <label><b>Business Description</b></label>
                 <div style="max-width:100%;margin-top:-20px">
-                <?php wp_editor( $businessDescription , 'businessDescription', array(
-                        'wpautop'       => true,
-                        'media_buttons' => false,
-                        'textarea_name' => 'businessDescription',
-                        'editor_class'  => 'my_custom_class',
-                        'textarea_rows' => 10
-                    ) ); ?>
+                <?php 
+                wp_editor( $businessDescription , 'businessDescription', array(
+                    'wpautop'       => true,
+                    'media_buttons' => false,
+                    'textarea_name' => 'businessDescription',
+                    'editor_class'  => 'my_custom_class',
+                    'textarea_rows' => 10
+                ) ); 
+
+                ?>
                 </div>
 
                 <br><br>
@@ -197,8 +201,8 @@ function network_members_new() {
         </form>
         <br><br>
     </div>
-
-    <div class='networkersbuttom' onclick='membercheck("<?php echo $membercheckurl; ?>")' >Create</div>
+    <div class='networkersbuttom' onclick='newmember()' >Create</div>
+    <!-- <div class='networkersbuttom' onclick='membercheck("<?php echo $membercheckurl; ?>")' >Create</div> -->
 
 <?php
 }

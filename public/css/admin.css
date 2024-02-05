@@ -67,6 +67,10 @@ label{
     width:140px;
     cursor: pointer;
 }
+.networkersbuttom a {
+    text-decoration: none !important;
+    border-width: 0px;
+}
 .smallbuttom {
     margin-top:20px;
     padding:5px;
