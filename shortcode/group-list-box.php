@@ -14,9 +14,6 @@ function group_list_box_shortcode() {
         $posttitle = get_the_title($post_id);
     }
 
-    
-    
-
     // // Define a custom sorting function
     // function sortByWeekdayAndStart($a, $b) {
     //     // First, compare by weekdayNumber
@@ -25,29 +22,11 @@ function group_list_box_shortcode() {
     //     // If weekdays are the same, then compare by start
     //     if ($weekdayComparison == 0) {
     //         // Use a numerical comparison for start
-    //         return $a->start - $b->start;
+    //         return $a->time - $b->time;
     //     }
 
     //     return $weekdayComparison;
     // }
-
-    // // Sort the array by weekdayNumber and then by start
-    // usort($grouparray, 'sortByWeekdayAndStart');
-
-
-    // Define a custom sorting function
-    function sortByWeekdayAndStart($a, $b) {
-        // First, compare by weekdayNumber
-        $weekdayComparison = $a->weekdayNumber - $b->weekdayNumber;
-
-        // If weekdays are the same, then compare by start
-        if ($weekdayComparison == 0) {
-            // Use a numerical comparison for start
-            return $a->time - $b->time;
-        }
-
-        return $weekdayComparison;
-    }
 
     if($posttitle == "Groups"){
 

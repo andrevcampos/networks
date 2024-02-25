@@ -16,7 +16,7 @@ function region_select_form_shortcode() {
     );
     $network_regions = get_posts($args);
     foreach ($network_regions as $network_region) {
-        echo '<option class="'.$network_region->ID.'">' . esc_html($network_region->post_title) . '</option>';
+        echo '<option class="'.$network_region->ID.'" value="'.$network_region->ID.'">' . esc_html($network_region->post_title) . '</option>';
         //$string = $string . $network_group->post_title . "<br />";
     }
     return ob_get_clean();
@@ -40,7 +40,7 @@ function group_select_form_shortcode() {
     $network_groups = get_posts($args);
     foreach ($network_groups as $network_group) {
         $regionid = get_post_meta( $network_group->ID, 'regions', true );
-        echo '<option class="allregion region'.$regionid.'">' . esc_html($network_group->post_title) . '</option>';
+        echo '<option class="allregion region'.$regionid.'" value="'.$network_group->ID.'">' . esc_html($network_group->post_title) . '</option>';
         //$string = $string . $network_group->post_title . "<br />";
     }
     return ob_get_clean();

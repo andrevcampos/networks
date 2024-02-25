@@ -16,6 +16,7 @@ function networkers_email() {
         echo '<h2>Email Settings</h2>';
         echo '<br><br>';
         ?>
+        <a style='text-decoration: none;' href='/wp-admin/admin.php?page=network-email-new-register'><div style="margin-top:0px; width:300px" class='networkersbuttom'>New Register</div></a><br>
         <a style='text-decoration: none;' href='/wp-admin/admin.php?page=network-email-status-scheduled'><div style="margin-top:0px; width:300px" class='networkersbuttom'>Scheduled Status</div></a><br>
         <a style='text-decoration: none;' href='/wp-admin/admin.php?page=network-email-status-active-visitor'><div style="margin-top:0px; width:300px" class='networkersbuttom'>Active Visitor Status</div></a><br>
         <a style='text-decoration: none;' href='/wp-admin/admin.php?page=network-email-status-end-trial-visitor'><div style="margin-top:0px; width:300px" class='networkersbuttom'>End Trial Visitor Status</div></a><br>
@@ -25,6 +26,75 @@ function networkers_email() {
     echo '</div>';
 
 }
+
+
+function networkers_email_new_register() {
+
+    $plugin_url = plugin_dir_url( __FILE__ );
+    $url = $plugin_url . 'status-update.php';
+    wp_enqueue_style( 'admincss', plugins_url() . '/thenetworks/public/css/admin.css');
+    wp_enqueue_script( 'mainjs', plugins_url() . '/thenetworks/public/js/js.js' );
+    wp_enqueue_script( 'functionjs', plugins_url() . '/thenetworks/public/js/functions.js' );
+
+    
+    $args = array(
+        'post_type'      => 'network-ngemail',
+        'posts_per_page' => 1,  // Limit to only one post
+    );
+    $posts = get_posts($args);
+    $post_id = $posts[0]->ID;
+    $post_content = get_post_meta( $post_id, 'email', true );
+    $post_title = $posts[0]->post_title;
+    $statusEmail = base64_decode($post_content);
+
+    echo "<form id='myForm' action='$url' method='post' enctype='multipart/form-data'>";
+
+    echo '<div id="networkersbox" class="wrap">';
+        echo '<h1>The Networkers</h1><br>';
+        echo '<div id="icon-users" class="icon32"></div>';
+        echo '<h2>New Register Email</h2>';
+    echo '</div>';
+    echo '<br><br>';
+    echo '<label >Title:</label><br>';
+    echo "<input id='title' type='text' name='title' value='$post_title'>";
+    echo "<input style='display:none' id='stype' type='text' name='stype' value='network-ngemail'>";
+    echo '<br><br>';
+    echo '<p>Use the following keys to customise your email.</p>';
+    echo '<p>{{name}} {{businessname}} {{grouptitle}} {{regiontitle}}</p>';
+    echo '<div style="max-width:600px;margin-top:-20px">';
+        $escaped_description = html_entity_decode($statusEmail);
+        $escaped_description = stripslashes($escaped_description);
+        $settings =   array(
+            'wpautop' => true, // use wpautop?
+            'media_buttons' => false,
+            'textarea_name' => 'statusEmail',
+            'textarea_rows' => get_option('default_post_edit_rows', 10),
+            'editor_css' => '',
+            'editor_class' => '', 
+        );
+        wp_editor( $escaped_description, 'statusEmail', $settings );
+    echo '</div>';
+
+    echo '<br><br>';
+    
+    ?>
+
+    <div style="display:flex">
+        <button style="margin-right: 10px; margin-top: 0px;border-width:0px" class='networkersbuttom' type="submit">Update Email</button>
+    </div>
+
+    </form>
+
+    
+    
+    <?php
+    $title = $post_title;
+    $message = $escaped_description;
+    $emailContent = email_model($title, $message);
+    echo $emailContent;
+
+}
+
 
 function networkers_email_status_scheduled() {
 
@@ -189,6 +259,10 @@ function networkers_email_status_end_trial_visitor() {
     $post_content = get_post_meta( $post_id, 'email', true );
     $post_title = $posts[0]->post_title;
     $statusEmail = base64_decode($post_content);
+    $attachment = get_post_meta( $post_id, 'attachment', true );
+    $attachement_title = get_the_title($attachment);
+    $attachment_url = wp_get_attachment_url($attachment);
+    
 
     $user_role = Get_User_Role();
 
@@ -197,8 +271,12 @@ function networkers_email_status_end_trial_visitor() {
     echo '<div id="networkersbox" class="wrap">';
         echo '<h1>The Networkers</h1><br>';
         echo '<div id="icon-users" class="icon32"></div>';
-        echo '<h2>Active Visitor Email</h2>';
+        echo '<h2>End Trial Email</h2>';
     echo '</div>';
+    echo '<br><br>';
+    echo '<label >Attachment:</label><br>';
+    echo '<input type="file" name="emailattachment" id="emailattachment" >';
+    echo "<p><a style='text-decoration: none;' href='$attachment_url' target='_blank'>$attachement_title</a></p>";
     echo '<br><br>';
     echo '<label >Title:</label><br>';
     echo "<input id='title' type='text' name='title' value='$post_title'>";
@@ -268,7 +346,7 @@ function networkers_email_status_active_member() {
     echo '<div id="networkersbox" class="wrap">';
         echo '<h1>The Networkers</h1><br>';
         echo '<div id="icon-users" class="icon32"></div>';
-        echo '<h2>Active Visitor Email</h2>';
+        echo '<h2>Active Member Email</h2>';
     echo '</div>';
     echo '<br><br>';
     echo '<label >Title:</label><br>';
@@ -339,7 +417,7 @@ function networkers_email_status_past_member() {
     echo '<div id="networkersbox" class="wrap">';
         echo '<h1>The Networkers</h1><br>';
         echo '<div id="icon-users" class="icon32"></div>';
-        echo '<h2>Active Visitor Email</h2>';
+        echo '<h2>Past Member Email</h2>';
     echo '</div>';
     echo '<br><br>';
     echo '<label >Title:</label><br>';
@@ -450,6 +528,52 @@ function networkers_email_status_content($post_id, $status) {
 
     return array($statusEmail, $title);
 
+}
+
+function Add_triel_attachment($id) {
+    // Check if file is provided
+    if (!empty($_FILES['emailattachment']['tmp_name'][0])) {
+        $upload_dir = wp_upload_dir();
+
+        $file_name = $_FILES["emailattachment"]["name"];
+        $file_tmp = $_FILES["emailattachment"]["tmp_name"];
+
+        // Check the file extension
+        $allowed_file_types = array('doc', 'docx', 'pdf'); // Adjust the allowed file types
+        $file_extension = pathinfo($file_name, PATHINFO_EXTENSION);
+
+        if (in_array(strtolower($file_extension), $allowed_file_types)) {
+
+            // Move the file to the upload directory
+            $file_path = $upload_dir['path'] . '/' . $file_name;
+
+            if (move_uploaded_file($file_tmp, $file_path)) {
+                $attachment = array(
+                    'post_mime_type' => mime_content_type($file_path), // Use mime_content_type for accurate MIME type
+                    'post_title' => sanitize_file_name($file_name),
+                    'post_content' => '',
+                    'post_status' => 'inherit'
+                );
+
+                $attach_id = wp_insert_attachment($attachment, $file_path);
+
+                // Add attachment ID to post meta
+                add_post_meta($id, 'attachment', $attach_id, true);
+
+                // Update attachment metadata
+                require_once(ABSPATH . 'wp-admin/includes/image.php');
+                $attach_data = wp_generate_attachment_metadata($attach_id, $file_path);
+                wp_update_attachment_metadata($attach_id, $attach_data);
+            } else {
+                // Handle file upload failure
+                echo 'Failed to move the file.';
+            }
+        } else {
+            // Handle invalid file type
+            echo 'Invalid file type.';
+
+        }
+    }
 }
 
 ?>

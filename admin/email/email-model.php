@@ -17,7 +17,7 @@ function email_model($title, $message) {
     <table width='100%' cellspacing='0' cellpadding='0' style='border-collapse: collapse;'>
             <tr>
                 <td align='center' style='padding: 20px 0;'>
-                    <img src='https://thenetworkers.co.nz/new/wp-content/uploads/2023/07/The-Networkers-Logo-665x230-1.png' alt='The Networkers Logo' width='250'>
+                    <img src='https://new.thenetworkers.co.nz/wp-content/uploads/2023/07/The-Networkers-Logo-665x230-1.png' alt='The Networkers Logo' width='250'>
                 </td>
             </tr>
             <tr>

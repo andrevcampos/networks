@@ -187,7 +187,7 @@ function group_members_shortcode() {
             echo "<div class='group-info-left-text-title'><strong>Active Visitor</strong></div>";
         echo '</div>';
 
-        echo "<div class='group-list-container'>";
+        echo "<div class='group-list-container hoverorange'>";
         foreach ($visitormemberarray as $vmember) {
             echo "<div class='group-list-single-box'>";
                 echo "<a href='/members/$vmember->slug' style=''>";
@@ -265,7 +265,7 @@ function group_members_shortcode() {
 
         echo "<div class='group-list-container'>";
         foreach ($scheduledmemberarray as $smember) {
-            echo "<div class='group-list-single-box'>";
+            echo "<div class='group-list-single-box hoverorange'>";
                 echo "<a href='/members/$smember->slug' style=''>";
                     echo '<div class="group-list-single-box-image" style="background-image: url(' . esc_url($smember->logourl) . ');background-size: contain;background-position: center center;background-position: center center;background-repeat: no-repeat;"></div>';
                     echo '<div class="group-list-single-box-text">';

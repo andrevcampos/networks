@@ -32,6 +32,19 @@
             add_post_meta( $post_id, 'email', $email, true );
         }
 
+
+        if(!empty($_FILES['emailattachment']['tmp_name'][0])) {
+
+            if (metadata_exists('post', $post_id, 'attachment')) {
+                $imageid = get_post_meta( $post_id, 'attachment', true );
+                wp_delete_attachment( $imageid );
+                delete_post_meta($post_id, 'attachment');
+            }
+            Add_triel_attachment($post_id);
+
+        }
+
+
     } else {
         // No posts found
         $my_post = array(
@@ -55,6 +68,7 @@
     if($stype == "network-etvmail"){$url = admin_url('admin.php?page=network-email-status-end-trial-visitor');}
     if($stype == "network-ammail"){$url = admin_url('admin.php?page=network-email-status-active-member');}
     if($stype == "network-pmmail"){$url = admin_url('admin.php?page=network-email-status-past-member');}
+    if($stype == "network-ngemail"){$url = admin_url('admin.php?page=network-email-new-register');}
     header("Location: $url"); 
     exit();
     

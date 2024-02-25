@@ -59,6 +59,7 @@ include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-member.php'
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-facilitator.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/order-region.php';
 include_once ABSPATH . '/wp-content/plugins/thenetworks/function/get-member-list.php';
+include_once ABSPATH . '/wp-content/plugins/thenetworks/function/webhook.php';
 
 //CLASS
 include_once ABSPATH . '/wp-content/plugins/thenetworks/class/class-region.php';
@@ -159,6 +160,7 @@ function my_menu_networkers(){
       //Email
       if ($user_role == 'administrator' || $user_role == 'network-admin'){
             add_menu_page('Email', 'Email', 'the_networkers', 'networkers-email', 'networkers_email', '/wp-content/uploads/2023/07/menu-icon.png', 7 );
+            add_submenu_page( 'networkers-email',  'New Register', 'New Register', 'the_networkers', 'network-email-new-register', 'networkers_email_new_register' );
             add_submenu_page( 'networkers-email',  'Stastus Scheduled', 'Stastus Scheduled', 'the_networkers', 'network-email-status-scheduled', 'networkers_email_status_scheduled' );
             add_submenu_page( 'networkers-email',  'Stastus Active Visitor', 'Stastus Active Visitor', 'the_networkers', 'network-email-status-active-visitor', 'networkers_email_status_active_visitor' );
             add_submenu_page( 'networkers-email',  'Stastus End Trial Visitor', 'Stastus End Trial Visitor', 'the_networkers', 'network-email-status-end-trial-visitor', 'networkers_email_status_end_trial_visitor' );
@@ -295,63 +297,5 @@ function register_member_post_type() {
   
       register_post_type('network-region', $args);
   }
-  
   add_action('init', 'register_region_post_type');
-
-  function my_custom_webhook_endpoint() {
-      add_rewrite_rule('^webhook$', 'index.php?webhook=1', 'top');
-      add_rewrite_tag('%webhook%', '([^&]+)');
-  }
-  add_action('init', 'my_custom_webhook_endpoint');
-  
-
-  function handle_webhook_request() {
-      global $wp;
-      if (isset($wp->query_vars['webhook'])) {
-            // Process the incoming data
-            //$data = json_decode(file_get_contents('php://input'), true);
-            $data = $_POST;
-            $serialized = serialize($data);
-            $decodedData = unserialize($serialized);
-            
-            $email = isset($decodedData['Email_address']) ? $decodedData['Email_address'] : null;
-            $businessname = isset($decodedData['Business_name']) ? $decodedData['Business_name'] : null;
-            $firstname = isset($decodedData['First_name']) ? $decodedData['First_name'] : null;
-            $lastname = isset($decodedData['Last_name']) ? $decodedData['Last_name'] : null;
-            $phone = isset($decodedData['Your_phone']) ? $decodedData['Your_phone'] : null;
-            $region = isset($decodedData['Region']) ? $decodedData['Region'] : null;
-            $group = isset($decodedData['Preferred_group']) ? $decodedData['Preferred_group'] : null;
-
-            // print_r($data);
-
-            // $to = 'andrevcampos@gmail.com';
-            // $subject = 'Webhook Data Received';
-            // $message = print_r($data, true); // use print_r to convert array to string
-            // $headers = array('Content-Type: text/html; charset=UTF-8');
-
-            // // Send email
-            // wp_mail($to, $subject, $message, $headers);
-          
-            $my_post = array(
-                  'post_title'    => "test webhook",
-                  'post_status'   => 'publish',
-                  'post_author'   => 1,
-                  'post_type'   => 'network-webhook',
-            );
-            $post_id = wp_insert_post( $my_post );
-
-            add_post_meta( $post_id, 'firstname', $firstname, true );
-            add_post_meta( $post_id, 'lastname', $lastname, true );
-            add_post_meta( $post_id, 'businessname', $businessname, true );
-            add_post_meta( $post_id, 'email', $email, true );
-            add_post_meta( $post_id, 'region', $region, true );
-            add_post_meta( $post_id, 'group', $group, true );
-            add_post_meta( $post_id, 'phone', $phone, true );
-
-            wp_send_json_success('Webhook processed successfully.');
-      }
-  }
-  add_action('template_redirect', 'handle_webhook_request');
-
-
 ?>

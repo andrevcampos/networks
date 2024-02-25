@@ -41,4 +41,17 @@ function sortByID($a, $b) {
     return strcmp($a->ID, $b->ID);
 }
 
+function sortByWeekdayAndStart($a, $b) {
+    // First, compare by weekdayNumber
+    $weekdayComparison = $a->weekdayNumber - $b->weekdayNumber;
+
+    // If weekdays are the same, then compare by start
+    if ($weekdayComparison == 0) {
+        // Use a numerical comparison for start
+        return $a->time - $b->time;
+    }
+
+    return $weekdayComparison;
+}
+
 ?>

@@ -9,11 +9,11 @@
     $user_role = $roles[0];
 
     //Dont have permition
-    if ($user_role != 'administrator'){
-        $url = admin_url('admin.php?page=networkers-facilitator');
-        header("Location: $url"); 
-        exit();
-    }
+    // if ($user_role != 'administrator'){
+    //     $url = admin_url('admin.php?page=networkers-facilitator');
+    //     header("Location: $url"); 
+    //     exit();
+    // }
     //Delete the facilitator
     $imageid = get_post_meta( $id, 'imageid', true );
     wp_delete_attachment( $imageid );

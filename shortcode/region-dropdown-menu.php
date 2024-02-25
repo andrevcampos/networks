@@ -14,38 +14,39 @@ function region_dropdown_menu_shortcode() {
     foreach($regions as $region) {
         $regionid = $region->ID;
         $regiontitle = $region->post_title;
+        $obj = Get_Region($region->ID);
         $newObject = (object) [
             'id' => $regionid,
             'post_title' => $regiontitle,
         ];
         if($regionid != 505){
-            array_push($regionsarray, $newObject);
+            array_push($regionsarray, $obj);
         }
         
     }
 
     // Define a custom sorting function
-    function sortByRegionTitle2($a, $b) {
-        return strcmp($a->post_title, $b->post_title);
-    }
+    // function sortByRegionTitle2($a, $b) {
+    //     return strcmp($a->post_title, $b->post_title);
+    // }
 
     // Sort the array by regiontitle
-    usort($regionsarray, 'sortByRegionTitle2');
+    usort($regionsarray, 'sortByRegionOrder');
     
     ?>
     <div id="region-dropdown-menu">
         <?php
         foreach ($regionsarray as $region) {
-            $post_name = get_post_field('post_name', $region->id);
+            $post_name = get_post_field('post_name', $region->ID);
         }
         echo '<select id="selectBox" name="selectedOption" onchange="regiondropdownchange()">';
             echo "<option value='notselected'>Select Region</option>";
         foreach ($regionsarray as $region) {
-            $post_name = get_post_field('post_name', $region->id);
+            $post_name = get_post_field('post_name', $region->ID);
             if($post_name == $selected){
-                echo "<option value='$region->id' selected>$region->post_title</option>";
+                echo "<option value='$region->ID' selected>$region->post_title</option>";
             }else{
-                echo "<option value='$region->id'>$region->post_title</option>";
+                echo "<option value='$region->ID'>$region->post_title</option>";
             }
         }
         echo '</select>';
