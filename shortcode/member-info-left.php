@@ -11,6 +11,8 @@ function member_info_left_shortcode() {
     $whatsappurl =  plugins_url() . '/thenetworks/public/img/whatsapp_icon.jpg';
     $websiteurl =  plugins_url() . '/thenetworks/public/img/website_icon.jpg';
 
+    $user_role = Get_User_Role();
+
     $memberid = $_GET['id'];
     $obj = Get_Member($memberid);
     $email = $obj->email;
@@ -54,6 +56,19 @@ function member_info_left_shortcode() {
     $pimage_info = wp_get_attachment_image_src($imageid, 'full');
 
     $sociallist = $obj->socialmedia;
+
+    if ($user_role == 'administrator' || $user_role == 'network-admin'){
+        
+
+        echo '<div class="group-info-left">';
+            // echo '<div class="group-info-left-icon">
+            //     <span class="material-symbols-outlined">home_work</span>
+            // </div>';
+            echo "<div class='group-info-left-text-title'><strong>Networkers Admin</strong></div>";
+        echo '</div>';
+        echo "<div class='group-info-left-text'><a href='/wp-admin/admin.php?page=networkers-members-update&id=$obj->ID'>Edit Profile</a></div>";
+        echo "<br>";
+    }
 
     
     
@@ -141,6 +156,8 @@ function member_info_left_shortcode() {
         echo "<div class='group-info-left-text-title'><strong>Groups</strong></div>";
     echo '</div>';
     echo "<div class='group-info-left-text'>$groups</div>";
+
+    
 
     
 

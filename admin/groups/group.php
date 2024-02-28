@@ -39,7 +39,7 @@ class Group_List_Table extends WP_List_Table
         $data = $this->table_data();
         usort($data, array(&$this, 'sort_data'));
 
-        $perPage = 10;
+        $perPage = 50;
         $currentPage = $this->get_pagenum();
         $totalItems = count($data);
 
@@ -115,9 +115,7 @@ class Group_List_Table extends WP_List_Table
     private function table_data()
     {
         //check user role
-        $user = wp_get_current_user();
-        $roles = ( array ) $user->roles;
-        $user_role = $roles[0];
+        $user_role = Get_User_Role();
 
         $args = array(
             'post_type' => "network-group",

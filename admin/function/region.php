@@ -3,9 +3,7 @@
 function regioninput($regionsselected = [], $multiple = true) {
 
     //Get Role
-    $user = wp_get_current_user();
-    $roles = ( array ) $user->roles;
-    $user_role = $roles[0];
+    $user_role = Get_User_Role();
 
     //Region Availables
     if($user_role == "administrator" || $user_role == "network-admin"){

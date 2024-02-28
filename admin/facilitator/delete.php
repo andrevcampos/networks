@@ -6,7 +6,8 @@
 
     $user = wp_get_current_user();
     $roles = ( array ) $user->roles;
-    $user_role = $roles[0];
+    //$user_role = $roles[0];
+    $user_role = Get_User_Role();
 
     //Dont have permition
     // if ($user_role != 'administrator'){

@@ -25,15 +25,23 @@
                 );
                 $postss = get_posts($argss);
                 $post_idd = $postss[0]->ID;
-                $attachment = get_post_meta( $post_idd, 'attachment', true );
-                $attachment_url = wp_get_attachment_url($attachment);
+                
+                $checkboxmail = get_post_meta( $post_idd, 'checkboxemail', true );
+            
                 $to = $email;
                 $subject = $title;
                 $message = $emailContent;
                 $headers = array('Content-Type: text/html; charset=UTF-8');
-                $attachments = array(ABSPATH . ltrim(str_replace(site_url(), '', $attachment_url), '/')); // Use the correct file path
-                print_r($attachments);
-                $success = wp_mail($to, $subject, $message, $headers, $attachments);
+                
+                if($checkboxmail == 'true'){
+                    $attachment = get_post_meta( $post_idd, 'attachment', true );
+                    $attachment_url = wp_get_attachment_url($attachment);
+                    $attachments = array(ABSPATH . ltrim(str_replace(site_url(), '', $attachment_url), '/'));
+                    $success = wp_mail($to, $subject, $message, $headers, $attachments);
+                }else{
+                    $success = wp_mail($to, $subject, $message, $headers);
+                }
+
                 $url = admin_url("admin.php?page=networkers-members&id=$post_id");
                 header("Location: $url"); 
                 exit();

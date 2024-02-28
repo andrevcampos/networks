@@ -88,7 +88,8 @@ class Facilitator_List_Table extends WP_List_Table
         $removeurl = $plugin_url . 'delete.php';
         $user = wp_get_current_user();
         $roles = ( array ) $user->roles;
-        $user_role = $roles[0];
+        //$user_role = $roles[0];
+        $user_role = current($roles);
 
         if($user_role == 'administrator' || $user_role == 'network-admin'){
             $actions = array(
@@ -126,7 +127,8 @@ class Facilitator_List_Table extends WP_List_Table
         //check user role
         $user = wp_get_current_user();
         $roles = ( array ) $user->roles;
-        $user_role = $roles[0];
+        //$user_role = $roles[0];
+        $user_role = Get_User_Role();
 
         $args = array(
             'post_type' => "network-facilitator",

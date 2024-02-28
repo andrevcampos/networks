@@ -3,13 +3,10 @@
     include '../../../../../wp-load.php';
 
     $id = $_POST["popupRemoveID"];
-
-    $user = wp_get_current_user();
-    $roles = ( array ) $user->roles;
-    $user_role = $roles[0];
+    $user_role = Get_User_Role();
 
     //Dont have permition
-    if ($user_role != 'franchise' && $user_role != 'administrator'){
+    if ($user_role != 'franchise' && $user_role != 'administrator' && $user_role != 'network-admin'){
         $url = admin_url('admin.php?page=networkers-group');
         header("Location: $url"); 
         exit();

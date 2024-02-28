@@ -31,7 +31,23 @@
         } else {
             add_post_meta( $post_id, 'email', $email, true );
         }
-
+        if($stype == "network-etvmail"){
+            $checkboxemail = $_POST["checkboxemail"];
+ 
+            if (metadata_exists('post', $post_id, 'checkboxemail')) {
+                if($checkboxemail == true){
+                    update_post_meta( $post_id, 'checkboxemail', 'true'); 
+                }else{
+                    update_post_meta( $post_id, 'checkboxemail', 'false'); 
+                }
+            } else {
+                if($checkboxemail == true){
+                    add_post_meta( $post_id, 'checkboxemail', 'true', true );
+                }else{
+                    add_post_meta( $post_id, 'checkboxemail', 'false', true );
+                }
+            }
+        }
 
         if(!empty($_FILES['emailattachment']['tmp_name'][0])) {
 
@@ -69,6 +85,8 @@
     if($stype == "network-ammail"){$url = admin_url('admin.php?page=network-email-status-active-member');}
     if($stype == "network-pmmail"){$url = admin_url('admin.php?page=network-email-status-past-member');}
     if($stype == "network-ngemail"){$url = admin_url('admin.php?page=network-email-new-register');}
+    if($stype == "network-potentail"){$url = admin_url('admin.php?page=network-email-status-potential-member');}
+    
     header("Location: $url"); 
     exit();
     

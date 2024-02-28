@@ -4,7 +4,7 @@ function group_info_left_shortcode() {
     ob_start();
     wp_enqueue_style( 'shortcodecss', plugins_url() . '/thenetworks/public/css/shortcode.css');
 
-
+    $user_role = Get_User_Role();
     $obj = Get_Group($groupid);
     $groupid = $obj->ID;
     $pieces = explode(":", $obj->start);
@@ -18,6 +18,19 @@ function group_info_left_shortcode() {
     $objfacilitator = Get_Facilitator($facilitatorid);
     $imageid = $objfacilitator->imageid;
     $pimage_info = wp_get_attachment_image_src($imageid, 'full');
+
+    if ($user_role == 'administrator' || $user_role == 'network-admin'){
+        
+
+        echo '<div class="group-info-left">';
+            // echo '<div class="group-info-left-icon">
+            //     <span class="material-symbols-outlined">home_work</span>
+            // </div>';
+            echo "<div class='group-info-left-text-title'><strong>Networkers Admin</strong></div>";
+        echo '</div>';
+        echo "<div class='group-info-left-text'><a href='/wp-admin/admin.php?page=networkers-group-update&id=$obj->ID'>Edit Profile</a></div>";
+        echo "<br>";
+    }
 
     echo '<div class="group-info-left">';
         // echo '<div class="group-info-left-icon">

@@ -53,7 +53,7 @@ class Member_List_Table extends WP_List_Table
         $data = $this->table_data();
         usort($data, array(&$this, 'sort_data'));
 
-        $perPage = 10;
+        $perPage = 50;
         $currentPage = $this->get_pagenum();
         $totalItems = count($data);
 

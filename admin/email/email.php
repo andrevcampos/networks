@@ -17,6 +17,7 @@ function networkers_email() {
         echo '<br><br>';
         ?>
         <a style='text-decoration: none;' href='/wp-admin/admin.php?page=network-email-new-register'><div style="margin-top:0px; width:300px" class='networkersbuttom'>New Register</div></a><br>
+        <a style='text-decoration: none;' href='/wp-admin/admin.php?page=network-email-status-potential-member'><div style="margin-top:0px; width:300px" class='networkersbuttom'>Potential Member Status</div></a><br>
         <a style='text-decoration: none;' href='/wp-admin/admin.php?page=network-email-status-scheduled'><div style="margin-top:0px; width:300px" class='networkersbuttom'>Scheduled Status</div></a><br>
         <a style='text-decoration: none;' href='/wp-admin/admin.php?page=network-email-status-active-visitor'><div style="margin-top:0px; width:300px" class='networkersbuttom'>Active Visitor Status</div></a><br>
         <a style='text-decoration: none;' href='/wp-admin/admin.php?page=network-email-status-end-trial-visitor'><div style="margin-top:0px; width:300px" class='networkersbuttom'>End Trial Visitor Status</div></a><br>
@@ -91,6 +92,75 @@ function networkers_email_new_register() {
     $title = $post_title;
     $message = $escaped_description;
     $emailContent = email_model($title, $message);
+    echo $emailContent;
+
+}
+
+function networkers_email_status_potential() {
+
+    $plugin_url = plugin_dir_url( __FILE__ );
+    $url = $plugin_url . 'status-update.php';
+    wp_enqueue_style( 'admincss', plugins_url() . '/thenetworks/public/css/admin.css');
+    wp_enqueue_script( 'mainjs', plugins_url() . '/thenetworks/public/js/js.js' );
+    wp_enqueue_script( 'functionjs', plugins_url() . '/thenetworks/public/js/functions.js' );
+
+    
+    $args = array(
+        'post_type'      => 'network-potentail',
+        'posts_per_page' => 1,  // Limit to only one post
+    );
+    $posts = get_posts($args);
+    $post_id = $posts[0]->ID;
+    $post_content = get_post_meta( $post_id, 'email', true );
+    $post_title = $posts[0]->post_title;
+    $statusEmail = base64_decode($post_content);
+
+    echo "<form id='myForm' action='$url' method='post' enctype='multipart/form-data'>";
+
+    echo '<div id="networkersbox" class="wrap">';
+        echo '<h1>The Networkers</h1><br>';
+        echo '<div id="icon-users" class="icon32"></div>';
+        echo '<h2>Potential Member Email</h2>';
+    echo '</div>';
+    echo '<br><br>';
+    echo '<label >Title:</label><br>';
+    echo "<input id='title' type='text' name='title' value='$post_title'>";
+    echo "<input style='display:none' id='stype' type='text' name='stype' value='network-potentail'>";
+    echo '<br><br>';
+    echo '<p>Use the following keys to customise your email.</p>';
+    echo '<p>{{name}} {{businessname}} {{groupinfo}} {{status}}</p>';
+    echo '<div style="max-width:600px;margin-top:-20px">';
+
+        $escaped_description = html_entity_decode($statusEmail);
+        $escaped_description = stripslashes($escaped_description);
+        $settings =   array(
+            'wpautop' => true, // use wpautop?
+            'media_buttons' => false,
+            'textarea_name' => 'statusEmail',
+            'textarea_rows' => get_option('default_post_edit_rows', 10),
+            'editor_css' => '',
+            'editor_class' => '', 
+        );
+        wp_editor( $escaped_description, 'statusEmail', $settings );
+    echo '</div>';
+
+    echo '<br><br>';
+    
+    ?>
+
+    <div style="display:flex">
+        <button style="margin-right: 10px; margin-top: 0px;border-width:0px" class='networkersbuttom' type="submit">Update Email</button>
+    </div>
+
+    </form>
+
+    <?php
+    $title = $post_title;
+    $message = $escaped_description;
+    $name = 'XXXXXXXXX';
+    $business = '';
+    $status = 'Active Member';
+    $emailContent = email_model($title, $message, $name, $business, $status);
     echo $emailContent;
 
 }
@@ -262,6 +332,7 @@ function networkers_email_status_end_trial_visitor() {
     $attachment = get_post_meta( $post_id, 'attachment', true );
     $attachement_title = get_the_title($attachment);
     $attachment_url = wp_get_attachment_url($attachment);
+    $checkboxemail = get_post_meta( $post_id, 'checkboxemail', true );
     
 
     $user_role = Get_User_Role();
@@ -277,6 +348,12 @@ function networkers_email_status_end_trial_visitor() {
     echo '<label >Attachment:</label><br>';
     echo '<input type="file" name="emailattachment" id="emailattachment" >';
     echo "<p><a style='text-decoration: none;' href='$attachment_url' target='_blank'>$attachement_title</a></p>";
+    if($checkboxemail == "true"){
+        echo "<input type='checkbox' id='checkboxemail' name='checkboxemail' checked>";
+    }else{
+        echo "<input type='checkbox' id='checkboxemail' name='checkboxemail'>";
+    }
+    echo "<label for='checkboxemail'>Send Attachment</label><br>";
     echo '<br><br>';
     echo '<label >Title:</label><br>';
     echo "<input id='title' type='text' name='title' value='$post_title'>";
@@ -507,6 +584,7 @@ function networkers_email_status_content($post_id, $status) {
     if($status == "End Trial Visitor"){$post_type = "network-etvmail";}
     if($status == "Active Member"){$post_type = "network-ammail";}
     if($status == "Past Member"){$post_type = "network-pmmail";}
+    if($status == "Potential Member"){$post_type = "network-potentail";}
 
     $args = array(
         'post_type'      => $post_type,

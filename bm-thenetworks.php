@@ -110,7 +110,8 @@ function my_menu_networkers(){
 
       $user = wp_get_current_user();
       $roles = ( array ) $user->roles;
-      $user_role = $roles[0];
+      //$user_role = $roles[0];
+      $user_role = current($roles);
 
       wp_enqueue_style( 'admincss', plugins_url() . '/thenetworks/public/css/admin.css');
       wp_enqueue_script( 'mainjs', plugins_url() . '/thenetworks/public/js/js.js' );
@@ -161,6 +162,7 @@ function my_menu_networkers(){
       if ($user_role == 'administrator' || $user_role == 'network-admin'){
             add_menu_page('Email', 'Email', 'the_networkers', 'networkers-email', 'networkers_email', '/wp-content/uploads/2023/07/menu-icon.png', 7 );
             add_submenu_page( 'networkers-email',  'New Register', 'New Register', 'the_networkers', 'network-email-new-register', 'networkers_email_new_register' );
+            add_submenu_page( 'networkers-email',  'Stastus Potential Member', 'Stastus Potential Member', 'the_networkers', 'network-email-status-potential-member', 'networkers_email_status_potential' );
             add_submenu_page( 'networkers-email',  'Stastus Scheduled', 'Stastus Scheduled', 'the_networkers', 'network-email-status-scheduled', 'networkers_email_status_scheduled' );
             add_submenu_page( 'networkers-email',  'Stastus Active Visitor', 'Stastus Active Visitor', 'the_networkers', 'network-email-status-active-visitor', 'networkers_email_status_active_visitor' );
             add_submenu_page( 'networkers-email',  'Stastus End Trial Visitor', 'Stastus End Trial Visitor', 'the_networkers', 'network-email-status-end-trial-visitor', 'networkers_email_status_end_trial_visitor' );

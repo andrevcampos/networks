@@ -143,7 +143,7 @@
 
 .group-hero {
     width: 100%;
-    height: 300px; /* Adjust the height as needed */
+    height: 250px; /* Adjust the height as needed */
     position: relative; /* Ensure proper stacking of overlay and content */
 }
 .group-hero-box {
@@ -228,7 +228,8 @@
 
   .info-box2 {
 
-    width: 200px;
+    width: auto;
+    min-width: 200px;
     background-color: #ffffff;
     border: 1px solid #53565a;
     padding: 10px;
@@ -240,7 +241,8 @@
   .info-box {
     display: none;
     position: absolute;
-    width: 200px;
+    min-width: 200px;
+    width: auto;
     background-color: #ffffff;
     border: 1px solid #53565a;
     padding: 10px;
