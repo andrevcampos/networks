@@ -31,7 +31,10 @@
                 $to = $email;
                 $subject = $title;
                 $message = $emailContent;
-                $headers = array('Content-Type: text/html; charset=UTF-8');
+                $headers = array(
+                    'Content-Type: text/html; charset=UTF-8',
+                    'Cc: cara@thenetworkers.co.nz, maria@thenetworkers.co.nz'
+                );
                 
                 if($checkboxmail == 'true'){
                     $attachment = get_post_meta( $post_idd, 'attachment', true );
@@ -51,12 +54,10 @@
             $to = $email;
             $subject = $title;
             $message = $emailContent;
-            // $headers = array(
-            //     'Content-Type: text/html; charset=UTF-8',
-            //     'From: Your Name <your-email@example.com>', // Replace with your email and name
-            // );
-            //$headers[] = 'Cc: additional-email@example.com';
-            $headers = array('Content-Type: text/html; charset=UTF-8');
+            $headers = array(
+                'Content-Type: text/html; charset=UTF-8',
+                'Cc: cara@thenetworkers.co.nz, maria@thenetworkers.co.nz'
+            );
             // Send email
             wp_mail($to, $subject, $message, $headers);
             

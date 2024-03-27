@@ -23,6 +23,9 @@ function networkers_region_update() {
     $status = get_post_meta( $regionid, 'status', true );
     if(!$status)
         $status = 'active';
+    $seo_title_value = get_post_meta($regionid, 'rank_math_title', true);
+    $seo_description_value = get_post_meta($regionid, 'rank_math_description', true);
+
 
     echo '<div style="display:block" id="networkersbox" class="networkersbox">';
         echo "<form id='myForm' action='$editurl' method='post' enctype='multipart/form-data'>";
@@ -71,6 +74,18 @@ function networkers_region_update() {
                     'editor_class'  => 'my_custom_class',
                     'textarea_rows' => 10
                 ) ); ?>
+            </div>
+            
+            <!-- Rank Math SEO Title -->
+            <div class="form-field">
+                <label for="seo-title">SEO Title</label>
+                <input type="text" name="seo-title" id="seo-title" value="<?php echo esc_attr($seo_title_value); ?>" placeholder="Enter SEO Title" />
+            </div>
+
+            <!-- Rank Math SEO Description -->
+            <div class="form-field">
+                <label for="seo-description">SEO Description</label>
+                <textarea name="seo-description" id="seo-description" rows="4" placeholder="Enter SEO Description"><?php echo esc_textarea($seo_description_value); ?></textarea>
             </div>
 
             <?php

@@ -300,4 +300,37 @@ function register_member_post_type() {
       register_post_type('network-region', $args);
   }
   add_action('init', 'register_region_post_type');
+
+
+  function custom_page_title($title) {
+      // Check if the current page URL contains '/members/'
+      if (strpos($_SERVER['REQUEST_URI'], '/members/') !== false) {
+
+            $memberid = $_GET['id'];
+            $obj = Get_Member($memberid);
+            $name = $obj->businessname . " - " . $obj->firstname . " " . $obj->lastname . " | The Networkers";
+
+            if (!empty($name)) {
+                  return $name;
+            }
+      }
+      return $title;
+  }
+  add_filter('pre_get_document_title', 'custom_page_title', 20);
+
+  function custom_meta_description() {
+      if (strpos($_SERVER['REQUEST_URI'], '/members/') !== false) {
+            $memberid = $_GET['id'];
+            $obj = Get_Member($memberid);
+            $description2 = $obj->businessdescription;
+            $decoded_description = base64_decode($description2);
+            $escaped_description = stripslashes(html_entity_decode($decoded_description, ENT_QUOTES, 'UTF-8'));
+            $escaped_description_with_line_breaks = nl2br($escaped_description);
+            $content = $escaped_description_with_line_breaks;
+            
+          echo '<meta name="description" content="' . esc_attr(wp_strip_all_tags($content)) . '">';
+      }
+  }
+  add_action('wp_head', 'custom_meta_description');
+
 ?>

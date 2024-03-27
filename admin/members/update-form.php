@@ -25,6 +25,7 @@ function networkers_members_update() {
     $phones = get_post_meta( $id, 'phone', false );
     $groups = get_post_meta( $id, 'group', false );
     $businessDescription = base64_decode(get_post_meta( $id, 'description', true ));
+    $noteDescription = base64_decode(get_post_meta( $id, 'notedescription', true ));
     $country = get_post_meta( $id, 'country', true );
     $streetaddress1 = get_post_meta( $id, 'streetaddress1', true );
     $streetaddress2 = get_post_meta( $id, 'streetaddress2', true );
@@ -48,6 +49,15 @@ function networkers_members_update() {
     if (empty($businessinformationcheckbox)) {$businessinformationcheckbox = 'true';}
     $agreecheckbox = get_post_meta( $id, 'agreecheckbox', true );
     if (empty($agreecheckbox)) {$agreecheckbox = 'true';}
+
+    $note1checkbox = get_post_meta( $id, 'note1checkbox', true );
+    if (empty($note1checkbox)) {$note1checkbox = 'false';}
+    $note2checkbox = get_post_meta( $id, 'note2checkbox', true );
+    if (empty($note2checkbox)) {$note2checkbox = 'false';}
+    $note3checkbox = get_post_meta( $id, 'note3checkbox', true );
+    if (empty($note3checkbox)) {$note3checkbox = 'false';}
+
+
 
     ?>
 
@@ -234,6 +244,43 @@ function networkers_members_update() {
                         echo "<label for='n/a'>$spayment</label><br><br>";
                     }
                 ?>
+            </div>
+
+            <br><br>   
+
+            <div class="memberlogobox">
+
+                <h2 style="font-size:22px"><b>Notes</b></h2>
+                <div class="d-flex">
+                    <div><input style="width:10px" type="checkbox" id="note1checkbox" name="note1checkbox" <?php echo ($note1checkbox == 'true') ? 'checked' : ''; ?>></div>
+                    <div style="margin-top:3px"><spam >Added mobile to text list.</spam></div>
+                </div>
+                <br>
+                <div class="d-flex">
+                    <div><input style="width:10px" type="checkbox" id="note2checkbox" name="note2checkbox" <?php echo ($note2checkbox == 'true') ? 'checked' : ''; ?>></div>
+                    <div style="margin-top:3px"><spam>Invoice Setup.</spam></div>
+                </div>
+                <br>
+                <div class="d-flex">
+                    <div><input style="width:10px" type="checkbox" id="note3checkbox" name="note3checkbox" <?php echo ($note3checkbox == 'true') ? 'checked' : ''; ?>></div>
+                    <div style="margin-top:3px"><spam>Email Joining.</spam></div>
+                </div>
+                <br><br>
+                <?php 
+                $escaped_description2 = html_entity_decode($noteDescription);
+                $escaped_description2 = stripslashes($escaped_description2);
+                $settings2 =   array(
+                    'wpautop' => true, // use wpautop?
+                    'media_buttons' => false,
+                    'textarea_name' => 'noteDescription',
+                    'textarea_rows' => get_option('default_post_edit_rows', 10),
+                    'editor_css' => '',
+                    'editor_class' => '', 
+                );
+                wp_editor( $escaped_description2, 'noteDescription', $settings2 );
+                ?>
+
+
             </div>
 
             <br><br>   

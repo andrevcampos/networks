@@ -83,6 +83,16 @@ function member_info_left_shortcode() {
         // echo '<div class="group-info-left-icon">
         //     <span class="material-symbols-outlined">phone_iphone</span>
         // </div>';
+        echo "<div class='group-info-left-text-title'><strong>Business Name</strong></div>";
+    echo '</div>';
+    echo $obj->businessname;
+    
+    echo "<br><br>";
+
+    echo '<div class="group-info-left">';
+        // echo '<div class="group-info-left-icon">
+        //     <span class="material-symbols-outlined">phone_iphone</span>
+        // </div>';
         echo "<div class='group-info-left-text-title'><strong>Phone</strong></div>";
     echo '</div>';
     echo $phones;

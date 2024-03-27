@@ -302,21 +302,21 @@ function newmember() {
     var businessinformationcheckbox = document.getElementById('businessinformationcheckbox').checked;
     var agreecheckbox = document.getElementById('agreecheckbox').checked;
 
-    if(firstName.length < 3){
+    if(firstName.length < 1){
         document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
         document.getElementById('message').innerHTML = "Invalid First Name";
         document.getElementById('popupbox').style = "display:block";
         window.scrollTo(0, 0);
         return;
     }
-    if(lastName.length < 3){
+    if(lastName.length < 1){
         document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
         document.getElementById('message').innerHTML = "Invalid Last Name";
         document.getElementById('popupbox').style = "display:block";
         window.scrollTo(0, 0);
         return;
     }
-    if(businessname.length < 3){
+    if(businessname.length < 1){
         document.getElementById('messagetitle').innerHTML = "Unable to Complete Registration";
         document.getElementById('message').innerHTML = "Invalid Business Name";
         document.getElementById('popupbox').style = "display:block";

@@ -17,6 +17,13 @@
     $newslettercheckbox = $_POST["newslettercheckbox"];
     $businessinformationcheckbox = $_POST["businessinformationcheckbox"];
     $agreecheckbox = $_POST["agreecheckbox"];
+
+     //Notes
+     $note1checkbox = $_POST["note1checkbox"];
+     $note2checkbox = $_POST["note2checkbox"];
+     $note3checkbox = $_POST["note3checkbox"];
+     $notedescription = $_POST["noteDescription"];
+     $description2 = base64_encode($notedescription);
     
     //Get Decription and encode
     $businessDescription = $_POST["businessDescription"];
@@ -28,6 +35,8 @@
     $city = $_POST["city"];
     $postalcode = $_POST["postalcode"];
     $payment = $_POST["payment"];
+
+    
 
     if($orginalname != $businessname){
 
@@ -106,13 +115,82 @@
         }
     }
 
+
+    $note1checkboxvalue = get_post_meta($post_id, 'note1checkbox', true);
+    if (!empty($note1checkboxvalue)) {
+        if($note1checkbox == true){
+            update_post_meta( $post_id, 'note1checkbox', 'true');
+        }else{
+            update_post_meta( $post_id, 'note1checkbox', 'false');
+        }
+    } else {
+        if($note1checkbox == true){
+            add_post_meta( $post_id, 'note1checkbox', 'true', true );
+        }else{
+            add_post_meta( $post_id, 'note1checkbox', 'false', true );
+        }
+    }
+    $note2checkboxvalue = get_post_meta($post_id, 'note2checkbox', true);
+    if (!empty($note2checkboxvalue)) {
+        if($note2checkbox == true){
+            update_post_meta( $post_id, 'note2checkbox', 'true');
+        }else{
+            update_post_meta( $post_id, 'note2checkbox', 'false');
+        }
+    } else {
+        if($note2checkbox == true){
+            add_post_meta( $post_id, 'note2checkbox', 'true', true );
+        }else{
+            add_post_meta( $post_id, 'note2checkbox', 'false', true );
+        }
+    }
+    $note3checkboxvalue = get_post_meta($post_id, 'note3checkbox', true);
+    if (!empty($note3checkboxvalue)) {
+        if($note3checkbox == true){
+            update_post_meta( $post_id, 'note3checkbox', 'true');
+        }else{
+            update_post_meta( $post_id, 'note3checkbox', 'false');
+        }
+    } else {
+        if($note3checkbox == true){
+            add_post_meta( $post_id, 'note3checkbox', 'true', true );
+        }else{
+            add_post_meta( $post_id, 'note3checkbox', 'false', true );
+        }
+    }
+   
+    $notedescriptionvalue = get_post_meta($post_id, 'notedescription', true);
+    if (!empty($notedescriptionvalue) && !$description2) {
+        delete_post_meta( $post_id, 'notedescription' );
+    }else{
+        if (!empty($notedescriptionvalue)) {
+            add_post_meta( $post_id, 'notedescription', $description2, true );
+        }else{
+            update_post_meta( $post_id, 'notedescription', $description2 );
+        }
+    }
+    
+        
+    
+    
+
     //update_post_meta( $post_id, 'status', $memberstatus );
     update_post_meta( $post_id, 'firstName', $firstName );
     update_post_meta( $post_id, 'lastName', $lastName );
     if($email)
         update_post_meta( $post_id, 'email', $email );
-    if($description)
-        update_post_meta( $post_id, 'description', $description );
+
+    $descriptionvalue = get_post_meta($post_id, 'description', true);
+    if (!empty($descriptionvalue) && !$description) {
+        delete_post_meta( $post_id, 'description' );
+    }else{
+        if (!empty($descriptionvalue)) {
+            add_post_meta( $post_id, 'description', $description, true );
+        }else{
+            update_post_meta( $post_id, 'description', $description );
+        }
+    }
+
     if($country)
         update_post_meta( $post_id, 'country', $country );
     if($streetaddress1)

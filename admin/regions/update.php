@@ -47,6 +47,18 @@
         wp_update_post( $my_post );
     }
     
+    // Capture the SEO Title and SEO Description from the form submission
+    $seo_title = isset($_POST['seo-title']) ? sanitize_text_field($_POST['seo-title']) : '';
+    $seo_description = isset($_POST['seo-description']) ? sanitize_textarea_field($_POST['seo-description']) : '';
+
+    if (!empty($seo_title)) {
+    update_post_meta($id, 'rank_math_title', $seo_title);
+    }
+    if (!empty($seo_description)) {
+        update_post_meta($id, 'rank_math_description', $seo_description);
+    }
+
+    
     Update_Region_Image($id);
     
     if($description){

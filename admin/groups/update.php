@@ -142,6 +142,20 @@
         }
     }
 
+        // Capture the Meta Title and Meta Description from the form submission
+    $meta_title = isset($_POST['meta-title']) ? sanitize_text_field($_POST['meta-title']) : '';
+    $meta_description = isset($_POST['meta-description']) ? sanitize_textarea_field($_POST['meta-description']) : '';
+
+    // Update Rank Math's SEO Meta Title and Description
+    if (!empty($meta_title)) {
+        update_post_meta($post_id, 'rank_math_title', $meta_title);
+    }
+
+    if (!empty($meta_description)) {
+        update_post_meta($post_id, 'rank_math_description', $meta_description);
+    }
+
+
     //Update image if have any change.
     if(!$originalimage){
         //Check if have Image

@@ -45,6 +45,9 @@ function networkers_group_update() {
     $finishhour = $finishpieces[0]; 
     $finishmin = $finishpieces[1]; 
     $finishtime = $finishpieces[2]; 
+    
+    $meta_title = isset($_POST['meta-title']) ? sanitize_text_field($_POST['meta-title']) : '';
+    $meta_description = isset($_POST['meta-description']) ? sanitize_textarea_field($_POST['meta-description']) : '';
 
 
     echo '<div style="display:block" id="networkersbox" class="networkersbox">';
@@ -273,6 +276,20 @@ function networkers_group_update() {
                 regioninput($regions, false);
                 ?>
             </div>
+            <!-- Meta Title -->
+<div class="form-field">
+    <label for="meta-title">Meta Title</label>
+    <input type="text" name="meta-title" id="meta-title" value="<?php echo esc_attr(get_post_meta($groupid, 'rank_math_title', true)); ?>" placeholder="Enter Meta Title" />
+</div>
+
+<!-- Meta Description -->
+<div class="form-field">
+    <label for="meta-description">Meta Description</label>
+    <textarea name="meta-description" id="meta-description" rows="4" placeholder="Enter Meta Description"><?php echo esc_textarea(get_post_meta($groupid, 'rank_math_description', true)); ?></textarea>
+</div>
+
+
+
             <?php
   
             
