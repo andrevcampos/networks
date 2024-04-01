@@ -79,15 +79,15 @@ function member_info_left_shortcode() {
     $cleaned_number = str_replace(' ', '', $phones);
     $number = 'tel:+64'.ltrim($cleaned_number, '0');
 
-    echo '<div class="group-info-left">';
-        // echo '<div class="group-info-left-icon">
-        //     <span class="material-symbols-outlined">phone_iphone</span>
-        // </div>';
-        echo "<div class='group-info-left-text-title'><strong>Business Name</strong></div>";
-    echo '</div>';
-    echo $obj->businessname;
+    // echo '<div class="group-info-left">';
+    //     // echo '<div class="group-info-left-icon">
+    //     //     <span class="material-symbols-outlined">phone_iphone</span>
+    //     // </div>';
+    //     echo "<div class='group-info-left-text-title'><strong>Business Name</strong></div>";
+    // echo '</div>';
+    // echo $obj->businessname;
     
-    echo "<br><br>";
+    // echo "<br><br>";
 
     echo '<div class="group-info-left">';
         // echo '<div class="group-info-left-icon">

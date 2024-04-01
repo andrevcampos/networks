@@ -9,6 +9,7 @@ function group_info_left_shortcode() {
     $groupid = $obj->ID;
     $pieces = explode(":", $obj->start);
     $time = ucfirst($obj->weekday) . " " . $pieces[0] . ":" . $pieces[1] . "" . $pieces[2];
+    $company = $obj->company;
     $address1 = $obj->address1;
     $address2 = $obj->address2;
     $suburb = $obj->suburb;
@@ -48,6 +49,9 @@ function group_info_left_shortcode() {
         // </div>';
         echo "<div class='group-info-left-text-title'><strong>Location</strong></div>";
     echo '</div>';
+    if($company){
+        echo "<div class='group-info-left-text'>$company</div>";
+    }
     if($address1){
         echo "<div class='group-info-left-text'>$address1</div>";
     }
